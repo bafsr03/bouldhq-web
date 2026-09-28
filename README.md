@@ -35,9 +35,27 @@ requires an env var to run — every integration degrades rather than throws.
 ## Testing it
 
 ```bash
-npm run build && npx next start -p 3000   # or: npm run dev
-./scripts/verify.sh http://localhost:3000
+npm run verify
 ```
+
+Builds, serves, runs every check, tears the server down. Use this rather than
+chaining the steps by hand — `next start` blocks forever, so
+`npm run build && npm start && ./scripts/verify.sh` never reaches the last step,
+and running them as separate lines races the server's startup.
+
+Two terminals, if you want the site up while you poke at it:
+
+```bash
+npm run build && npm start -- -p 3000       # terminal 1
+./scripts/verify.sh http://localhost:3000   # terminal 2
+```
+
+> **`NODE_ENV`**: the `build` and `start` scripts pin `NODE_ENV=production`
+> themselves. A shell that exports `NODE_ENV=development` — a common dotfile
+> habit — otherwise makes `next build` emit a build whose server and client
+> React copies disagree, and it dies at prerender with `Cannot read properties
+> of null (reading 'useContext')` on `/_global-error`. The error names nothing
+> you wrote, so it is worth knowing the cause.
 
 `scripts/verify.sh` checks the things that are easy to break and impossible to
 spot by eye: every page returns 200 with exactly one `<h1>` and a title that is

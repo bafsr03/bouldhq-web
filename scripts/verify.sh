@@ -22,9 +22,24 @@ FAILED=0
 pass() { printf '  \033[32m✓\033[0m %s\n' "$1"; }
 fail() { printf '  \033[31m✗\033[0m %s\n' "$1"; FAILED=1; }
 
+# Reachability first. Without this, an origin that is simply not running
+# produces forty identical "returned 000" failures and buries the real problem,
+# which is that there is no server.
+probe=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 "$BASE/")
+if [ "$probe" = "000" ]; then
+  echo "Nothing responded at $BASE."
+  echo
+  echo "  Start the site first, or use the one-shot runner:"
+  echo "    npm run verify"
+  echo
+  echo "  Running it by hand takes two terminals, because 'next start' blocks:"
+  echo "    npm run build && npm start -- -p 3000    # terminal 1"
+  echo "    ./scripts/verify.sh http://localhost:3000  # terminal 2"
+  exit 2
+fi
+
 # A Vercel preview may sit behind Deployment Protection. Detect that early:
 # every check below would otherwise fail against a login page.
-probe=$(curl -s -o /dev/null -w '%{http_code}' "$BASE/")
 if [ "$probe" = "401" ] || [ "$probe" = "403" ]; then
   echo "Deployment is protected (HTTP $probe)."
   echo "Either disable Deployment Protection for this preview, or run:"
