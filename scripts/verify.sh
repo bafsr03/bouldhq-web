@@ -173,7 +173,25 @@ check_redirect /policies/refund-policy /terms
 echo
 echo "robots.txt and sitemap.xml"
 robots=$(curl -sL "$BASE/robots.txt")
-printf '%s' "$robots" | grep -q 'Allow: /' && pass "robots allows crawling" || fail "robots does not allow crawling"
+noindex=$(curl -sL "$BASE/" | grep -o 'name="robots" content="[^"]*"' | sed 's/.*content="//;s/"//')
+
+# Indexing is opt-in (ALLOW_INDEXING). Production must be open; anything else
+# must be closed, because a crawlable staging copy competes with the real site.
+if printf '%s' "$BASE" | grep -q 'bouldhq\.com'; then
+  printf '%s' "$robots" | grep -q 'Allow: /' \
+    && pass "robots allows crawling" \
+    || fail "PRODUCTION is closed to crawlers — set NEXT_PUBLIC_ALLOW_INDEXING=true"
+  case "$noindex" in
+    *noindex*) fail "PRODUCTION pages carry a noindex meta tag" ;;
+    *) pass "pages are indexable" ;;
+  esac
+else
+  if printf '%s' "$robots" | grep -q 'Disallow: /' && printf '%s' "$noindex" | grep -q 'noindex'; then
+    pass "staging is closed to crawlers (robots.txt + noindex)"
+  else
+    fail "staging is CRAWLABLE — it will compete with bouldhq.com in the index"
+  fi
+fi
 # The brief is explicit that AI crawlers stay allowed; a stray disallow here
 # would quietly remove Bould from assistant answers.
 if printf '%s' "$robots" | grep -qiE 'GPTBot|ClaudeBot|PerplexityBot|CCBot'; then
@@ -181,7 +199,9 @@ if printf '%s' "$robots" | grep -qiE 'GPTBot|ClaudeBot|PerplexityBot|CCBot'; the
 else
   pass "no AI crawler blocks"
 fi
-printf '%s' "$robots" | grep -q 'Sitemap:' && pass "robots links the sitemap" || fail "robots has no Sitemap line"
+if printf '%s' "$BASE" | grep -q 'bouldhq\.com'; then
+  printf '%s' "$robots" | grep -q 'Sitemap:' && pass "robots links the sitemap" || fail "robots has no Sitemap line"
+fi
 
 urls=$(curl -sL "$BASE/sitemap.xml" | grep -c '<loc>')
 if [ "$urls" -ge 16 ]; then pass "sitemap lists $urls URLs"; else fail "sitemap lists only $urls URLs"; fi

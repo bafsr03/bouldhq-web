@@ -64,6 +64,26 @@ export const SERVICE_AREA_SHORT = 'Utah County & Salt Lake'
 export const GBP_URL = process.env.NEXT_PUBLIC_GBP_URL ?? ''
 
 /**
+ * Whether this deployment may be indexed. Opt-IN, and deliberately so.
+ *
+ * Every staging copy of a site is a duplicate of it. Left indexable, a
+ * `*.vercel.app` build competes with the real domain, splits its signals, and
+ * can outrank it while the real one is still being set up — and the cleanup is
+ * slower than the mistake. Canonical tags reduce the risk but do not remove it,
+ * especially here, where the canonical currently points at a bouldhq.com that
+ * is still serving the old Shopify store.
+ *
+ * So the default is noindex, and indexing is switched on deliberately, once, on
+ * the deployment that actually serves bouldhq.com:
+ *
+ *   vercel env add NEXT_PUBLIC_ALLOW_INDEXING production   # value: true
+ *
+ * Forgetting to set it costs a day of not being indexed. Forgetting the inverse
+ * — shipping a staging site that Google eats — costs considerably more.
+ */
+export const ALLOW_INDEXING = process.env.NEXT_PUBLIC_ALLOW_INDEXING === 'true'
+
+/**
  * Brief, technical spec: the Google Business Profile link carries UTM so profile
  * traffic is separable from organic in analytics. Applied to any outbound link
  * that Bould controls the destination of.

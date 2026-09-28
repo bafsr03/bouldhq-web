@@ -1,16 +1,20 @@
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
-import { EMAIL, LEGAL_NAME, SERVICE_AREA_LABEL } from '@/lib/site'
+import { ALLOW_INDEXING, EMAIL, LEGAL_NAME, SERVICE_AREA_LABEL } from '@/lib/site'
 
 const TITLE = 'Privacy Policy'
 const DESCRIPTION = `How ${LEGAL_NAME} collects, uses, and stores the information you send through this website.`
 
 export const metadata: Metadata = {
   ...pageMetadata({ title: TITLE, description: DESCRIPTION, path: '/privacy' }),
-  // Indexable and followable, but never snippeted: policy text must
-  // not be what Google shows for a query about Bould's services.
-  robots: { index: true, follow: true, googleBot: { 'max-snippet': 0 } },
+  // Indexable and followable, but never snippeted: policy text must not be
+  // what Google shows for a query about Bould's services. Still gated on
+  // ALLOW_INDEXING — a page-level override would otherwise punch a hole in the
+  // staging noindex the root layout applies.
+  robots: ALLOW_INDEXING
+    ? { index: true, follow: true, googleBot: { 'max-snippet': 0 } }
+    : { index: false, follow: false },
 }
 
 export default function PrivacyPage() {

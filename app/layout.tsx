@@ -11,6 +11,7 @@ import SiteAnimations from '@/components/SiteAnimations'
 import JsonLd from '@/components/JsonLd'
 import { graph, organizationSchema, websiteSchema } from '@/lib/schema'
 import {
+  ALLOW_INDEXING,
   DEFAULT_DESCRIPTION,
   LEGAL_NAME,
   SITE_URL,
@@ -67,17 +68,22 @@ export const metadata: Metadata = {
     description: DEFAULT_DESCRIPTION,
     images: ['/opengraph-image'],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-      'max-video-preview': -1,
-    },
-  },
+  // Belt and braces with robots.ts: a disallowed page that is already in the
+  // index stays there, because a crawler that cannot fetch it cannot read the
+  // directive telling it to drop it. The meta tag travels with the page.
+  robots: ALLOW_INDEXING
+    ? {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+          'max-video-preview': -1,
+        },
+      }
+    : { index: false, follow: false, nocache: true },
   verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
     ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
     : undefined,

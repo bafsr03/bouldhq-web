@@ -68,12 +68,28 @@ honeypot hit. It exits non-zero on failure, so it can gate a promotion.
 
 ### On Vercel
 
+Project: `bafsrs-projects/bouldhq-web`. Staging URL:
+**https://bouldhq-web.vercel.app** — publicly viewable, and closed to crawlers.
+
 ```bash
-vercel link                       # once, to create/attach the project
-vercel                            # preview deploy; prints a URL
-./scripts/verify.sh https://<preview-url>
-vercel --prod                     # promote once the checks pass
+vercel deploy --prod --yes                        # redeploy staging
+./scripts/verify.sh https://bouldhq-web.vercel.app
 ```
+
+**Indexing is opt-in.** `NEXT_PUBLIC_ALLOW_INDEXING` is unset, so every
+deployment serves `Disallow: /` plus a `noindex` meta tag. That is what keeps
+the `.vercel.app` copy from competing with bouldhq.com in the index — a staging
+site is a byte-for-byte duplicate of the real one, and canonical tags alone do
+not reliably stop Google indexing it, especially while bouldhq.com still serves
+the old Shopify store. Switch it on once, on the deployment that owns the real
+domain:
+
+```bash
+vercel env add NEXT_PUBLIC_ALLOW_INDEXING production   # value: true
+```
+
+`verify.sh` enforces both directions: it fails if production is closed, and
+fails if anything else is open.
 
 Two things to expect on a preview:
 

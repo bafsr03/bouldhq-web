@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { SITE_URL } from '@/lib/site'
+import { ALLOW_INDEXING, SITE_URL } from '@/lib/site'
 
 /**
  * Brief, technical spec: "AI crawlers: keep them allowed."
@@ -16,6 +16,12 @@ import { SITE_URL } from '@/lib/site'
  * self-harm.
  */
 export default function robots(): MetadataRoute.Robots {
+  // Staging, previews, and any deployment that has not explicitly opted in are
+  // closed to crawlers entirely. See ALLOW_INDEXING in lib/site.ts.
+  if (!ALLOW_INDEXING) {
+    return { rules: [{ userAgent: '*', disallow: '/' }] }
+  }
+
   return {
     rules: [
       {
