@@ -8,7 +8,12 @@ deliberate fallback, not a bug — but a real logo is always better.
 
 ## Current state
 
-All nine present.
+All eight present.
+
+**JCK Approved was removed** (September 2026): the storefront is permanently
+down, so the card came off Home, Work, and the ecommerce page along with its
+logo. If it ever comes back, add the project to `PROJECTS` and re-fetch the
+logo with the `curl` in the next section.
 
 **ROSN by O's** is the one worth replacing when possible. Its logo is gold on a
 baked-in black rectangle, which shows as a visible box against the card. Every
@@ -24,10 +29,10 @@ asset has a background baked in — it serves exactly the files the old theme
 referenced as `shopify://shop_images/`:
 
 ```bash
-# JCK Approved's storefront returns 403; its logo is still on Bould's CDN as
-# title.png, the same file templates/index.json pointed at.
-curl -L "https://bouldhq.com/cdn/shop/files/title.png?width=800" \
-  -o public/logos/jck-approved.png
+# Example: a client's own storefront returns 403, but the logo the old theme
+# referenced as shopify://shop_images/ is still served from Bould's CDN.
+curl -L "https://bouldhq.com/cdn/shop/files/<file>.png?width=800" \
+  -o public/logos/<slug>.png
 ```
 
 To refresh one from the client's own site:

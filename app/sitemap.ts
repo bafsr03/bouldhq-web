@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/visibility-audit', priority: 0.9, freq: 'monthly' },
     { path: '/pricing', priority: 0.9, freq: 'monthly' },
     { path: '/work', priority: 0.8, freq: 'weekly' },
+    { path: '/industries', priority: 0.8, freq: 'monthly' },
     { path: '/industries/contractors', priority: 0.8, freq: 'monthly' },
     { path: '/web-design-utah-county', priority: 0.8, freq: 'monthly' },
     { path: '/services/shopify-stores', priority: 0.7, freq: 'monthly' },

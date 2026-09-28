@@ -61,6 +61,12 @@ export default function Header() {
           })}
         </nav>
 
+        {/*
+          On a phone the header used to show the logo and a burger, nothing
+          else: the number and the audit CTA were both behind a tap. Both are
+          now in the bar itself, and the burger moves to the right edge so the
+          thumb finds it where it expects to.
+        */}
         <div className="bould-header__actions">
           {PHONE && (
             <a
@@ -68,7 +74,18 @@ export default function Header() {
               className="bould-header__phone"
               onClick={() => trackContactClick('phone', 'header')}
             >
-              {PHONE_DISPLAY}
+              <span className="bould-header__phone-full">{PHONE_DISPLAY}</span>
+              <span className="bould-header__phone-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M6.5 3h3l1.5 4-2 1.5a12 12 0 006.5 6.5L17 13l4 1.5v3a2 2 0 01-2.2 2A17 17 0 013.5 5.2 2 2 0 015.5 3h1z"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+              <span className="bould-sr-only">Call {PHONE_DISPLAY}</span>
             </a>
           )}
           <Link href="/visibility-audit" className="bould-btn bould-btn--primary bould-header__cta">
@@ -100,6 +117,12 @@ export default function Header() {
             </Link>
           ))}
         </nav>
+        <Link
+          href="/visibility-audit"
+          className="bould-btn bould-btn--primary bould-mobile-nav__cta"
+        >
+          Get a free audit
+        </Link>
         {PHONE && (
           <a
             href={`tel:${PHONE}`}

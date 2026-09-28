@@ -1,3 +1,5 @@
+import { PLANS } from './pricing'
+
 /**
  * The 20-point local visibility audit.
  *
@@ -85,8 +87,8 @@ export const AUDIT_QUESTIONS: AuditQuestion[] = [
     id: 'one-market',
     points: 1,
     question: 'Do you serve one clear market rather than several scattered ones?',
-    help: 'One site covering three states competes with local businesses in all three and beats none.',
-    fix: 'A location page per real market, each backed by local work.',
+    help: 'A page that tries to cover every town at once competes with the local business in each of them, and beats none of them. Google ranks the specific answer.',
+    fix: 'One page per market you genuinely serve, each backed by real local work — not a list of towns in the footer.',
   },
   {
     id: 'timing',
@@ -118,6 +120,8 @@ export type Verdict = {
   label: string
   summary: string
   detail: string
+  /** The plan this score points to. Matches PLANS[].id in ./pricing. */
+  plan: 'website-build' | 'golden-formula'
 }
 
 /**
@@ -130,8 +134,9 @@ export const VERDICTS: Verdict[] = [
   {
     id: 'launch-now',
     min: 14,
-    label: 'Launch now',
+    label: 'You’re ready for a new site',
     summary: 'People are already finding you. The website is what is losing them.',
+    plan: 'website-build',
     detail:
       'You have the harder half solved. A site that turns those visits into calls is the fastest change you can make — this is exactly the position Rubio Brothers Concrete was in before their rebuild.',
   },
@@ -140,6 +145,7 @@ export const VERDICTS: Verdict[] = [
     min: 8,
     label: 'Launch with a visibility package',
     summary: 'Half the machine is working. Building only one half wastes the other.',
+    plan: 'golden-formula',
     detail:
       'A new site will convert better immediately, but the gaps above are capping how many people ever see it. Build and fix visibility in the same 60 days.',
   },
@@ -148,6 +154,7 @@ export const VERDICTS: Verdict[] = [
     min: 0,
     label: 'Visibility first',
     summary: 'A better website multiplies demand. It does not create it.',
+    plan: 'golden-formula',
     detail:
       'Right now almost nobody is finding you, so a redesign alone would multiply a very small number. Reviews, listings, and a finished Google profile come first — then the site.',
   },
@@ -155,4 +162,18 @@ export const VERDICTS: Verdict[] = [
 
 export function verdictFor(score: number): Verdict {
   return VERDICTS.find((v) => score >= v.min) ?? VERDICTS[VERDICTS.length - 1]
+}
+
+/**
+ * The plan each verdict points to, resolved against the price list so the
+ * recommendation can never name a plan that no longer exists or quote a price
+ * that has moved.
+ */
+export function planFor(score: number) {
+  const id = verdictFor(score).plan
+  const plan = PLANS.find((p) => p.id === id)
+  if (!plan) {
+    throw new Error(`Audit verdict points at plan "${id}", which is not in PLANS.`)
+  }
+  return plan
 }

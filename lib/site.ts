@@ -46,20 +46,40 @@ export const PHONE_DISPLAY =
 export const EMAIL = 'jake@bouldhq.com'
 
 /**
+ * Where Bould is, and who it serves.
+ *
+ * Jake's answer (Sep 2026) settles a factual problem the audit found: several
+ * pages said "based in Utah County" or "we work from Utah County", but the
+ * business is in West Jordan, which is in Salt Lake County. The approved
+ * wording is "Based in Utah" — never a county — and the client states are named
+ * explicitly, because Bould now has clients in Texas and Minnesota.
+ *
  * Brief, decision 9: a home-office business registers with Google as a
  * service-area business — the street address stays hidden and the service areas
- * are listed instead. These strings feed both the footer and the JSON-LD
- * `areaServed`, and must match the profile's service areas.
+ * are listed instead. `SERVICE_AREAS` feeds the JSON-LD `areaServed` and must
+ * match the profile's service areas. The two Utah counties stay listed because
+ * they are the real in-person radius; the three states are added because that is
+ * where the clients are.
  */
 export const SERVICE_AREAS = [
-  { name: 'Utah County', region: 'UT' },
-  { name: 'Salt Lake County', region: 'UT' },
+  { name: 'Utah', type: 'State' },
+  { name: 'Texas', type: 'State' },
+  { name: 'Minnesota', type: 'State' },
+  { name: 'Utah County', type: 'AdministrativeArea' },
+  { name: 'Salt Lake County', type: 'AdministrativeArea' },
 ] as const
 
-export const SERVICE_AREA_LABEL = 'Utah County & Salt Lake County, Utah'
+/** The approved sentence. Footer, contact page, and anywhere NAP is printed. */
+export const LOCATION_LINE = 'Based in Utah. Serving Utah, Texas, and Minnesota.'
 
 /** Short form for tight spaces such as the hero eyebrow, which must not wrap. */
-export const SERVICE_AREA_SHORT = 'Utah County & Salt Lake'
+export const LOCATION_SHORT = 'Based in Utah'
+
+/** For prose and meta descriptions: "...clients in Utah, Texas, and Minnesota." */
+export const CLIENT_STATES = 'Utah, Texas, and Minnesota'
+
+/** Where in-person work happens. Not a claim about where the office is. */
+export const IN_PERSON_AREA = 'the Wasatch Front'
 
 export const GBP_URL = process.env.NEXT_PUBLIC_GBP_URL ?? ''
 
@@ -115,7 +135,7 @@ export const NAV = [
   { href: '/how-it-works', label: 'How it works' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/work', label: 'Work' },
-  { href: '/industries/contractors', label: 'Industries' },
+  { href: '/industries', label: 'Industries' },
   { href: '/visibility-audit', label: 'Free audit' },
   { href: '/contact', label: 'Contact' },
 ] as const
@@ -142,7 +162,7 @@ export const FOOTER_NAV = [
   {
     heading: 'Locations',
     links: [
-      { href: '/web-design-utah-county', label: 'Utah County & Salt Lake' },
+      { href: '/web-design-utah-county', label: 'Utah (home base)' },
     ],
   },
   {
@@ -164,4 +184,4 @@ export const FOOTER_NAV = [
  */
 export const TITLE_TEMPLATE = `%s | ${LEGAL_NAME}`
 
-export const DEFAULT_DESCRIPTION = `${LEGAL_NAME} builds and manages websites for local service businesses and growing brands across ${SERVICE_AREA_LABEL}. Sites built to turn visitors into calls and quote requests. Free website and visibility audit.`
+export const DEFAULT_DESCRIPTION = `${LEGAL_NAME} builds and manages websites for local service businesses and growing brands. Based in Utah, with clients in ${CLIENT_STATES}. Sites built to turn visitors into calls and quote requests. Free website and visibility audit.`

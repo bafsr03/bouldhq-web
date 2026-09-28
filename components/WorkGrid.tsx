@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import type { Project } from '@/lib/content/work'
+import { hasCaseStudy, type Project } from '@/lib/content/work'
 
 function monogram(name: string) {
   return name
@@ -37,7 +37,7 @@ export default function WorkGrid({ projects }: { projects: readonly Project[] })
   return (
     <ul className="bould-project-grid">
       {projects.map((p) => {
-        const internal = Boolean(p.hasCaseStudy)
+        const internal = hasCaseStudy(p.slug)
         const href = internal ? `/work/${p.slug}` : p.liveUrl
 
         const inner = (

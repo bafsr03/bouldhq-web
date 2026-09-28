@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
-import { ALLOW_INDEXING, EMAIL, LEGAL_NAME, SERVICE_AREA_LABEL } from '@/lib/site'
+import { ALLOW_INDEXING, CLIENT_STATES, EMAIL, LEGAL_NAME } from '@/lib/site'
 
 const TITLE = 'Privacy Policy'
 const DESCRIPTION = `How ${LEGAL_NAME} collects, uses, and stores the information you send through this website.`
@@ -24,9 +24,9 @@ export default function PrivacyPage() {
       <section className="bould-section">
         <div className="bould-section__inner bould-section__inner--narrow bould-prose">
           <p>
-            {LEGAL_NAME} is a website design and local marketing business serving{' '}
-            {SERVICE_AREA_LABEL} and clients beyond it. This policy explains what
-            we do with information you give us through this site.
+            {LEGAL_NAME} is a website design and local marketing business based
+            in Utah, with clients in {CLIENT_STATES}. This policy explains what we
+            do with information you give us through this site.
           </p>
 
           <h2>What we collect</h2>
@@ -53,7 +53,7 @@ export default function PrivacyPage() {
           <p>
             We use privacy-respecting analytics to count page views and to record
             when someone taps a phone number, an email address, or submits a
-            form. This tells us which pages produce enquiries. We do not use it to
+            form. This tells us which pages produce inquiries. We do not use it to
             identify you personally.
           </p>
 

@@ -104,7 +104,23 @@ export default function LeadForm({
   }
 
   return (
-    <form className="bould-lead-form" onSubmit={onSubmit} noValidate>
+    /*
+      `method="post"` and `action` are set even though onSubmit always calls
+      preventDefault and posts as JSON. If the JS ever fails to hydrate, the
+      browser's own submit runs — and a GET form would put the visitor's name,
+      email, and phone in the URL, where they land in history, in the Referer
+      header, and in server logs.
+
+      Native validation is left ON (no `noValidate`). The server validates too
+      and is the authority, but a required field should turn red before the
+      round trip, not after it.
+    */
+    <form
+      className="bould-lead-form"
+      onSubmit={onSubmit}
+      method="post"
+      action="/api/lead"
+    >
       {/*
         Honeypot. Hidden from sight and from assistive technology, never
         focusable — a real person cannot fill it, so anything that does is
@@ -169,6 +185,7 @@ export default function LeadForm({
                   name={f.name}
                   type={f.type ?? 'text'}
                   className="bould-contact__input"
+                  inputMode={f.inputMode}
                   placeholder={f.placeholder}
                   autoComplete={f.autoComplete}
                   required={f.required}

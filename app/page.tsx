@@ -11,17 +11,19 @@ import JsonLd from '@/components/JsonLd'
 import { graph, serviceSchema, webPageSchema } from '@/lib/schema'
 import { PROJECTS, PROJECT_COUNT } from '@/lib/content/work'
 import { PLANS } from '@/lib/content/pricing'
+import { INDUSTRIES } from '@/lib/content/industries'
+import { PUBLISHED_REVIEWS } from '@/lib/content/reviews'
 import {
+  CLIENT_STATES,
   LEGAL_NAME,
+  LOCATION_SHORT,
   PHONE,
   PHONE_DISPLAY,
-  SERVICE_AREA_LABEL,
-  SERVICE_AREA_SHORT,
 } from '@/lib/site'
 
 /** Brief, site map — Home: title and H1 are specified verbatim. */
 const TITLE = `Websites That Bring Local Businesses Leads | ${LEGAL_NAME}`
-const DESCRIPTION = `${LEGAL_NAME} builds websites that turn searches into calls for contractors, auto shops, and home service businesses across ${SERVICE_AREA_LABEL}. See the Rubio Brothers case study, or get a free 20-point visibility audit.`
+const DESCRIPTION = `${LEGAL_NAME} builds websites that turn searches into calls for contractors, auto shops, and home service businesses. Based in Utah, with clients in ${CLIENT_STATES}. See the Rubio Brothers case study, or get a free 20-point visibility audit.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -32,35 +34,8 @@ export const metadata: Metadata = pageMetadata({
 
 const HERO_MODELS = ['/models/b.glb', '/models/dna.glb', '/models/world.glb']
 
-const INDUSTRIES = [
-  {
-    href: '/industries/contractors',
-    name: 'Contractors',
-    body: 'Concrete, excavation, and the trades. Estimators, local photos, and a page per service.',
-    live: true,
-  },
-  {
-    href: '/industries/contractors',
-    name: 'Home services',
-    body: 'Exterior cleaning, lighting, landscaping. Seasonal work needs the site ready before the season.',
-    live: false,
-  },
-  {
-    href: '/industries/contractors',
-    name: 'Auto repair',
-    body: 'Shops with years of reviews and no website worth the clicks they already get.',
-    live: false,
-  },
-  {
-    href: '/services/shopify-stores',
-    name: 'Product brands',
-    body: 'Shopify and Shopify Plus storefronts, with 3D product visuals where the product needs inspecting.',
-    live: true,
-  },
-]
-
 export default function HomePage() {
-  const plan = PLANS[0]
+  const monthly = PLANS.filter((p) => p.id !== 'ecommerce')
 
   return (
     <div className="bould-page-wrap">
@@ -83,7 +58,7 @@ export default function HomePage() {
 
         <div className="bould-hero__content">
           <span className="bould-hero__eyebrow">
-            Websites for local businesses &middot; {SERVICE_AREA_SHORT}
+            Websites for local businesses &middot; {LOCATION_SHORT}
           </span>
 
           {/* Brief, site map — Home H1, verbatim. */}
@@ -144,6 +119,46 @@ export default function HomePage() {
 
       <ProofStrip />
 
+      {/* ── What clients say ──────────────────────────────────────────────── */}
+      {PUBLISHED_REVIEWS.length > 0 && (
+        <section className="bould-section" aria-labelledby="reviews-heading">
+          <div className="bould-section__inner bould-section__inner--narrow">
+            <p className="bould-section-label">From our Google profile</p>
+            <h2 className="bould-section-title" id="reviews-heading">
+              In their words, not ours.
+            </h2>
+            <p className="bould-section-body">
+              Both of these are on the Google profile, unedited. The first one is
+              worth reading twice: it is not about us.
+            </p>
+            <ul className="bould-reviews">
+              {PUBLISHED_REVIEWS.map((r) => (
+                <li key={r.author} className="bould-review bould-reveal">
+                  {r.context && (
+                    <p className="bould-review__context">{r.context}</p>
+                  )}
+                  <blockquote className="bould-review__quote">
+                    <p>&ldquo;{r.text}&rdquo;</p>
+                  </blockquote>
+                  <p className="bould-review__attr">
+                    {r.author}
+                    {r.business && (
+                      <span className="bould-review__business">, {r.business}</span>
+                    )}
+                  </p>
+                </li>
+              ))}
+            </ul>
+            {/*
+              No AggregateRating markup. These reviews already live on the Google
+              profile, where they count; re-declaring them as structured data on
+              our own site is self-serving review markup, which is the thing
+              Google's guidelines single out.
+            */}
+          </div>
+        </section>
+      )}
+
       {/* ── The formula ───────────────────────────────────────────────────── */}
       <section className="bould-section" aria-labelledby="formula-heading">
         <div className="bould-section__inner bould-section__inner--split">
@@ -164,7 +179,7 @@ export default function HomePage() {
               listings. Most agencies sell one half and quietly hope you do not
               notice the other.
             </p>
-            <Link href="/how-it-works" className="bould-inline-link">
+            <Link href="/how-it-works" className="bould-inline-link bould-inline-link--tap">
               See the whole process &rarr;
             </Link>
           </div>
@@ -172,25 +187,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── What the plan includes ────────────────────────────────────────── */}
+      {/* ── The two plans ─────────────────────────────────────────────────── */}
       <section className="bould-section bould-section--alt" aria-labelledby="plan-heading">
         <div className="bould-section__inner">
-          <p className="bould-section-label">The monthly plan</p>
+          <p className="bould-section-label">The monthly plans</p>
           <h2 className="bould-section-title" id="plan-heading">
-            {plan.price} {plan.cadence}, and here is exactly what that buys.
+            Two plans, and the audit tells you which one you need.
           </h2>
-          <ul className="bould-check-list">
-            {plan.includes.map((item) => (
-              <li key={item} className="bould-reveal">
-                {item}
-              </li>
-            ))}
-          </ul>
           <p className="bould-section-body">
-            {plan.setup}. No lock-in contract, and you own the site and the
-            domain from day one.
+            Both halves of the formula cost money to run, so they are priced
+            separately. If people already find you, you only need the website
+            half. If they do not, buying the website half on its own is buying a
+            multiplier for a number close to zero.
           </p>
-          <Link href="/pricing" className="bould-inline-link">
+
+          <div className="bould-plans bould-plans--compact">
+            {monthly.map((p) => (
+              <article
+                key={p.id}
+                className={`bould-plan${p.featured ? ' bould-plan--featured' : ''} bould-reveal`}
+              >
+                <h3 className="bould-plan__name">{p.name}</h3>
+                <p className="bould-plan__price">
+                  {p.price}
+                  <span className="bould-plan__cadence"> {p.cadence}</span>
+                </p>
+                <p className="bould-plan__tagline">{p.tagline}</p>
+                <ul className="bould-check-list">
+                  {p.includes.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+
+          <p className="bould-section-body">
+            Setup is quoted per project. No long-term contracts. You own your
+            website, and the domain, from day one.
+          </p>
+          <Link href="/pricing" className="bould-inline-link bould-inline-link--tap">
             Full plans and pricing &rarr;
           </Link>
         </div>
@@ -206,13 +242,16 @@ export default function HomePage() {
           <ul className="bould-card-grid">
             {INDUSTRIES.map((ind) => (
               <li key={ind.name} className="bould-reveal">
-                <Link href={ind.href} className="bould-mini-card">
+                <Link href={ind.href ?? '/industries'} className="bould-mini-card">
                   <h3 className="bould-mini-card__title">{ind.name}</h3>
                   <p className="bould-mini-card__body">{ind.body}</p>
                 </Link>
               </li>
             ))}
           </ul>
+          <Link href="/industries" className="bould-inline-link bould-inline-link--tap">
+            Everyone we build for &rarr;
+          </Link>
         </div>
       </section>
 
@@ -232,7 +271,7 @@ export default function HomePage() {
           */}
           <WorkGrid projects={PROJECTS} />
           {/* The old "View All Projects" link pointed at "#". This one goes somewhere. */}
-          <Link href="/work" className="bould-inline-link">
+          <Link href="/work" className="bould-inline-link bould-inline-link--tap">
             Read the case studies &rarr;
           </Link>
         </div>

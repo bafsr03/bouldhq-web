@@ -11,7 +11,7 @@ import { ALLOW_INDEXING, SITE_URL } from '@/lib/site'
  * Next's internals.
  *
  * Note the deliberate absence of a GPTBot / CCBot / ClaudeBot / PerplexityBot
- * disallow block. Adding one is the reflex for a store protecting a catalogue;
+ * disallow block. Adding one is the reflex for a store protecting a catalog;
  * for a services business that wants to be recommended by an assistant, it is
  * self-harm.
  */

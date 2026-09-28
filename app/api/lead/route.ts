@@ -108,7 +108,7 @@ export async function POST(request: Request) {
           subject:
             lead.audit != null
               ? `Audit lead — ${lead.business} scored ${lead.audit.score}/${lead.audit.total}`
-              : `New enquiry — ${lead.business}`,
+              : `New inquiry — ${lead.business}`,
           text,
         }),
       })

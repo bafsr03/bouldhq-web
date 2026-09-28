@@ -39,6 +39,16 @@ function compact<T extends Record<string, unknown>>(obj: T): T {
 }
 
 /**
+ * Utah, Texas, and Minnesota are States; Utah County and Salt Lake County are
+ * AdministrativeAreas. Emitting a county as a State (or the reverse) is the kind
+ * of mismatch that makes Google ignore the field rather than reconcile it, so
+ * the type travels with the name in SERVICE_AREAS.
+ */
+function areaServed() {
+  return SERVICE_AREAS.map((a) => ({ '@type': a.type, name: a.name }))
+}
+
+/**
  * ProfessionalService is a subtype of LocalBusiness, which is what a
  * service-area business should be (brief, decision 9). `areaServed` carries the
  * counties; no `address` is emitted, because the profile hides the address and
@@ -54,7 +64,7 @@ export function organizationSchema() {
     email: EMAIL,
     telephone: PHONE || undefined,
     description:
-      'Websites for local service businesses and growing brands, built to turn visitors into calls and quote requests. Hosting, updates, and Google Business Profile management included.',
+      'Websites for local service businesses and growing brands, built to turn visitors into calls and quote requests. Based in Utah, with clients in Utah, Texas, and Minnesota. Hosting, updates, and Google Business Profile management included.',
     logo: compact({
       '@type': 'ImageObject',
       url: `${SITE_URL}/bould.svg`,
@@ -62,10 +72,7 @@ export function organizationSchema() {
     }),
     image: `${SITE_URL}/opengraph-image`,
     priceRange: '$$',
-    areaServed: SERVICE_AREAS.map((a) => ({
-      '@type': 'AdministrativeArea',
-      name: a.name,
-    })),
+    areaServed: areaServed(),
     sameAs: SAME_AS,
     knowsAbout: [
       'Website design',
@@ -136,10 +143,7 @@ export function serviceSchema(opts: {
     description: opts.description,
     serviceType: opts.serviceType,
     provider: { '@id': ORG_ID },
-    areaServed: SERVICE_AREAS.map((a) => ({
-      '@type': 'AdministrativeArea',
-      name: a.name,
-    })),
+    areaServed: areaServed(),
   })
 }
 

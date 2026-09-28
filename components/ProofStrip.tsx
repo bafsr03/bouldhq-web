@@ -18,12 +18,12 @@ export default function ProofStrip() {
           Rubio Brothers Concrete&rsquo;s old site brought{' '}
           <strong>zero leads in a year</strong>. Their Bould site brought the
           first lead in <strong>two weeks</strong>, and{' '}
-          <strong>$20k+ in new work</strong> in three months.
+          <strong>$20,000 in new work</strong> in three months.
         </p>
 
         <dl className="bould-proof__metrics">
           {rubio.metrics.map((m) => (
-            <div key={m.label} className="bould-proof__metric bould-reveal">
+            <div key={m.label} className="bould-proof__metric">
               <dt className="bould-proof__metric-label">{m.label}</dt>
               <dd className="bould-proof__metric-value">{m.value}</dd>
             </div>
@@ -32,7 +32,7 @@ export default function ProofStrip() {
 
         <p className="bould-proof__source">
           Source: Rubio Brothers Concrete.{' '}
-          <Link href="/work/rubio-brothers-concrete" className="bould-inline-link">
+          <Link href="/work/rubio-brothers-concrete" className="bould-inline-link bould-inline-link--tap">
             Read the full case study
           </Link>
           .

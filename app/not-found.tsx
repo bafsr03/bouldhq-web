@@ -1,6 +1,20 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/PageHero'
-import { NAV } from '@/lib/site'
+import { LEGAL_NAME, NAV } from '@/lib/site'
+
+/*
+  Without this the 404 inherited the layout's default title, so every dead URL
+  shared a title with the homepage. That is a duplicate-title signal on a page
+  that should not be competing for anything, and it tells a visitor nothing
+  about where they landed.
+*/
+export const metadata: Metadata = {
+  title: { absolute: `Page Not Found | ${LEGAL_NAME}` },
+  description:
+    'That page does not exist. Find websites, pricing, our work, and the free visibility audit here instead.',
+  robots: { index: false, follow: true },
+}
 
 /**
  * The old store's product and collection URLs are redirected in vercel.json, but
@@ -21,7 +35,7 @@ export default function NotFound() {
           <ul className="bould-check-list">
             {NAV.map((n) => (
               <li key={n.href}>
-                <Link href={n.href} className="bould-inline-link">
+                <Link href={n.href} className="bould-inline-link bould-inline-link--tap">
                   {n.label}
                 </Link>
               </li>

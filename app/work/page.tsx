@@ -11,7 +11,7 @@ import { CASE_STUDIES, PROJECTS, PROJECT_COUNT } from '@/lib/content/work'
 
 /** Brief, site map — Work: "Case studies first; then the portfolio." */
 const TITLE = 'Our Work: Websites for Local Businesses and Brands'
-const DESCRIPTION = `${PROJECT_COUNT} websites for contractors, home service businesses, and Shopify brands — including how Rubio Brothers Concrete went from a year of zero leads to $20k+ in new work.`
+const DESCRIPTION = `${PROJECT_COUNT} websites for contractors, home service businesses, and Shopify brands — including how Rubio Brothers Concrete went from a year of zero leads to $20,000 in new work. Based in Utah.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -103,10 +103,10 @@ export default function WorkPage() {
         <div className="bould-section__inner">
           <p className="bould-section-label">Product brands</p>
           <h2 className="bould-section-title" id="ecom-heading">
-            Shopify and Shopify Plus storefronts.
+            Shopify storefronts.
           </h2>
           <WorkGrid projects={ecommerce} />
-          <Link href="/services/shopify-stores" className="bould-inline-link">
+          <Link href="/services/shopify-stores" className="bould-inline-link bould-inline-link--tap">
             More on ecommerce builds &rarr;
           </Link>
         </div>

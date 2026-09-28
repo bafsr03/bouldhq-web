@@ -80,9 +80,16 @@ export default async function CaseStudyPage({ params }: Props) {
             <p className="bould-section-label" id="results-heading">
               Results
             </p>
+            {/*
+              Deliberately NOT a `.bould-reveal`. These three numbers are the
+              entire argument of the page, and a scroll-triggered fade means
+              they are invisible at opacity 0 until the trigger fires — which is
+              how they were reported as "very low contrast" on a phone. Proof
+              does not wait for an animation.
+            */}
             <dl className="bould-proof__metrics">
               {cs.metrics.map((m) => (
-                <div key={m.label} className="bould-proof__metric bould-reveal">
+                <div key={m.label} className="bould-proof__metric">
                   <dt className="bould-proof__metric-label">{m.label}</dt>
                   <dd className="bould-proof__metric-value">{m.value}</dd>
                 </div>

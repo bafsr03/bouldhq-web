@@ -56,7 +56,7 @@ stamp=$(curl -sL "$BASE/" | grep -o 'name="build-stamp" content="[^"]*"' | sed '
 echo
 echo "Pages return 200 and carry one H1"
 for path in / /how-it-works /pricing /visibility-audit /work \
-            /work/rubio-brothers-concrete /industries/contractors \
+            /work/rubio-brothers-concrete /industries /industries/contractors \
             /web-design-utah-county /about /contact /services/shopify-stores \
             /privacy /terms; do
   body=$(curl -sL -w '\n%{http_code}' "$BASE$path")
@@ -151,7 +151,7 @@ check_redirect() {
   got=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "$BASE$1")
   code=${got%% *}
   target=${got#* }
-  if [ "$code" = "308" ] || [ "$code" = "301" ]; then
+  if [ "$code" = "308" ] || [ "$code" = "301" ] || [ "$code" = "307" ] || [ "$code" = "302" ]; then
     case "$target" in
       *"$2") pass "$1 -> $2" ;;
       *) fail "$1 redirects to $target (expected $2)" ;;
@@ -164,11 +164,60 @@ check_redirect /pages/studio /about
 check_redirect /pages/build /how-it-works
 check_redirect /pages/work /work
 check_redirect /pages/contact /contact
-check_redirect /pages/joon-distribution /work/joon-distribution
+check_redirect /pages/joon-distribution /work
+# Unpublished case studies: temporary, because they return at these URLs the
+# day the clients approve their results.
+check_redirect /work/joon-distribution /work
+check_redirect /work/dummiez /work
+check_redirect /work/adophies /work
 check_redirect /collections/all /work
 check_redirect /products/globalheart /
 check_redirect /cart /
 check_redirect /policies/refund-policy /terms
+
+echo
+echo "Copy that must not come back"
+home=$(curl -sL "$BASE/")
+work=$(curl -sL "$BASE/work")
+pricing=$(curl -sL "$BASE/pricing")
+contact=$(curl -sL "$BASE/contact")
+all="$home$work$pricing$contact"
+
+check_absent() {
+  if printf '%s' "$all" | grep -qi -- "$1"; then
+    fail "\"$1\" is still on the site"
+  else
+    pass "no \"$1\""
+  fi
+}
+# Superseded by Jake's answers, Sep 2026.
+check_absent "Utah County &amp; Salt Lake County"
+check_absent "Shopify Plus"
+check_absent "20k+"
+check_absent "JCK"
+check_absent "enquir"
+
+check_present() {
+  if printf '%s' "$2" | grep -q -- "$1"; then
+    pass "\"$1\" present"
+  else
+    fail "\"$1\" missing"
+  fi
+}
+check_present "Based in Utah" "$home"
+check_present "Website Build" "$pricing"
+check_present "Golden Formula" "$pricing"
+check_present "\$450" "$pricing"
+
+# The heading states the count; the grid has to match it.
+count=$(printf '%s' "$home" | grep -o 'bould-project-card"' | wc -l | tr -d ' ')
+stated=$(printf '%s' "$home" | sed 's/<!--[^>]*-->//g' \
+  | grep -o '[0-9]* sites, and the stories' | grep -o '^[0-9]*')
+if [ "$count" = "$stated" ]; then
+  pass "homepage says $stated sites and shows $count"
+else
+  fail "homepage says $stated sites but shows $count cards"
+fi
 
 echo
 echo "robots.txt and sitemap.xml"
@@ -203,8 +252,21 @@ if printf '%s' "$BASE" | grep -q 'bouldhq\.com'; then
   printf '%s' "$robots" | grep -q 'Sitemap:' && pass "robots links the sitemap" || fail "robots has no Sitemap line"
 fi
 
-urls=$(curl -sL "$BASE/sitemap.xml" | grep -c '<loc>')
-if [ "$urls" -ge 16 ]; then pass "sitemap lists $urls URLs"; else fail "sitemap lists only $urls URLs"; fi
+sitemap=$(curl -sL "$BASE/sitemap.xml")
+urls=$(printf '%s' "$sitemap" | grep -c '<loc>')
+if [ "$urls" -ge 14 ]; then pass "sitemap lists $urls URLs"; else fail "sitemap lists only $urls URLs"; fi
+
+# Unpublished case studies must not be advertised: the routes redirect, and a
+# sitemap that lists a redirect is a sitemap Google stops trusting.
+for gone in joon-distribution dummiez adophies jck-approved; do
+  if printf '%s' "$sitemap" | grep -q "/work/$gone"; then
+    fail "sitemap still lists /work/$gone"
+  else
+    pass "sitemap omits /work/$gone"
+  fi
+done
+printf '%s' "$sitemap" | grep -q '/industries<' && pass "sitemap lists the industries hub" \
+  || fail "sitemap is missing /industries"
 
 echo
 echo "Lead API accepts a valid lead and rejects an invalid one"

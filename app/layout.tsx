@@ -7,6 +7,7 @@ import './site.css'
 
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import MobileCtaBar from '@/components/MobileCtaBar'
 import SiteAnimations from '@/components/SiteAnimations'
 import JsonLd from '@/components/JsonLd'
 import { graph, organizationSchema, websiteSchema } from '@/lib/schema'
@@ -107,6 +108,24 @@ export default function RootLayout({
       <head>
         {/* Which build is this? See BUILD_STAMP in next.config.ts. */}
         <meta name="build-stamp" content={process.env.NEXT_PUBLIC_BUILD_STAMP} />
+        {/*
+          Opt the page INTO the animated start state, synchronously, before the
+          body paints.
+
+          The hero copy, the buttons and every `.bould-reveal` are now visible in
+          CSS by default; this class is what hides them so GSAP can bring them
+          in. Running it here rather than from the animation module means there
+          is no flash of the finished layout — and if JavaScript is off, or
+          motion is reduced, the class never lands and the page simply renders
+          finished. The previous arrangement had the defaults the other way
+          round, so any failure to run the timelines left the page blank.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('bould-anim-ready')}}catch(e){}",
+          }}
+        />
       </head>
       <body>
         {/*
@@ -118,6 +137,7 @@ export default function RootLayout({
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <MobileCtaBar />
         <SiteAnimations />
         {process.env.NEXT_PUBLIC_GA4_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA4_ID} />

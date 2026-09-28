@@ -26,7 +26,7 @@ import { PROJECTS } from '@/lib/content/work'
  */
 const TITLE = 'Shopify Store Design & Development'
 const DESCRIPTION =
-  'Custom Shopify and Shopify Plus storefronts for product brands, with 3D product visuals for products customers need to inspect before they buy. Migrations, merchandising, and speed.'
+  'Custom Shopify storefronts for product brands, with 3D product visuals for products customers need to inspect before they buy. Migrations, merchandising, and speed. Built from Utah for brands anywhere.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -80,16 +80,26 @@ export default function ShopifyStoresPage() {
           </p>
           <p className="bould-section-body">
             For those products we build interactive 3D visuals directly into the
-            storefront — rotatable, at real scale, loading progressively so the
-            page still opens fast on a phone, and degrading to normal imagery
-            where WebGL is not available. We have done it for{' '}
-            <Link href="/work/joon-distribution" className="bould-inline-link">
+            storefront — rotatable, loading progressively so the page still
+            opens fast on a phone, and falling back to normal imagery on devices
+            that cannot render them. We have done it for{' '}
+            <a
+              href="https://joondistro.com/"
+              className="bould-inline-link bould-inline-link--tap"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Joon Distribution
-            </Link>{' '}
+            </a>{' '}
             and{' '}
-            <Link href="/work/dummiez" className="bould-inline-link">
+            <a
+              href="https://www.dummiez.co/"
+              className="bould-inline-link bould-inline-link--tap"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Dummiez
-            </Link>
+            </a>
             .
           </p>
           <p className="bould-section-body bould-section-body--muted">
@@ -117,7 +127,7 @@ export default function ShopifyStoresPage() {
             <div>
               <h3 className="bould-mini-card__title">Shopify is wrong when</h3>
               <ul className="bould-x-list">
-                <li>You sell a service and take enquiries by phone or form</li>
+                <li>You sell a service and take inquiries by phone or form</li>
                 <li>You have nothing to sell online and just need to be found</li>
                 <li>You are paying a monthly platform fee for a cart nobody uses</li>
               </ul>
@@ -125,7 +135,7 @@ export default function ShopifyStoresPage() {
           </div>
           <p className="bould-section-body">
             If you are in the second column, you want{' '}
-            <Link href="/how-it-works" className="bould-inline-link">
+            <Link href="/how-it-works" className="bould-inline-link bould-inline-link--tap">
               the local business plan
             </Link>{' '}
             instead. We will say so even though it is the cheaper option.

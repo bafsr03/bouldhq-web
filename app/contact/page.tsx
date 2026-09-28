@@ -1,23 +1,25 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { pageMetadata } from '@/lib/seo'
 
 import PageHero from '@/components/PageHero'
 import JsonLd from '@/components/JsonLd'
 import LeadForm from '@/components/LeadForm'
-import { CORE_FIELDS, QUALIFY_FIELDS } from '@/lib/formFields'
+import { CONTACT_FIELDS } from '@/lib/formFields'
 import TrackedContact from '@/components/TrackedContact'
 import { breadcrumbSchema, graph, webPageSchema } from '@/lib/schema'
 import {
+  CLIENT_STATES,
   EMAIL,
   LEGAL_NAME,
+  LOCATION_LINE,
   PHONE,
   PHONE_DISPLAY,
-  SERVICE_AREA_LABEL,
 } from '@/lib/site'
 
 /** Brief, site map — Contact, including the "How did you hear about us?" field. */
-const TITLE = `Contact ${LEGAL_NAME} | Free Website Audit`
-const DESCRIPTION = `Talk to Jake and Brian about your website. Serving ${SERVICE_AREA_LABEL} and clients beyond. We reply within one business day.`
+const TITLE = `Contact ${LEGAL_NAME} | Web Design Based in Utah`
+const DESCRIPTION = `Talk to Jake and Brian about your website. Based in Utah, with clients in ${CLIENT_STATES}. We reply within one business day.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -57,9 +59,7 @@ export default function ContactPage() {
             {/* NAP block, identical to the footer and the Google profile. */}
             <address className="bould-contact__details">
               <p className="bould-contact__detail-name">{LEGAL_NAME}</p>
-              <p className="bould-contact__detail-area">
-                Serving {SERVICE_AREA_LABEL}
-              </p>
+              <p className="bould-contact__detail-area">{LOCATION_LINE}</p>
               {PHONE && (
                 <p>
                   <TrackedContact
@@ -84,9 +84,9 @@ export default function ContactPage() {
 
             <p className="bould-section-body bould-section-body--muted">
               Not ready to talk yet? The{' '}
-              <a href="/visibility-audit" className="bould-inline-link">
+              <Link href="/visibility-audit" className="bould-inline-link bould-inline-link--tap">
                 free visibility audit
-              </a>{' '}
+              </Link>{' '}
               gives you a score and a verdict without speaking to anyone.
             </p>
           </div>
@@ -94,21 +94,11 @@ export default function ContactPage() {
           <div className="bould-contact__form-wrap">
             <LeadForm
               source="contact"
-              fields={[
-                ...CORE_FIELDS,
-                ...QUALIFY_FIELDS,
-                {
-                  name: 'message',
-                  label: 'What is going on with your website?',
-                  type: 'textarea',
-                  placeholder:
-                    'No site yet, a site that gets no calls, a rebuild, a Shopify store…',
-                },
-              ]}
+              fields={CONTACT_FIELDS}
               submitLabel="Send it over"
               successTitle="Got it."
               successBody="We read every one of these ourselves. Expect a reply within one business day."
-              note="We use your details to reply to this enquiry. We do not sell or share them."
+              note="We use your details to reply to this inquiry. We do not sell or share them."
             />
           </div>
         </div>

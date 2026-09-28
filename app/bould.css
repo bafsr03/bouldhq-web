@@ -357,8 +357,6 @@ body:has(.bould-policy-wrap) .footer-section * {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--b-purple);
-  opacity: 0;
-  transform: translateY(16px);
 }
 
 .bould-hero__eyebrow::before {
@@ -402,8 +400,6 @@ body:has(.bould-policy-wrap) .footer-section * {
   line-height: 1.55;
   color: var(--b-muted2);
   max-width: 52ch;
-  opacity: 0;
-  transform: translateY(20px);
 }
 
 .bould-hero__actions {
@@ -411,8 +407,6 @@ body:has(.bould-policy-wrap) .footer-section * {
   align-items: center;
   gap: 1.6rem;
   flex-wrap: wrap;
-  opacity: 0;
-  transform: translateY(20px);
 }
 
 .bould-btn {
@@ -503,8 +497,6 @@ body:has(.bould-policy-wrap) .footer-section * {
   z-index: 2;
   display: flex;
   gap: 4rem;
-  opacity: 0;
-  transform: translateY(10px);
 }
 
 .bould-hero__stat-num {
@@ -1218,24 +1210,24 @@ body:has(.bould-policy-wrap) .footer-section * {
 /* ══════════════════════════════════════
    REVEAL ANIMATIONS (triggered by GSAP)
 ══════════════════════════════════════ */
-.bould-reveal {
-  opacity: 0;
-  transform: translateY(40px);
-}
+/*
+  Animated-in content is VISIBLE by default and only hidden once something has
+  confirmed it can animate it back in — see the bould-anim-ready block at the
+  end of this file.
 
-.bould-reveal-left {
-  opacity: 0;
-  transform: translateX(-40px);
-}
-
-.bould-reveal-right {
-  opacity: 0;
-  transform: translateX(40px);
-}
-
+  It used to be the other way round: everything sat at opacity 0 waiting for
+  GSAP. Anything that stopped the timelines running — JavaScript off, a chunk
+  that never arrived, a ScrollTrigger bound to elements a client-side navigation
+  had already replaced — left the hero copy, the buttons, and the case-study
+  result numbers permanently invisible, with the page otherwise looking fine.
+  Failing to animate is a small loss; failing to render is the whole page.
+*/
+.bould-reveal,
+.bould-reveal-left,
+.bould-reveal-right,
 .bould-reveal-scale {
-  opacity: 0;
-  transform: scale(0.94);
+  opacity: 1;
+  transform: none;
 }
 
 .bould-line-reveal {
@@ -2014,6 +2006,10 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 @media (max-width: 768px) {
+  :root {
+    /* One value, read by the canvas and by the interact hint that sits on it. */
+    --b-hero-canvas-h: 26svh;
+  }
 
   /* ── Mobile hero: vertical stack, no overlap ──────────────── */
   /* 3D canvas on top, text content below, nothing overlaps     */
@@ -2025,11 +2021,17 @@ body:has(.bould-policy-wrap) .footer-section * {
     min-height: 100svh;
   }
 
-  /* Canvas is in normal flow — sits above the text */
+  /*
+    The canvas used to take 57svh, which pushed the H1 to ~635px and the two
+    buttons to ~1040px and ~1110px down an 844px screen: on a phone the entire
+    hero was a 3D animation and everything that asks for the visitor's business
+    was below the fold. A third of the viewport still reads as a deliberate
+    visual and leaves the headline and both buttons above it.
+  */
   .bould-hero__canvas {
     position: relative;
     width: 100%;
-    height: 57svh;
+    height: var(--b-hero-canvas-h);
     flex-shrink: 0;
     opacity: 1;
     -webkit-mask-image: none;
@@ -2038,12 +2040,33 @@ body:has(.bould-policy-wrap) .footer-section * {
     pointer-events: auto;
   }
 
+  .bould-hero__headline {
+    font-size: clamp(3.4rem, 11vw, 5.2rem);
+  }
+
+  .bould-hero__body {
+    font-size: 1.5rem;
+    line-height: 1.5;
+  }
+
+  .bould-hero__actions {
+    width: 100%;
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+  .bould-hero__actions > * {
+    flex: 1 1 0;
+    justify-content: center;
+    white-space: nowrap;
+  }
+
   /* Text content flows below the canvas — fully readable, not overlapping */
   .bould-hero__content {
     position: relative;
     z-index: 2;
     max-width: 100%;
-    padding: 2.4rem 5vw 5rem;
+    padding: 1.6rem 5vw 4rem;
+    gap: 1.4rem;
     pointer-events: auto;
     /* Override FLIP centered start — mobile is already stacked */
     left: auto;
@@ -2066,7 +2089,7 @@ body:has(.bould-policy-wrap) .footer-section * {
      Override animation so it preserves the X centering transform. */
   .bould-hero__interact-hint {
     position: absolute;
-    top: calc(57svh - 5rem);
+    top: calc(var(--b-hero-canvas-h) - 5rem);
     left: 50%;
     right: auto;
     bottom: auto;
@@ -3039,7 +3062,55 @@ details[open].menu-opening .menu-drawer__utility-links {
 .bould-anim-fallback .bould-hero__eyebrow,
 .bould-anim-fallback .bould-hero__body,
 .bould-anim-fallback .bould-hero__actions,
-.bould-anim-fallback .bould-reveal {
+.bould-anim-fallback .bould-hero__stats,
+.bould-anim-fallback .bould-reveal,
+.bould-anim-fallback .bould-reveal-left,
+.bould-anim-fallback .bould-reveal-right,
+.bould-anim-fallback .bould-reveal-scale {
   opacity: 1 !important;
   transform: none !important;
+}
+
+
+/* ══════════════════════════════════════
+   ANIMATION GATE
+
+   `bould-anim-ready` is set on <html> by an inline script in the document head,
+   before the body paints — so there is no flash of the final state first — and
+   only when the browser can actually run the animations (JS on, motion not
+   reduced). Everything below is the animated START state; without the class the
+   page renders in its final state and simply does not animate.
+
+   components/SiteAnimations.tsx removes the class again if the animation module
+   has not loaded within a couple of seconds, so a slow or failed chunk resolves
+   to visible rather than blank.
+══════════════════════════════════════ */
+.bould-anim-ready .bould-hero__eyebrow {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.bould-anim-ready .bould-hero__body,
+.bould-anim-ready .bould-hero__actions {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.bould-anim-ready .bould-hero__stats {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.bould-anim-ready .bould-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.bould-anim-ready .bould-reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+.bould-anim-ready .bould-reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+}
+.bould-anim-ready .bould-reveal-scale {
+  opacity: 0;
+  transform: scale(0.94);
 }

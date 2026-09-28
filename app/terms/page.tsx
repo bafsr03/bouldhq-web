@@ -25,8 +25,6 @@ export default function TermsPage() {
         <div className="bould-section__inner bould-section__inner--narrow bould-prose">
           <p>
             These terms cover website plans and project work from {LEGAL_NAME}.
-            They replace the refund policy that belonged to our old online store —
-            we do not sell products, so there is nothing to refund in that sense.
           </p>
 
           <h2>Ownership</h2>

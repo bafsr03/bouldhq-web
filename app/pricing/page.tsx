@@ -6,7 +6,7 @@ import PageHero from '@/components/PageHero'
 import PageCta from '@/components/PageCta'
 import JsonLd from '@/components/JsonLd'
 import { breadcrumbSchema, faqSchema, graph, webPageSchema } from '@/lib/schema'
-import { PLANS, PRICING_FAQS } from '@/lib/content/pricing'
+import { PLANS, PLAN_SCORE_THRESHOLD, PRICING_FAQS } from '@/lib/content/pricing'
 
 /**
  * Brief, site map — Pricing.
@@ -18,7 +18,7 @@ import { PLANS, PRICING_FAQS } from '@/lib/content/pricing'
  */
 const TITLE = 'Website Plans & Pricing'
 const DESCRIPTION =
-  'Website plans from $250/month including hosting, updates, Google Business Profile management, and monthly reporting. You own the site and the domain. No lock-in contract.'
+  'Two website plans: Website Build at $250/month, and Golden Formula at $450/month with Google Business Profile management and reviews. Based in Utah. No long-term contracts, and you own your website.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -77,18 +77,33 @@ export default function PricingPage() {
                   <span className="bould-plan__best-label">Best for</span>
                   {plan.best}
                 </p>
-                <Link href="/visibility-audit" className="bould-btn bould-btn--primary">
-                  Start with the free audit
+                <Link href={plan.cta.href} className="bould-btn bould-btn--primary">
+                  {plan.cta.label}
                 </Link>
               </article>
             ))}
           </div>
 
           <p className="bould-section-body bould-section-body--narrow">
-            Prices start where they say they start. What moves them is scope —
-            how many services you offer, whether you are migrating an existing
-            store, and how much of the visibility work is already done. The audit
-            tells us which of those apply before anyone quotes anything.
+            <strong>Which one?</strong> The free audit scores your visibility out
+            of 20. {PLAN_SCORE_THRESHOLD} or higher means people already find you
+            and the website is what is losing them &mdash; Website Build. Under{' '}
+            {PLAN_SCORE_THRESHOLD} means a new site on its own would multiply a
+            very small number, so the visibility work comes with it &mdash;
+            Golden Formula.
+          </p>
+          <p className="bould-section-body bould-section-body--narrow">
+            Setup is quoted per project on both plans. No long-term contracts.
+            You own your website. What moves a setup quote is scope: how many
+            services you offer, whether you are migrating an existing store, and
+            how much of the visibility work is already done.
+          </p>
+          <p className="bould-section-body bould-section-body--narrow">
+            Selling products online instead?{' '}
+            <Link href="/services/shopify-stores" className="bould-inline-link bould-inline-link--tap">
+              See the ecommerce page
+            </Link>
+            .
           </p>
         </div>
       </section>

@@ -6,7 +6,7 @@ import {
   LEGAL_NAME,
   PHONE,
   PHONE_DISPLAY,
-  SERVICE_AREA_LABEL,
+  LOCATION_LINE,
 } from '@/lib/site'
 import TrackedContact from './TrackedContact'
 
@@ -80,9 +80,7 @@ export default function Footer() {
           {/* NAP — must stay byte-identical to the Google Business Profile. */}
           <address className="bould-footer__nap">
             <span className="bould-footer__nap-name">{LEGAL_NAME}</span>
-            <span className="bould-footer__nap-area">
-              Serving {SERVICE_AREA_LABEL}
-            </span>
+            <span className="bould-footer__nap-area">{LOCATION_LINE}</span>
             {PHONE && (
               <TrackedContact
                 method="phone"

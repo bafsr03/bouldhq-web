@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og'
-import { LEGAL_NAME, SERVICE_AREA_LABEL } from '@/lib/site'
+import { LEGAL_NAME, LOCATION_LINE } from '@/lib/site'
 
 /**
  * Brief, technical spec: "Sharing image: replace the current screenshot with a
@@ -84,7 +84,7 @@ export default function Image() {
             color: '#888888',
           }}
         >
-          <span>{SERVICE_AREA_LABEL}</span>
+          <span>{LOCATION_LINE}</span>
           <span style={{ color: '#F0EDE8' }}>bouldhq.com</span>
         </div>
       </div>

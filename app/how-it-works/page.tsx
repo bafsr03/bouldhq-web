@@ -7,6 +7,7 @@ import PageCta from '@/components/PageCta'
 import FormulaChart from '@/components/FormulaChart'
 import JsonLd from '@/components/JsonLd'
 import { breadcrumbSchema, graph, webPageSchema } from '@/lib/schema'
+import { RUBIO_REVIEWS_LABEL } from '@/lib/content/work'
 
 /**
  * Brief: "This page is the sales formula. Anyone selling can walk a prospect
@@ -16,7 +17,7 @@ import { breadcrumbSchema, graph, webPageSchema } from '@/lib/schema'
  */
 const TITLE = 'How We Get Local Businesses More Leads'
 const DESCRIPTION =
-  'The Visibility × Conversion formula, the free audit, the build, the 60-day launch plan, and what you get in the monthly report. Exactly how Bould works, start to finish.'
+  'The Visibility × Conversion formula, the free audit, the build, the 60-day launch plan, and what you get in the monthly report. Exactly how Bould works, start to finish. Based in Utah.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -46,7 +47,7 @@ const STEPS = [
   {
     n: '04',
     name: 'Monthly reporting',
-    body: 'Every month: calls, form submissions, and where they came from, against the baseline we recorded before launch. If a month is bad we tell you it was bad, and what we are changing.',
+    body: 'Every month: calls, form submissions, and where they came from, against the baseline we recorded before launch. The same report on both plans. If a month is bad we tell you it was bad, and what we are changing.',
     out: 'A number you can check us against.',
   },
 ]
@@ -97,7 +98,7 @@ export default function HowItWorksPage() {
               answer is near zero, no matter how good the other one is.
             </p>
             <p className="bould-section-body">
-              Rubio Brothers Concrete had strong visibility — 44 Google reviews,
+              Rubio Brothers Concrete had strong visibility — {RUBIO_REVIEWS_LABEL},
               six listings, years online — and a website that converted nothing.
               A year, zero leads. Kilowash is the mirror image: a site that
               converts well, and almost nobody finding it. Same formula, opposite
@@ -167,7 +168,7 @@ export default function HowItWorksPage() {
             buy one. A review kit that makes asking take ten seconds is the whole
             trick.
           </p>
-          <Link href="/pricing" className="bould-inline-link">
+          <Link href="/pricing" className="bould-inline-link bould-inline-link--tap">
             What it costs &rarr;
           </Link>
         </div>

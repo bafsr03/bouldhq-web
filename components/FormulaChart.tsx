@@ -18,6 +18,16 @@ const POINTS: Point[] = [
   { x: 78, y: 86, label: 'After the visibility plan', kind: 'after' },
 ]
 
+/*
+  y is CONVERSION, counted upward, the same as POINTS above — so 25 is low and
+  75 is high. SVG's y axis runs the other way, which is why both arrays are
+  flipped with `100 - y` at render time.
+
+  The labels used to be plotted with the raw y, so all four quadrants were drawn
+  upside down: "Leads flow" sat in the bottom-right (high visibility, LOW
+  conversion) and "Starting from zero" sat top-left. The chart argued the
+  opposite of the page around it.
+*/
 const QUADRANTS = [
   { x: 25, y: 25, title: 'Starting from zero', sub: 'Nobody finds you, nobody converts' },
   { x: 75, y: 25, title: 'Found, not chosen', sub: 'Traffic arrives and leaves' },
@@ -51,7 +61,7 @@ export default function FormulaChart() {
           <text
             key={q.title}
             x={q.x}
-            y={q.y}
+            y={100 - q.y}
             textAnchor="middle"
             className="bould-formula__quad"
           >

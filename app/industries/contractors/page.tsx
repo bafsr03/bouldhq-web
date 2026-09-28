@@ -11,6 +11,7 @@ import {
   serviceSchema,
   webPageSchema,
 } from '@/lib/schema'
+import { RUBIO_REVIEWS_LABEL } from '@/lib/content/work'
 
 /**
  * Brief, site map — Contractors.
@@ -21,7 +22,7 @@ import {
  */
 const TITLE = 'Websites for Contractors'
 const DESCRIPTION =
-  'Websites for concrete, excavation, and trade contractors: instant estimators, call buttons that work on a phone, a page per service, and real local job photos. See what it did for Rubio Brothers Concrete.'
+  'Websites for concrete, excavation, and trade contractors: instant estimators, call buttons that work on a phone, a page per service, and real local job photos. See what it did for Rubio Brothers Concrete in Pleasant Grove, Utah.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -44,7 +45,7 @@ const NEEDS = [
   },
   {
     name: 'Photos of your jobs, in your towns',
-    body: 'Stock photography of someone else’s concrete tells a local customer nothing. Your work in streets they recognise tells them everything.',
+    body: 'Stock photography of someone else’s concrete tells a local customer nothing. Your work in streets they recognize tells them everything.',
   },
   {
     name: 'Speed on a bad connection',
@@ -64,7 +65,7 @@ export default function ContractorsPage() {
           }),
           breadcrumbSchema([
             { name: 'Home', path: '/' },
-            { name: 'Industries', path: '/industries/contractors' },
+            { name: 'Industries', path: '/industries' },
             { name: 'Contractors', path: '/industries/contractors' },
           ]),
           serviceSchema({
@@ -107,18 +108,18 @@ export default function ContractorsPage() {
             Rubio Brothers Concrete, Pleasant Grove
           </h2>
           <p className="bould-section-body">
-            Forty-four Google reviews. Six listings. Years online. Their Google
+            {RUBIO_REVIEWS_LABEL}. Six listings. Years online. Their Google
             profile pointed at their website, and people clicked it — and in a
             full year, that website produced zero leads.
           </p>
           <p className="bould-section-body">
             We rebuilt it around an estimator, reachable call buttons, a page per
             service, and photos of their own jobs. First lead in about two weeks.
-            Six leads and more than $20,000 in new work within three months.
+            Six leads and $20,000 in new work within three months.
           </p>
           <p className="bould-proof__source">
             Source: Rubio Brothers Concrete.{' '}
-            <Link href="/work/rubio-brothers-concrete" className="bould-inline-link">
+            <Link href="/work/rubio-brothers-concrete" className="bould-inline-link bould-inline-link--tap">
               Read the full case study
             </Link>
             .

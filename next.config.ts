@@ -73,10 +73,28 @@ const nextConfig: NextConfig = {
       { source: '/pages/3d-store', destination: '/services/shopify-stores', permanent: true },
       { source: '/pages/demo', destination: '/work', permanent: true },
 
-      // Client pages that became case studies.
-      { source: '/pages/joon-distribution', destination: '/work/joon-distribution', permanent: true },
-      { source: '/pages/dummiez', destination: '/work/dummiez', permanent: true },
-      { source: '/pages/adophies', destination: '/work/adophies', permanent: true },
+      // Client pages. Their case studies are written but unpublished (the
+      // clients have not approved results), so these land on /work, where the
+      // portfolio card links out to the live store.
+      { source: '/pages/joon-distribution', destination: '/work', permanent: true },
+      { source: '/pages/dummiez', destination: '/work', permanent: true },
+      { source: '/pages/adophies', destination: '/work', permanent: true },
+
+      // Case-study routes that existed on this site before those three were
+      // unpublished. Temporary (307), not permanent: they come back at the same
+      // URLs the day the clients approve, and a 308 would be cached by browsers
+      // that then never re-check.
+      { source: '/work/joon-distribution', destination: '/work', permanent: false },
+      { source: '/work/dummiez', destination: '/work', permanent: false },
+      { source: '/work/adophies', destination: '/work', permanent: false },
+      // Renamed: Avion trades as Avio Supply Co.
+      { source: '/work/avion', destination: '/work', permanent: true },
+      // JCK Approved is permanently offline.
+      { source: '/work/jck-approved', destination: '/work', permanent: true },
+
+      // The nav used to point Industries straight at the contractors page.
+      { source: '/industries/home-services', destination: '/industries', permanent: false },
+      { source: '/industries/auto-repair', destination: '/industries', permanent: false },
 
       // ── The four $0.00 try-on products ────────────────────────────────────
       // Brief: "Delete products; redirect each to /". The virtual fitting room

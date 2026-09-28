@@ -1259,3 +1259,258 @@ a.bould-mini-card:hover {
     min-height: 13rem;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   MOBILE HEADER ACTIONS
+
+   The phone number and the audit CTA used to be desktop-only: on a
+   phone the header held a logo and a burger, and the two things a
+   visitor is here to do were both behind a tap.
+══════════════════════════════════════════════════════════════ */
+.bould-header__phone-icon {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .bould-header {
+    gap: 1.2rem;
+  }
+  /* Overrides the earlier `display: none` on both. */
+  .bould-header__phone,
+  .bould-header__cta {
+    display: inline-flex;
+  }
+  .bould-header__actions {
+    margin-left: auto;
+    gap: 0.8rem;
+  }
+  /* Icon-only call button: the number is in the bar below and in the menu. */
+  .bould-header__phone {
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    border: 1px solid var(--b-border2);
+    border-radius: 6px;
+    color: var(--b-purple3);
+  }
+  .bould-header__phone-full {
+    display: none;
+  }
+  .bould-header__phone-icon {
+    display: inline-flex;
+  }
+  .bould-header__cta {
+    padding: 1rem 1.4rem;
+    font-size: 1.2rem;
+    min-height: 44px;
+  }
+  /* Last in the row, hard against the right edge. */
+  .bould-header__burger {
+    order: 3;
+  }
+}
+
+/* Under ~380px the audit button and the icons stop fitting together. */
+@media (max-width: 380px) {
+  .bould-header__cta {
+    display: none;
+  }
+}
+
+.bould-mobile-nav__cta {
+  margin-top: 1.6rem;
+  justify-content: center;
+  min-height: 48px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   STICKY MOBILE CALL / AUDIT BAR
+══════════════════════════════════════════════════════════════ */
+.bould-mobile-cta {
+  display: none;
+  position: fixed;
+  z-index: 40;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  gap: 1px;
+  background: var(--b-border);
+  border-top: 1px solid var(--b-border);
+  /* Clears the iOS home indicator. */
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.bould-mobile-cta__call,
+.bould-mobile-cta__audit {
+  flex: 1 1 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 56px;
+  font-family: var(--b-font);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+
+.bould-mobile-cta__call {
+  background: var(--b-dark);
+  color: var(--b-white);
+}
+.bould-mobile-cta__audit {
+  background: var(--b-purple);
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .bould-mobile-cta {
+    display: flex;
+  }
+  /* Nothing at the bottom of the page can hide behind the bar. */
+  body {
+    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* A fixed bar over a drawer that already has its own actions is clutter. */
+.header-wrapper.is-open ~ * .bould-mobile-cta,
+body:has(.header-wrapper.is-open) .bould-mobile-cta {
+  display: none;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TAP TARGETS
+
+   Small text links sat at 21px tall on a phone; the phone and email
+   links on /contact at 27px. 44px is the minimum a thumb hits
+   reliably, and these are the links that lead to the money.
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .bould-inline-link--tap {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .bould-contact__email {
+    min-height: 44px;
+    font-size: 1.7rem;
+  }
+  .bould-contact__label {
+    font-size: 1.25rem;
+  }
+  .bould-footer__nav-link,
+  .bould-mobile-nav__link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  /*
+    The watermark behind the page heading is a 28vw word. On a desktop it is
+    texture behind a headline that has room around it; on a phone the two
+    overlap and it reads as a second, half-erased headline. Hidden rather than
+    faded — it is purely decorative, it carries no information, and anything
+    faint enough not to fight the H1 at this width is invisible anyway.
+  */
+  .bould-page-hero__ghost {
+    display: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GOOGLE REVIEWS (homepage)
+══════════════════════════════════════════════════════════════ */
+.bould-reviews {
+  list-style: none;
+  margin: 3.2rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 2.4rem;
+}
+
+.bould-review {
+  padding: 2.8rem 3rem;
+  background: var(--b-card);
+  border: 1px solid var(--b-border);
+  border-left: 2px solid var(--b-purple);
+  border-radius: 6px;
+}
+
+/*
+  Above the quote, not below it: the reader has to know what the quote is about
+  before they read it, not after.
+*/
+.bould-review__context {
+  margin: 0 0 1.2rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--b-purple3);
+}
+
+.bould-review__quote {
+  margin: 0;
+}
+.bould-review__quote p {
+  margin: 0;
+  font-size: clamp(1.6rem, 1.8vw, 1.8rem);
+  line-height: 1.6;
+  color: var(--b-white);
+}
+
+.bould-review__attr {
+  margin: 1.6rem 0 0;
+  font-size: 1.35rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--b-muted);
+}
+.bould-review__business {
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   AUDIT: escape hatch + plan recommendation
+══════════════════════════════════════════════════════════════ */
+.bould-audit__escape {
+  margin: 0 0 2.4rem;
+  font-size: 1.45rem;
+  color: var(--b-muted);
+}
+
+.bould-audit__plan {
+  margin: 2.4rem 0 0;
+  padding: 1.8rem 2rem;
+  background: rgba(139, 92, 246, 0.07);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 6px;
+  font-size: 1.55rem;
+  line-height: 1.7;
+  color: var(--b-white);
+}
+.bould-audit__plan-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--b-muted);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   INDUSTRIES HUB
+══════════════════════════════════════════════════════════════ */
+.bould-mini-card__proof {
+  margin: 1.4rem 0 0;
+  font-size: 1.3rem;
+  color: var(--b-purple3);
+}
+
+/* Three plan cards side by side need less width each than two did. */
+.bould-plans--compact {
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+  margin-top: 3.2rem;
+}

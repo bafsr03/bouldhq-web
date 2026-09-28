@@ -1,9 +1,11 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import Link from 'next/link'
 import {
   AUDIT_QUESTIONS,
   TOTAL_POINTS,
+  planFor,
   verdictFor,
 } from '@/lib/content/audit'
 import { trackAuditComplete } from '@/lib/track'
@@ -45,6 +47,7 @@ export default function AuditTool() {
   )
 
   const verdict = verdictFor(score)
+  const plan = planFor(score)
   const gaps = AUDIT_QUESTIONS.filter((q) => answers[q.id] === 'no')
 
   useEffect(() => {
@@ -55,6 +58,19 @@ export default function AuditTool() {
 
   return (
     <div className="bould-audit">
+      {/*
+        An escape hatch before the questions, not after them. The capture form
+        only appears once all twelve are answered, so someone who does not want
+        to take a quiz previously had nothing to click at all on this page.
+      */}
+      <p className="bould-audit__escape">
+        Rather just talk?{' '}
+        <Link href="/contact" className="bould-inline-link bould-inline-link--tap">
+          Contact us
+        </Link>
+        .
+      </p>
+
       <ol className="bould-audit__list">
         {AUDIT_QUESTIONS.map((q, i) => {
           const value = answers[q.id]
@@ -148,6 +164,22 @@ export default function AuditTool() {
           <h2 className="bould-audit__verdict">{verdict.label}</h2>
           <p className="bould-audit__verdict-summary">{verdict.summary}</p>
           <p className="bould-audit__verdict-detail">{verdict.detail}</p>
+
+          {/*
+            The score decides the plan, so the recommendation is derived from it
+            rather than written into each verdict — the threshold lives in one
+            place (PLAN_SCORE_THRESHOLD) and the price comes off the price list,
+            so neither can go stale here.
+          */}
+          <p className="bould-audit__plan">
+            <span className="bould-audit__plan-label">Where this points</span>
+            <strong>{plan.name}</strong>, {plan.price}
+            {plan.cadence ? ` ${plan.cadence}` : ''}.{' '}
+            <Link href="/pricing" className="bould-inline-link bould-inline-link--tap">
+              What is in it
+            </Link>
+            .
+          </p>
 
           {gaps.length > 0 && (
             <div className="bould-audit__gaps">

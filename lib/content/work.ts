@@ -18,8 +18,6 @@ export type Project = {
   year: string
   segment: Segment
   liveUrl: string
-  /** Set when a full case study page exists at /work/[slug]. */
-  hasCaseStudy?: boolean
   blurb: string
   /**
    * Path under /public. Omit it and the card renders a monogram instead — see
@@ -36,7 +34,6 @@ export const PROJECTS: Project[] = [
     year: '2026',
     segment: 'local',
     liveUrl: 'https://rubiobrothersconcrete.com/',
-    hasCaseStudy: true,
     logo: '/logos/rubio-brothers-concrete.png',
     blurb:
       'A concrete contractor whose old site produced nothing for a year. First lead in about two weeks.',
@@ -55,62 +52,49 @@ export const PROJECTS: Project[] = [
   {
     slug: 'joon-distribution',
     name: 'Joon Distribution',
-    category: 'Shopify Plus + 3D product visuals',
+    category: 'Shopify + 3D product visuals',
     year: '2026',
     segment: 'ecommerce',
     liveUrl: 'https://joondistro.com/',
     logo: '/logos/joon-distribution.png',
-    hasCaseStudy: true,
     blurb:
       'Wholesale buyers who needed to inspect products closely before committing.',
   },
   {
     slug: 'dummiez',
     name: 'Dummiez',
-    category: 'Shopify Plus + 3D product visuals',
+    category: 'Shopify + 3D product visuals',
     year: '2026',
     segment: 'ecommerce',
     liveUrl: 'https://www.dummiez.co/',
     logo: '/logos/dummiez.png',
-    hasCaseStudy: true,
     blurb:
       'A design-led brand whose product is the whole pitch, flattened by a stock theme.',
   },
   {
     slug: 'adophies',
     name: 'Adophies',
-    category: 'Shopify Plus',
+    category: 'Shopify',
     year: '2025',
     segment: 'ecommerce',
     liveUrl: 'https://adophies.com/',
     logo: '/logos/adophies.png',
-    hasCaseStudy: true,
     blurb:
-      'A catalogue that had outgrown its theme, migrated onto editor-configurable sections.',
-  },
-  {
-    slug: 'jck-approved',
-    name: 'JCK Approved',
-    category: 'Custom Shopify build',
-    year: '2026',
-    segment: 'ecommerce',
-    liveUrl: 'https://jckapproved.com/',
-    logo: '/logos/jck-approved.png',
-    blurb: 'A custom storefront built around the brand rather than a theme.',
+      'A catalog that had outgrown its theme, migrated onto editor-configurable sections.',
   },
   {
     slug: 'run-it-back-classics',
     name: 'Run it Back Classics',
-    category: 'Shopify Plus',
+    category: 'Shopify',
     year: '2025',
     segment: 'ecommerce',
     liveUrl: 'https://run-it-back-classics.myshopify.com/',
     logo: '/logos/run-it-back-classics.png',
-    blurb: 'Vintage sportswear, merchandised for a catalogue that changes constantly.',
+    blurb: 'Vintage sportswear, merchandised for a catalog that changes constantly.',
   },
   {
-    slug: 'avion',
-    name: 'Avion',
+    slug: 'avio-supply-co',
+    name: 'Avio Supply Co.',
     category: 'Custom development',
     year: '2026',
     segment: 'ecommerce',
@@ -129,6 +113,14 @@ export const PROJECTS: Project[] = [
     blurb: 'A brand-first storefront built from the ground up.',
   },
 ]
+
+/**
+ * Rubio Brothers Concrete's own Google profile, verified September 2026.
+ *
+ * The site previously said "44", "44+", "more than 44", and "forty-four" on
+ * four different pages. One constant, one wording, one place to correct it.
+ */
+export const RUBIO_REVIEWS_LABEL = '40+ Google reviews at 4.8 stars'
 
 export type Metric = { value: string; label: string; source: string }
 
@@ -162,12 +154,12 @@ export const CASE_STUDIES: CaseStudy[] = [
     liveUrl: 'https://rubiobrothersconcrete.com/',
     title: 'Rubio Brothers Concrete: From 0 to 6 Leads',
     description:
-      'Rubio Brothers Concrete had 44+ Google reviews and a year of zero leads from their old website. Their Bould site brought the first lead in about two weeks and $20k+ in new work in three months.',
+      `Rubio Brothers Concrete had ${RUBIO_REVIEWS_LABEL} and a year of zero leads from their old website. Their Bould site brought the first lead in about two weeks and $20,000 in new work in three months.`,
     h1: 'A year of zero leads, then the first one in two weeks',
     problem: {
       heading: 'The problem',
       body: [
-        'Rubio Brothers Concrete was not hard to find. More than 44 Google reviews, six directory listings, years of history online — by the scorecard, strong visibility. Their Google Business Profile pointed at their website, and people clicked it.',
+        'Rubio Brothers Concrete was not hard to find. Forty-plus Google reviews at 4.8 stars, six directory listings, years of history online — by the scorecard, strong visibility. Their Google Business Profile pointed at their website, and people clicked it.',
         'In a year, that website produced zero leads. Every bit of demand their reviews and listings had built arrived at a page that gave visitors nothing to do, and left.',
         'This is the half of the formula a redesign actually fixes. The traffic already existed. The site was where it died.',
       ],
@@ -184,32 +176,58 @@ export const CASE_STUDIES: CaseStudy[] = [
     metrics: [
       { value: '~2 weeks', label: 'to the first lead', source: 'Rubio Brothers Concrete' },
       { value: '6', label: 'leads in 3 months', source: 'Rubio Brothers Concrete' },
-      { value: '$20k+', label: 'in new work', source: 'Rubio Brothers Concrete' },
+      { value: '$20,000', label: 'in new work', source: 'Rubio Brothers Concrete' },
     ],
+    quote: {
+      /*
+        Cesar's own words, approved for publication. Deliberately not attributed
+        to the previous provider by name: the point is the experience, and
+        naming a competitor in a client's quote invites a dispute that helps
+        nobody.
+      */
+      text: 'It was anxiety filled because I knew they were going to bill me and just take my money without me seeing results and every time I would address issues it seems like nothing got resolved and I was told SEO takes time and I would start seeing results after a year.',
+      attribution: 'Cesar Rubio, Rubio Brothers Concrete — on the agency before us',
+    },
     pending:
-      'Cesar’s quote is being finalised and will be added here. Every number above comes directly from Rubio Brothers Concrete.',
+      'Every number above comes directly from Rubio Brothers Concrete.',
   },
+]
+
+/**
+ * Written, but not published.
+ *
+ * Joon, Dummiez, and Adophies have not given permission to publish results, and
+ * a case study whose results section says "pending the client's permission" is
+ * a page that asks a visitor to read three screens and then tells them nothing.
+ * They render as portfolio cards linking to the live sites instead.
+ *
+ * The copy is kept here rather than deleted because the problem/build sections
+ * are accurate and were written with the clients: the day permission arrives,
+ * moving an entry back into CASE_STUDIES republishes the page, the route, and
+ * the sitemap entry in one edit. Nothing in the app reads this array.
+ */
+export const ARCHIVED_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'joon-distribution',
     client: 'Joon Distribution',
-    category: 'Shopify Plus + 3D product visuals',
+    category: 'Shopify + 3D product visuals',
     year: '2026',
     segment: 'ecommerce',
     liveUrl: 'https://joondistro.com/',
     title: 'Joon Distribution: 3D Product Visuals for Wholesale Buyers',
     description:
-      'Joon Distribution sells a catalogue buyers need to inspect before committing. We rebuilt the storefront on Shopify Plus with interactive 3D product visuals at real scale.',
+      'Joon Distribution sells a catalog buyers need to inspect before committing. We rebuilt the storefront on Shopify with interactive 3D product visuals.',
     h1: 'Letting wholesale buyers inspect the product before they commit',
     problem: {
       heading: 'The challenge',
       body: [
-        'Joon Distribution sells a catalogue that buyers need to inspect closely before committing. A flat product grid gave wholesale customers no way to judge scale, finish, or detail, so the sales conversation kept moving off the site and into email threads.',
+        'Joon Distribution sells a catalog that buyers need to inspect closely before committing. A flat product grid gave wholesale customers no way to judge scale, finish, or detail, so the sales conversation kept moving off the site and into email threads.',
       ],
     },
     build: {
       heading: 'What we built',
       body: [
-        'We rebuilt the storefront on Shopify Plus and layered 3D product visuals over the catalogue. Products are presented as interactive models a buyer can rotate and inspect at real scale, running on a WebGL pipeline tuned to load progressively so the page stays fast on mobile.',
+        'We rebuilt the storefront on Shopify and layered 3D product visuals over the catalog. Products are presented as 3D product visuals a buyer can rotate and inspect, loading progressively so the page stays fast on a phone.',
       ],
     },
     metrics: [],
@@ -219,13 +237,13 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'dummiez',
     client: 'Dummiez',
-    category: 'Shopify Plus + 3D product visuals',
+    category: 'Shopify + 3D product visuals',
     year: '2026',
     segment: 'ecommerce',
     liveUrl: 'https://www.dummiez.co/',
     title: 'Dummiez: A Storefront Where the Product Is the Interface',
     description:
-      'A design-led brand flattened into thumbnails by a stock Shopify theme. We built a custom Shopify Plus storefront around a real-time 3D stage.',
+      'A design-led brand flattened into thumbnails by a stock Shopify theme. We built a custom Shopify storefront around a real-time 3D stage.',
     h1: 'When the product is the whole pitch, thumbnails are not enough',
     problem: {
       heading: 'The challenge',
@@ -236,7 +254,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     build: {
       heading: 'What we built',
       body: [
-        'We built a custom Shopify Plus storefront around a real-time 3D stage, so the product is the interface rather than a picture of the product. The build pairs a bespoke theme with a WebGL scene that respects reduced-motion preferences and degrades to static imagery where WebGL is unavailable.',
+        'We built a custom Shopify storefront around a real-time 3D stage, so the product is the interface rather than a picture of the product. The build pairs a bespoke theme with 3D product visuals that respect reduced-motion preferences and fall back to static imagery on devices that cannot render them.',
       ],
     },
     metrics: [],
@@ -246,24 +264,24 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'adophies',
     client: 'Adophies',
-    category: 'Shopify Plus',
+    category: 'Shopify',
     year: '2025',
     segment: 'ecommerce',
     liveUrl: 'https://adophies.com/',
-    title: 'Adophies: A Catalogue That Had Outgrown Its Theme',
+    title: 'Adophies: A Catalog That Had Outgrown Its Theme',
     description:
-      'Adophies had expanded faster than its theme could handle. We migrated onto Shopify Plus with a custom theme built around editor-configurable sections.',
-    h1: 'A catalogue that had outgrown its theme',
+      'Adophies had expanded faster than its theme could handle. We migrated onto Shopify with a custom theme built around editor-configurable sections.',
+    h1: 'A catalog that had outgrown its theme',
     problem: {
       heading: 'The challenge',
       body: [
-        'Adophies had outgrown its original storefront. The catalogue had expanded faster than the theme’s navigation and merchandising could handle, leaving customers unable to find products and the team unable to change the site without a developer.',
+        'Adophies had outgrown its original storefront. The catalog had expanded faster than the theme’s navigation and merchandising could handle, leaving customers unable to find products and the team unable to change the site without a developer.',
       ],
     },
     build: {
       heading: 'What we built',
       body: [
-        'We migrated Adophies onto Shopify Plus with a custom theme built around editor-configurable sections, so the team can restructure pages without touching code. Navigation, collection merchandising, and the product template were rebuilt around how customers actually browse the catalogue.',
+        'We migrated Adophies onto Shopify with a custom theme built around editor-configurable sections, so the team can restructure pages without touching code. Navigation, collection merchandising, and the product template were rebuilt around how customers actually browse the catalog.',
       ],
     },
     metrics: [],
@@ -276,5 +294,24 @@ export function caseStudyBySlug(slug: string) {
   return CASE_STUDIES.find((c) => c.slug === slug)
 }
 
-/** Brief, homepage: "recent work (from the current 9 projects)" and "Use one verified number." */
+/**
+ * Whether a project has a published case study page.
+ *
+ * Derived from CASE_STUDIES rather than stored as a flag on the project,
+ * because the two were maintained by hand and drifted: unpublishing the Joon,
+ * Dummiez, and Adophies studies left three cards pointing at routes that no
+ * longer existed. Deriving it means a card cannot link to a 404.
+ */
+export function hasCaseStudy(slug: string) {
+  return CASE_STUDIES.some((c) => c.slug === slug)
+}
+
+/**
+ * The one number the homepage and Work page both print.
+ *
+ * Derived, never typed out: the headings say "N sites" over a grid of N cards,
+ * and the two contradicting each other is exactly the failure the brief flagged
+ * on the old site ("7+ Brands Launched" above "5+ Brands Launched"). Removing
+ * JCK Approved took this from 9 to 8 with no copy to chase.
+ */
 export const PROJECT_COUNT = PROJECTS.length

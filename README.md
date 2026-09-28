@@ -199,19 +199,54 @@ These come from the brief and are worth keeping when adding pages.
 - **Lead delivery is not configured.** `RESEND_API_KEY` + `LEAD_TO_EMAIL` are
   unset, so audit and contact submissions are written to the runtime log instead
   of emailed. `GET /api/lead` reports which mode it is in, and `verify.sh` fails
-  the run if production is still log-only.
-- **JCK Approved has no logo** — `jckapproved.com` did not resolve when the
-  others were collected. Its card renders a monogram until one is added; see
-  `public/logos/README.md`.
-- **Cesar's quote** for the Rubio case study — the numbers are in, the quote is
-  not; `pending` on that case study says so on the page.
-- **Metrics for Joon, Dummiez, and Adophies**, pending client permission.
-- **Reviews section on the homepage.** The brief asks for one "as they come in".
-  At zero reviews there is nothing honest to render, so it is not built yet.
-- **Setup fee.** `/pricing` says "quoted per project"; fill `setup` in
+  the run if production is still log-only. This is the one remaining launch
+  blocker: everything else on the update list is built.
+- **Devin's Google review.** `lib/content/reviews.ts` has the entry with an
+  empty `text`, and the homepage renders only reviews that have text — so it
+  currently shows one review and will show two the moment the wording is pasted
+  in. Nothing else needs changing.
+- **Confirm which stores are on Shopify Plus.** Everything now says "Shopify",
+  per Jake's answer. If Joon, Dummiez, Adophies, or Run it Back turns out to be
+  on the Plus plan, change that one project's `category` in
+  `lib/content/work.ts`.
+- **ROSN by O's logo** has a black plate baked into the artwork; needs a
+  transparent PNG from the client. See `public/logos/README.md`.
+- **Metrics for Joon, Dummiez, and Adophies**, pending client permission. Their
+  case studies are written and parked in `ARCHIVED_CASE_STUDIES`; moving an
+  entry back into `CASE_STUDIES` republishes the page, the route, and the
+  sitemap entry in one edit, and the temporary redirect in `next.config.ts`
+  should come out at the same time.
+- **Joon's portfolio card** stays up pending Jake's confirmation with Subhan. If
+  the answer is no, delete the entry from `PROJECTS` — `PROJECT_COUNT`, both
+  headings, and the sitemap follow automatically.
+- **Setup fee.** Both plans say "quoted per project"; fill `setup` in
   `lib/content/pricing.ts` once it is set.
-- **Google Business Profile management** is in the Website Plan (brief decision
-  4), but a *weekly* posting cadence deliberately is not — across every client
-  that is more hours than two people have, and a promised weekly post that never
-  appears hurts the profile more than never promising one. The plan says
-  "profile updates and review responses" instead.
+- **PageSpeed on mobile** for Home and the Rubio case study, target 90+. If the
+  3D hero pulls it down, serve a still image below 768px — the canvas is already
+  isolated behind `HeroScene` and sized by one CSS variable
+  (`--b-hero-canvas-h`).
+- **Google Business Profile management** is in the Golden Formula plan, but a
+  *weekly* posting cadence deliberately is not — across every client that is
+  more hours than two people have, and a promised weekly post that never appears
+  hurts the profile more than never promising one. The plan says "profile
+  updates and review responses" instead.
+
+## Decisions worth not re-litigating
+
+- **Animated content is visible by default.** An inline script in the layout
+  adds `bould-anim-ready` to `<html>` before first paint, and only that class
+  hides the hero copy and `.bould-reveal` elements so GSAP can bring them in.
+  With JavaScript off, with reduced motion, or if the animation chunk never
+  loads (a 2s failsafe in `SiteAnimations`), the page renders finished instead
+  of blank. Do not move those `opacity: 0` rules back into the base selectors.
+- **The proof numbers do not animate at all.** The Rubio results and the
+  homepage proof strip are the argument, not decoration.
+- **The audit's twelve questions render server-side, in one list.** A wizard
+  would hide eleven of them from the crawler, and this page is meant to rank for
+  people searching whether their business shows up on Google.
+- **No Review or AggregateRating JSON-LD.** The reviews live on the Google
+  profile, where they carry weight; self-hosted review markup about your own
+  business is what the structured-data guidelines single out.
+- **Indexing is opt-in** (`NEXT_PUBLIC_ALLOW_INDEXING`), so a staging copy can
+  never compete with bouldhq.com. Set it only on the deployment that serves the
+  real domain.

@@ -11,8 +11,8 @@ import {
   serviceSchema,
   webPageSchema,
 } from '@/lib/schema'
-import { PROJECTS } from '@/lib/content/work'
-import { SERVICE_AREA_LABEL } from '@/lib/site'
+import { hasCaseStudy, PROJECTS } from '@/lib/content/work'
+import { CLIENT_STATES } from '@/lib/site'
 
 /**
  * Brief, site map — Utah location. "Backs up the Google profile's service area
@@ -24,7 +24,7 @@ import { SERVICE_AREA_LABEL } from '@/lib/site'
  * brief warns Google penalises.
  */
 const TITLE = 'Web Design for Utah County & Salt Lake Businesses'
-const DESCRIPTION = `Website design and local SEO for businesses in ${SERVICE_AREA_LABEL}. Local clients, local work, and a founder you can actually meet in person.`
+const DESCRIPTION = `Website design and local SEO for businesses in Utah County and Salt Lake County. Based in Utah, with clients in ${CLIENT_STATES}. Local work you can drive to, and someone you can meet in person.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -46,7 +46,7 @@ export default function UtahCountyPage() {
           }),
           breadcrumbSchema([
             { name: 'Home', path: '/' },
-            { name: 'Utah County & Salt Lake', path: '/web-design-utah-county' },
+            { name: 'Utah (home base)', path: '/web-design-utah-county' },
           ]),
           serviceSchema({
             name: 'Web design in Utah County and Salt Lake County',
@@ -61,7 +61,7 @@ export default function UtahCountyPage() {
         ghost="Utah"
         eyebrow="Home base"
         title="Web design for Utah County & Salt Lake businesses."
-        sub="We are based here. The clients below are too, and you can drive to any of the work."
+        sub="Based in Utah. The clients below are along the Wasatch Front, and you can drive to any of the work."
       />
 
       <section className="bould-section" aria-labelledby="local-heading">
@@ -74,8 +74,8 @@ export default function UtahCountyPage() {
             {localClients.map((c) => (
               <li key={c.slug} className="bould-reveal">
                 <h3 className="bould-local-list__name">
-                  {c.hasCaseStudy ? (
-                    <Link href={`/work/${c.slug}`} className="bould-inline-link">
+                  {hasCaseStudy(c.slug) ? (
+                    <Link href={`/work/${c.slug}`} className="bould-inline-link bould-inline-link--tap">
                       {c.name}
                     </Link>
                   ) : (
@@ -96,16 +96,17 @@ export default function UtahCountyPage() {
 
           <h2 className="bould-section-title">Meeting in person</h2>
           <p className="bould-section-body">
-            We work from Utah County and cover the Wasatch Front. For clients
-            here, the first conversation is usually in person — at your shop, at
-            a job site, or over coffee somewhere between the two. It is faster
-            than three rounds of email, and it is how we find out what you
-            actually sell rather than what your old website says you sell.
+            The Wasatch Front is where we meet clients face to face. For
+            businesses here, the first conversation is usually in person — at
+            your shop, at a job site, or over coffee somewhere between the two.
+            It is faster than three rounds of email, and it is how we find out
+            what you actually sell rather than what your old website says you
+            sell.
           </p>
           <p className="bould-section-body">
-            Serving {SERVICE_AREA_LABEL}. We work with clients outside Utah too —
+            Based in Utah. We also work with clients in Texas and Minnesota —
             the build and the visibility work translate anywhere — but this is
-            where we can show up.
+            where we can show up in person.
           </p>
         </div>
       </section>
