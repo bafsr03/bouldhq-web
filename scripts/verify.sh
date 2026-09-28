@@ -48,6 +48,10 @@ if [ "$probe" = "401" ] || [ "$probe" = "403" ]; then
 fi
 
 echo "Verifying $BASE"
+# Printed first, so a run against a stale server is obvious before reading any
+# of the results below it.
+stamp=$(curl -sL "$BASE/" | grep -o 'name="build-stamp" content="[^"]*"' | sed 's/.*content="//;s/"//')
+[ -n "$stamp" ] && echo "Build: $stamp"
 
 echo
 echo "Pages return 200 and carry one H1"

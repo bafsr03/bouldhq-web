@@ -98,6 +98,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en-US" className={spaceGrotesk.variable}>
+      <head>
+        {/* Which build is this? See BUILD_STAMP in next.config.ts. */}
+        <meta name="build-stamp" content={process.env.NEXT_PUBLIC_BUILD_STAMP} />
+      </head>
       <body>
         {/*
           Site-wide graph: the Organization/ProfessionalService node every page

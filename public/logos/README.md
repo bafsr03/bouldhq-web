@@ -8,14 +8,29 @@ deliberate fallback, not a bug — but a real logo is always better.
 
 ## Current state
 
-All present except **JCK Approved**, whose site (`jckapproved.com`) did not
-resolve when these were collected. Drop `jck-approved.png` in here and add
-`logo: '/logos/jck-approved.png'` to that project to complete the set.
+All nine present.
+
+**ROSN by O's** is the one worth replacing when possible. Its logo is gold on a
+baked-in black rectangle, which shows as a visible box against the card. Every
+other logo is transparent. The fix is to ask the client for a transparent PNG —
+not to paint over it here, and not to lighten the card, because half the set is
+white-on-transparent and needs the dark plate.
 
 ## Adding or replacing one
 
-These were pulled from each client's live storefront, which is the same image
-the old Shopify theme referenced from `shopify://shop_images/`. To refresh one:
+Most were pulled from each client's live storefront. Two came from bouldhq.com's
+own Shopify CDN, which is the better source when a client's site is down or its
+asset has a background baked in — it serves exactly the files the old theme
+referenced as `shopify://shop_images/`:
+
+```bash
+# JCK Approved's storefront returns 403; its logo is still on Bould's CDN as
+# title.png, the same file templates/index.json pointed at.
+curl -L "https://bouldhq.com/cdn/shop/files/title.png?width=800" \
+  -o public/logos/jck-approved.png
+```
+
+To refresh one from the client's own site:
 
 ```bash
 # Shopify's CDN resizes on demand — ask for a large render, not the 36px one

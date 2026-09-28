@@ -15,6 +15,12 @@ function monogram(name: string) {
 /**
  * The portfolio grid.
  *
+ * The logo <Image> deliberately carries no `sizes`. With `sizes` set, Next
+ * treats the image as fluid and its fallback `src` becomes the largest
+ * candidate — it was requesting a 3840px render of a logo displayed at 220px.
+ * Fixed width/height instead makes Next emit a plain 1x/2x srcset, which is
+ * what a fixed-size logo actually wants.
+ *
  * Uses its own `bould-project-*` classes rather than the theme's
  * `.bould-work-card`. Those rules were written for the Liquid section's markup —
  * the card itself was the flex item, and the whole thing was an overlay layout.
@@ -44,7 +50,6 @@ export default function WorkGrid({ projects }: { projects: readonly Project[] })
                   width={220}
                   height={110}
                   className="bould-project-card__logo-img"
-                  sizes="(max-width: 700px) 70vw, 220px"
                 />
               ) : (
                 <span className="bould-project-card__monogram" aria-hidden="true">

@@ -95,6 +95,7 @@ export const PROJECTS: Project[] = [
     year: '2026',
     segment: 'ecommerce',
     liveUrl: 'https://jckapproved.com/',
+    logo: '/logos/jck-approved.png',
     blurb: 'A custom storefront built around the brand rather than a theme.',
   },
   {

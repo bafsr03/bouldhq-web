@@ -61,7 +61,6 @@ const INDUSTRIES = [
 
 export default function HomePage() {
   const plan = PLANS[0]
-  const recent = PROJECTS.slice(0, 6)
 
   return (
     <div className="bould-page-wrap">
@@ -224,10 +223,17 @@ export default function HomePage() {
           <h2 className="bould-section-title" id="work-heading">
             {PROJECT_COUNT} sites, and the stories behind them.
           </h2>
-          <WorkGrid projects={recent} />
+          {/*
+            All nine, not a slice. The heading above states the number, and a
+            heading that says nine over a grid of six is the same self-
+            contradiction the brief called out on the old site, where "7+ Brands
+            Launched" sat above "5+ Brands Launched" on one page. If this ever
+            needs trimming, the count in the heading has to move with it.
+          */}
+          <WorkGrid projects={PROJECTS} />
           {/* The old "View All Projects" link pointed at "#". This one goes somewhere. */}
           <Link href="/work" className="bould-inline-link">
-            See all {PROJECT_COUNT} projects &rarr;
+            Read the case studies &rarr;
           </Link>
         </div>
       </section>

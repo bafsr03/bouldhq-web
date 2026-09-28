@@ -1,4 +1,39 @@
+import { execSync } from 'node:child_process'
 import type { NextConfig } from 'next'
+
+/**
+ * A stamp identifying the build, surfaced as a <meta> tag by the root layout.
+ *
+ * This exists because of a specific, expensive failure mode: an orphaned
+ * `next start` holding the port means a rebuild silently never takes effect,
+ * and the browser keeps serving the old bundle. Everything looks broken in a
+ * way that points at the code rather than at the process — we lost a round of
+ * debugging to exactly that, twice, chasing logos that were already correct on
+ * disk.
+ *
+ * Now `curl -s localhost:3000 | grep build-stamp` answers "am I looking at what
+ * I just built?" in one line, and verify.sh prints it on every run.
+ *
+ * Vercel does not guarantee git in the build image, so its commit SHA env var
+ * is preferred, with local git and then a bare timestamp as fallbacks.
+ */
+const BUILD_STAMP = (() => {
+  const vercelSha = process.env.VERCEL_GIT_COMMIT_SHA
+  if (vercelSha) return `${vercelSha.slice(0, 7)} ${new Date().toISOString()}`
+  try {
+    const sha = execSync('git rev-parse --short HEAD', { stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString()
+      .trim()
+    const dirty = execSync('git status --porcelain', { stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString()
+      .trim()
+      ? '-dirty'
+      : ''
+    return `${sha}${dirty} ${new Date().toISOString()}`
+  } catch {
+    return `nogit ${new Date().toISOString()}`
+  }
+})()
 
 /**
  * Redirects for the Shopify → Next migration.
@@ -16,6 +51,8 @@ import type { NextConfig } from 'next'
  */
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+
+  env: { NEXT_PUBLIC_BUILD_STAMP: BUILD_STAMP },
 
   images: {
     // The only SVG served through next/image is our own logo from /public.
