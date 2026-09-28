@@ -40,7 +40,7 @@ const STEPS = [
   {
     n: '03',
     name: 'The 60-day launch plan',
-    body: 'Launch is the start. We finish the Google profile, create the listings with identical details everywhere, set up the review kit, and start posting. This is the visibility half, and it is the half that decides how many people ever see what we built.',
+    body: 'Launch is the start. We finish the Google profile, create the listings with identical details everywhere, set up the review kit, and keep the profile current. This is the visibility half, and it is the half that decides how many people ever see what we built.',
     out: 'A verified profile, consistent listings, and reviews starting to come in.',
   },
   {
@@ -53,7 +53,7 @@ const STEPS = [
 
 const SPLIT = [
   { bould: 'Design, build, hosting, and updates', you: 'Tell us what you actually do, and for whom' },
-  { bould: 'Google profile setup and weekly posts', you: 'Send job photos when you have them' },
+  { bould: 'Google profile setup, updates, and review responses', you: 'Send job photos when you have them' },
   { bould: 'Listings created with identical details', you: 'Confirm the phone number and service area' },
   { bould: 'Review link, template, and QR card', you: 'Ask happy customers — only real ones' },
   { bould: 'Monthly report against the baseline', you: 'Tell us when a lead turns into a job' },

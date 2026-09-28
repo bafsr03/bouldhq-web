@@ -42,7 +42,7 @@ export const PLANS: Plan[] = [
       'Click-to-call and quote forms that work on a phone',
       'Hosting, security, and updates',
       'Google Business Profile setup and ongoing management',
-      'Weekly Google posts and review responses',
+      'Profile updates and review responses',
       'Monthly report: calls, forms, and where they came from',
       'Review kit — link, text template, and a QR card for the counter or truck',
     ],

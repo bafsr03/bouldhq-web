@@ -32,6 +32,56 @@ npm run typecheck
 Copy `.env.example` to `.env.local` and fill in what exists. Nothing in the app
 requires an env var to run — every integration degrades rather than throws.
 
+## Testing it
+
+```bash
+npm run build && npx next start -p 3000   # or: npm run dev
+./scripts/verify.sh http://localhost:3000
+```
+
+`scripts/verify.sh` checks the things that are easy to break and impossible to
+spot by eye: every page returns 200 with exactly one `<h1>` and a title that is
+not the bare brand name, canonicals resolve to the right path, every page has a
+share image, the homepage JSON-LD parses and still carries `telephone` and
+`areaServed`, all nine Shopify redirects return 308 to the right place, robots
+allows crawling and does not block AI crawlers, the sitemap is populated, and
+`/api/lead` accepts a valid lead, rejects an invalid one, and silently drops a
+honeypot hit. It exits non-zero on failure, so it can gate a promotion.
+
+### On Vercel
+
+```bash
+vercel link                       # once, to create/attach the project
+vercel                            # preview deploy; prints a URL
+./scripts/verify.sh https://<preview-url>
+vercel --prod                     # promote once the checks pass
+```
+
+Two things to expect on a preview:
+
+- **Canonicals point at `https://bouldhq.com`, not at the preview URL.** That is
+  correct and the script reports it as a note. A preview that declared itself
+  canonical would compete with production in the index.
+- **Deployment Protection returns 401/403 to `curl`.** The script detects this
+  and tells you; either turn protection off for the preview or use
+  `vercel curl <url>`, which attaches your Vercel session.
+
+Set environment variables per target before the production deploy:
+
+```bash
+vercel env add NEXT_PUBLIC_SITE_URL production        # https://bouldhq.com
+vercel env add RESEND_API_KEY production
+vercel env add LEAD_TO_EMAIL production
+vercel env add NEXT_PUBLIC_GA4_ID production
+vercel env add NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION production
+vercel env add NEXT_PUBLIC_GBP_URL production
+```
+
+Then check by hand what a script cannot: submit a real lead through `/contact`
+and through `/visibility-audit` and confirm both arrive in the inbox, run
+Lighthouse on `/` and `/visibility-audit`, and paste `/` and
+`/work/rubio-brothers-concrete` into Google's Rich Results Test.
+
 ## Structure
 
 | Path | What is in it |
@@ -51,10 +101,11 @@ Ordered by how much each one costs if it is skipped.
 1. **Point `NEXT_PUBLIC_SITE_URL` at the real origin.** Canonicals, the sitemap,
    and every JSON-LD `@id` are built from it. Wrong value means wrong canonicals
    on every page.
-2. **Set the phone number** (`NEXT_PUBLIC_BOULD_PHONE` +
-   `NEXT_PUBLIC_BOULD_PHONE_DISPLAY`). Until it is set, the header, footer,
-   contact page, and `telephone` in the schema all omit it — deliberately. It
-   must match the Google Business Profile exactly, digit for digit.
+2. **Put `+1 801-200-4716` on the Google Business Profile and every listing**,
+   formatted exactly as the site shows it. The site already carries it
+   (`lib/site.ts`); the scorecard docks a point when the number on a listing and
+   the number on the site disagree, and one stale entry splits the business's
+   search presence in two.
 3. **Set `NEXT_PUBLIC_GBP_URL`** once the profile is verified. It feeds
    `sameAs`, which is how Google ties this site to the profile.
 4. **Provision lead delivery** (`RESEND_API_KEY`, `LEAD_TO_EMAIL`) and send a
@@ -111,7 +162,6 @@ These come from the brief and are worth keeping when adding pages.
 
 ## Still open
 
-- **Phone number.** Nothing renders one until it exists.
 - **Cesar's quote** for the Rubio case study — the numbers are in, the quote is
   not; `pending` on that case study says so on the page.
 - **Metrics for Joon, Dummiez, and Adophies**, pending client permission.
@@ -119,6 +169,8 @@ These come from the brief and are worth keeping when adding pages.
   At zero reviews there is nothing honest to render, so it is not built yet.
 - **Setup fee.** `/pricing` says "quoted per project"; fill `setup` in
   `lib/content/pricing.ts` once it is set.
-- **Google Business Profile management in the plan** (brief decision 4) is
-  written into the Website Plan. If the hours do not work for two people, those
-  lines are isolated in `PLANS[0].includes` and can move to a higher tier.
+- **Google Business Profile management** is in the Website Plan (brief decision
+  4), but a *weekly* posting cadence deliberately is not — across every client
+  that is more hours than two people have, and a promised weekly post that never
+  appears hurts the profile more than never promising one. The plan says
+  "profile updates and review responses" instead.

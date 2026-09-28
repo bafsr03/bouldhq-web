@@ -24,12 +24,25 @@ export const LEGAL_NAME = 'Bould Inc'
 export const BRAND = 'Bould'
 
 /**
- * Empty until the real number exists. Every consumer below renders the phone
- * conditionally: the brief counts an inconsistent or invented phone number
- * against the visibility score, so no phone is strictly better than a wrong one.
+ * The business phone.
+ *
+ * Two forms, because they are read by different things. `PHONE` is E.164 and is
+ * what `tel:` links and the JSON-LD `telephone` field use — no spaces, no
+ * punctuation, country code included, which is the only format every dialer and
+ * every crawler parses the same way. `PHONE_DISPLAY` is what a human reads.
+ *
+ * This number must stay byte-identical to the one on the Google Business
+ * Profile and on every directory listing. The brief's scorecard docks a point
+ * for inconsistency here, and one stale number on one old listing is enough to
+ * split a business's search presence in two.
+ *
+ * Hard-coded rather than env-only so it cannot go missing in an environment
+ * that was provisioned without it; the env vars remain as an override for
+ * previews or a future number change.
  */
-export const PHONE = process.env.NEXT_PUBLIC_BOULD_PHONE ?? ''
-export const PHONE_DISPLAY = process.env.NEXT_PUBLIC_BOULD_PHONE_DISPLAY ?? PHONE
+export const PHONE = process.env.NEXT_PUBLIC_BOULD_PHONE || '+18012004716'
+export const PHONE_DISPLAY =
+  process.env.NEXT_PUBLIC_BOULD_PHONE_DISPLAY || '(801) 200-4716'
 export const EMAIL = 'jake@bouldhq.com'
 
 /**

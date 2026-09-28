@@ -44,7 +44,7 @@ export const AUDIT_QUESTIONS: AuditQuestion[] = [
     points: 1,
     question: 'Have you posted photos or updates to the profile in the last 90 days?',
     help: 'A profile that has been silent for a year reads as a business that may have closed.',
-    fix: 'Weekly posts and fresh job photos, handled for you.',
+    fix: 'Profile updates and fresh job photos, kept current for you.',
   },
   {
     id: 'map-pack',
