@@ -180,6 +180,13 @@ These come from the brief and are worth keeping when adding pages.
 
 ## Still open
 
+- **Lead delivery is not configured.** `RESEND_API_KEY` + `LEAD_TO_EMAIL` are
+  unset, so audit and contact submissions are written to the runtime log instead
+  of emailed. `GET /api/lead` reports which mode it is in, and `verify.sh` fails
+  the run if production is still log-only.
+- **JCK Approved has no logo** — `jckapproved.com` did not resolve when the
+  others were collected. Its card renders a monogram until one is added; see
+  `public/logos/README.md`.
 - **Cesar's quote** for the Rubio case study — the numbers are in, the quote is
   not; `pending` on that case study says so on the page.
 - **Metrics for Joon, Dummiez, and Adophies**, pending client permission.

@@ -53,6 +53,22 @@ function renderLead(lead: LeadPayload): string {
   return lines.join('\n')
 }
 
+/**
+ * Delivery status, so a deploy can be checked without reading runtime logs.
+ *
+ * Reports only whether a transport is configured — never the key, never the
+ * destination address. Without this, a site can look completely healthy while
+ * silently filing every lead to a log nobody reads, and the first sign of
+ * trouble is a customer asking why nobody called them back.
+ */
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    delivery: RESEND_KEY && TO ? 'email' : 'log-only',
+    configured: Boolean(RESEND_KEY && TO),
+  })
+}
+
 export async function POST(request: Request) {
   let body: Partial<LeadPayload>
   try {
@@ -105,7 +121,12 @@ export async function POST(request: Request) {
       console.info('[lead] undelivered lead follows\n' + text)
     }
   } else {
-    console.info('[lead] no mail transport configured; lead follows\n' + text)
+    console.warn(
+      '[lead] NO MAIL TRANSPORT CONFIGURED — this lead was not emailed to anyone. ' +
+        'Set RESEND_API_KEY and LEAD_TO_EMAIL. The lead is reproduced below so it ' +
+        'can be recovered from the runtime log.'
+    )
+    console.info(text)
   }
 
   return NextResponse.json({ ok: true })

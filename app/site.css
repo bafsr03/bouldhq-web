@@ -1130,3 +1130,132 @@ a.bould-mini-card:hover {
     padding-top: 6.6rem;
   }
 }
+
+/* ── Portfolio cards ───────────────────────────────────────────
+   Purpose-built rather than reusing the theme's .bould-work-card,
+   whose rules assumed the card itself was the flex item and whose
+   link styling leaked onto every line inside a <li> wrapper.
+   ────────────────────────────────────────────────────────────── */
+.bould-project-grid {
+  list-style: none;
+  margin: clamp(4rem, 6vw, 6rem) 0 3.6rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+  gap: 2rem;
+}
+
+.bould-project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--b-card);
+  border: 1px solid var(--b-border);
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.35s var(--b-ease), transform 0.35s var(--b-ease);
+}
+.bould-project-card:hover {
+  border-color: var(--b-purple);
+  transform: translateY(-4px);
+}
+/* The card is one link, so every descendant inherits its underline
+   unless this is said explicitly. That is what was striping the cards. */
+.bould-project-card * {
+  text-decoration: none;
+}
+
+.bould-project-card__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 16rem;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--b-border);
+}
+
+/* Client logos arrive in wildly different aspect ratios and are mostly
+   white-on-transparent. Contain keeps them undistorted; the cap on both
+   axes stops a wide wordmark and a square mark from looking unrelated. */
+.bould-project-card__logo-img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 8rem;
+  object-fit: contain;
+  opacity: 0.92;
+  transition: opacity 0.3s ease;
+}
+.bould-project-card:hover .bould-project-card__logo-img {
+  opacity: 1;
+}
+
+.bould-project-card__monogram {
+  font-family: var(--b-font);
+  font-size: 4.4rem;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  color: var(--b-muted);
+  border-bottom: 2px solid var(--b-purple);
+  padding-bottom: 0.4rem;
+  line-height: 1;
+}
+
+.bould-project-card__body {
+  display: block;
+  padding: 2.6rem 2.6rem 1.6rem;
+  flex: 1;
+}
+.bould-project-card__name {
+  display: block;
+  font-family: var(--b-font);
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+  color: var(--b-white);
+  margin-bottom: 0.8rem;
+}
+.bould-project-card__blurb {
+  display: block;
+  font-family: var(--b-font);
+  font-size: 1.45rem;
+  line-height: 1.6;
+  color: var(--b-muted2);
+}
+
+.bould-project-card__footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.6rem;
+  padding: 0 2.6rem 2rem;
+  font-family: var(--b-font);
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--b-muted);
+}
+
+.bould-project-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1.6rem 2.6rem;
+  border-top: 1px solid var(--b-border);
+  font-family: var(--b-font);
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  color: var(--b-purple3);
+}
+
+@media (max-width: 600px) {
+  .bould-project-grid {
+    grid-template-columns: 1fr;
+  }
+  .bould-project-card__logo {
+    min-height: 13rem;
+  }
+}

@@ -21,6 +21,11 @@ export type Project = {
   /** Set when a full case study page exists at /work/[slug]. */
   hasCaseStudy?: boolean
   blurb: string
+  /**
+   * Path under /public. Omit it and the card renders a monogram instead — see
+   * public/logos/README.md for how to add the rest.
+   */
+  logo?: string
 }
 
 export const PROJECTS: Project[] = [
@@ -32,6 +37,7 @@ export const PROJECTS: Project[] = [
     segment: 'local',
     liveUrl: 'https://rubiobrothersconcrete.com/',
     hasCaseStudy: true,
+    logo: '/logos/rubio-brothers-concrete.png',
     blurb:
       'A concrete contractor whose old site produced nothing for a year. First lead in about two weeks.',
   },
@@ -42,6 +48,7 @@ export const PROJECTS: Project[] = [
     year: '2026',
     segment: 'local',
     liveUrl: 'https://kilowashutah.com',
+    logo: '/logos/kilowash.png',
     blurb:
       'Exterior cleaning and lighting. A site that converts, now working through the visibility half.',
   },
@@ -52,6 +59,7 @@ export const PROJECTS: Project[] = [
     year: '2026',
     segment: 'ecommerce',
     liveUrl: 'https://joondistro.com/',
+    logo: '/logos/joon-distribution.png',
     hasCaseStudy: true,
     blurb:
       'Wholesale buyers who needed to inspect products closely before committing.',
@@ -63,6 +71,7 @@ export const PROJECTS: Project[] = [
     year: '2026',
     segment: 'ecommerce',
     liveUrl: 'https://www.dummiez.co/',
+    logo: '/logos/dummiez.png',
     hasCaseStudy: true,
     blurb:
       'A design-led brand whose product is the whole pitch, flattened by a stock theme.',
@@ -74,6 +83,7 @@ export const PROJECTS: Project[] = [
     year: '2025',
     segment: 'ecommerce',
     liveUrl: 'https://adophies.com/',
+    logo: '/logos/adophies.png',
     hasCaseStudy: true,
     blurb:
       'A catalogue that had outgrown its theme, migrated onto editor-configurable sections.',
@@ -94,6 +104,7 @@ export const PROJECTS: Project[] = [
     year: '2025',
     segment: 'ecommerce',
     liveUrl: 'https://run-it-back-classics.myshopify.com/',
+    logo: '/logos/run-it-back-classics.png',
     blurb: 'Vintage sportswear, merchandised for a catalogue that changes constantly.',
   },
   {
@@ -102,7 +113,8 @@ export const PROJECTS: Project[] = [
     category: 'Custom development',
     year: '2026',
     segment: 'ecommerce',
-    liveUrl: 'https://avionlegacycannabis.com/',
+    liveUrl: 'https://aviosupply.co/',
+    logo: '/logos/avion.png',
     blurb: 'Custom development in a category with unusual compliance constraints.',
   },
   {
@@ -111,7 +123,8 @@ export const PROJECTS: Project[] = [
     category: 'Custom Shopify build',
     year: '2026',
     segment: 'ecommerce',
-    liveUrl: 'https://0arzjm-d5.myshopify.com/',
+    liveUrl: 'https://os-supply.com/',
+    logo: '/logos/rosn-by-os.png',
     blurb: 'A brand-first storefront built from the ground up.',
   },
 ]

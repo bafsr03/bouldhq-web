@@ -8,7 +8,7 @@ import {
 } from '@/lib/content/audit'
 import { trackAuditComplete } from '@/lib/track'
 import LeadForm from './LeadForm'
-import { CORE_FIELDS } from '@/lib/formFields'
+import { AUDIT_FIELDS } from '@/lib/formFields'
 
 type Answer = 'yes' | 'no'
 
@@ -169,14 +169,14 @@ export default function AuditTool() {
               Want the written version?
             </h3>
             <p className="bould-audit__capture-body">
-              Tell us where to send it and we will check every answer against
-              your actual Google profile, listings, and site — then send back the
-              full audit with what to fix first. No charge, and no obligation to
-              buy anything.
+              Tell us where to look and we will check every answer against your
+              actual Google profile, listings, and site by hand — then send back
+              the full audit with what to fix first, in order. No charge, and no
+              obligation to buy anything.
             </p>
             <LeadForm
               source="visibility-audit"
-              fields={CORE_FIELDS}
+              fields={AUDIT_FIELDS}
               submitLabel="Send me the full audit"
               successTitle="On its way."
               successBody="We will check your profile and listings by hand and come back within one business day."

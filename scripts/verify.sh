@@ -199,6 +199,18 @@ hp=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE/api/lead" \
   -d '{"source":"contact","name":"Bot","business":"B","email":"b@e.com","company_website_confirm":"x","elapsedMs":9000}')
 [ "$hp" = "200" ] && pass "honeypot accepted-and-dropped (200)" || fail "honeypot returned $hp"
 
+# A site can look perfectly healthy while filing every lead to a log nobody
+# reads. On production that is a silent revenue leak, so it fails the run;
+# locally and on previews it is the expected state and only warrants a note.
+delivery=$(curl -s "$BASE/api/lead" | grep -o '"delivery":"[^"]*"' | sed 's/.*:"//;s/"//')
+if [ "$delivery" = "email" ]; then
+  pass "leads are emailed"
+elif printf '%s' "$BASE" | grep -q 'bouldhq\.com'; then
+  fail "PRODUCTION is log-only — set RESEND_API_KEY and LEAD_TO_EMAIL, leads are reaching nobody"
+else
+  printf '  \033[33m·\033[0m leads are log-only (set RESEND_API_KEY + LEAD_TO_EMAIL to email them)\n'
+fi
+
 echo
 if [ "$FAILED" -eq 0 ]; then
   printf '\033[32mAll checks passed.\033[0m\n'

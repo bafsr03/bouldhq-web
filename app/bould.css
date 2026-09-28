@@ -4,6 +4,48 @@
    ============================================================ */
 
 
+/* ── Root sizing ───────────────────────────────────────────────
+   RESTORED FROM THE THEME. layout/theme.liquid set this inline, so it
+   was never part of bould.css — but every rem value in this file was
+   written against it. 62.5% makes 1rem = 10px, which is why the design
+   is authored as 1.6rem for 16px text and 7.4rem for a 74px header.
+
+   Without it the browser default applies, 1rem = 16px, and the whole
+   site renders 1.6x oversized: 16px body copy becomes 26px and the
+   layout reads like a phone screen stretched across a desktop.
+
+   It is a percentage, not a pixel value, so a visitor who has raised
+   their browser's default font size still gets a proportionally larger
+   site. Hard-coding 10px here would silently override that preference.
+   ────────────────────────────────────────────────────────────── */
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: 0.06rem;
+  line-height: 1.8;
+  font-family: var(--b-font);
+  background: var(--b-black);
+  color: var(--b-white);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media screen and (min-width: 750px) {
+  body {
+    font-size: 1.6rem;
+  }
+}
+
 /* ── Tokens ── */
 :root {
   --b-black: #080808;
