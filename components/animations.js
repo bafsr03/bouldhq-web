@@ -3,9 +3,15 @@
  *
  * Ported from the Shopify theme. GSAP now comes from npm instead of a cdnjs
  * <script> tag, so the "CDN failed" branch below can no longer fire on a network
- * error — it is kept because it is also the reduced-capability escape hatch, and
- * the .bould-anim-fallback CSS rule it sets is what guarantees the hero copy is
- * readable if anything at all goes wrong before the timelines run.
+ * error — it is kept because it is also the reduced-capability escape hatch.
+ *
+ * This module owns SCROLL-TRIGGERED animation only. The hero entrance used to
+ * live here as a timeline, which meant the largest text on the homepage stayed
+ * at opacity:0 until this chunk downloaded and the main thread was free enough
+ * to run it — 18.1s on mobile, 4.7s on a fast desktop. It is now pure CSS in
+ * app/bould.css and cannot be delayed by anything that happens in here. Do not
+ * add hero selectors back to this file: a GSAP tween on an element that CSS is
+ * also animating writes conflicting inline styles, and inline wins.
  *
  * Returns a cleanup function: client-side navigation would otherwise stack a new
  * set of ScrollTriggers on every route change.
@@ -15,10 +21,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export function initAnimations() {
 
-  /* The hero eyebrow/body/actions and every .bould-reveal start at opacity:0 and
-     rely on the timelines below to become visible. If the GSAP CDN failed, this
-     script would previously just bail and leave that copy invisible forever.
-     Flag the document instead so CSS can force the final state. */
+  /* Every .bould-reveal starts at opacity:0 and relies on the ScrollTriggers
+     below to become visible. If GSAP is unavailable, this script would otherwise
+     just bail and leave that content invisible forever. Flag the document
+     instead so CSS can force the final state. (The hero is no longer in this
+     set — it is CSS-animated and readable regardless.) */
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
     document.documentElement.classList.add('bould-anim-fallback');
     return;
@@ -56,28 +63,11 @@ export function initAnimations() {
     });
   }
 
-  /* ── Hero entrance ── */
-  const heroTl = gsap.timeline({ delay: 0.3 });
-
-  heroTl
-    .to('.bould-hero__eyebrow', {
-      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-    })
-    .to('.bould-hero__headline .line-inner', {
-      y: 0, duration: 1, ease: 'power4.out', stagger: 0.12,
-    }, '-=0.4')
-    .to('.bould-hero__body', {
-      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-    }, '-=0.5')
-    .to('.bould-hero__actions', {
-      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-    }, '-=0.5')
-    .to('.bould-hero__scroll', {
-      opacity: 1, duration: 0.6, ease: 'power2.out',
-    }, '-=0.3')
-    .to('.bould-hero__stats', {
-      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-    }, '-=0.6');
+  /* The hero entrance lived here as a gsap.timeline({ delay: 0.3 }). It is now
+     CSS — see the HERO ENTRANCE block in app/bould.css and the note at the top
+     of this file. Three of its six tweens were doing nothing even before that:
+     `.bould-hero__headline .line-inner` animated from translateY(0) to 0, and
+     `.bould-hero__scroll` has CSS but no markup anywhere in the app. */
 
   /* ── Generic scroll reveals ── */
   gsap.utils.toArray('.bould-reveal').forEach((el) => {

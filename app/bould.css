@@ -3054,10 +3054,15 @@ details[open].menu-opening .menu-drawer__utility-links {
 
 /* ══════════════════════════════════════
    ANIMATION SAFETY NET
-   The hero eyebrow/body/actions start at opacity:0 and are revealed by GSAP.
-   If the GSAP CDN fails, bould-animations.js bails and that copy would stay
-   invisible forever. bould-animations.js adds this class on a timeout so the
-   hero always ends up readable.
+
+   Added by components/SiteAnimations.tsx when the animation chunk fails to load.
+   `!important` beats a CSS animation in the cascade, so this freezes anything
+   mid-flight at its final state.
+
+   It now matters only for the `.bould-reveal*` family, which is still GSAP's
+   job. The hero selectors below are kept because they cost nothing and make the
+   guarantee unconditional, but the hero no longer depends on this: its entrance
+   is pure CSS and it is readable whether or not GSAP ever arrives.
 ══════════════════════════════════════ */
 .bould-anim-fallback .bould-hero__eyebrow,
 .bould-anim-fallback .bould-hero__body,
@@ -3073,7 +3078,70 @@ details[open].menu-opening .menu-drawer__utility-links {
 
 
 /* ══════════════════════════════════════
-   ANIMATION GATE
+   HERO ENTRANCE — CSS only, no JS dependency
+
+   The hero copy used to start at opacity:0 and wait for the GSAP timeline in
+   components/animations.js to reveal it. That made the largest text on the most
+   important page invisible until a chunk downloaded and the main thread was free
+   enough to run it: measured at 4.7s on desktop and 18.1s on mobile, against a
+   1.1s LCP when the gate was skipped entirely. The copy is server rendered and
+   present on first byte; nothing about it should need JavaScript.
+
+   So the entrance lives here instead. It still sits under `.bould-anim-ready`,
+   so the no-JS and reduced-motion paths render the finished state exactly as
+   they did before — but when the class IS present, CSS runs the animation at
+   first paint and no download can delay it.
+
+   `.bould-hero__body` is the LCP element and is animated on TRANSFORM ONLY:
+     - Chrome does not paint an element at opacity 0, so it never becomes an LCP
+       candidate while it is transparent;
+     - `animation-fill-mode: both` applies the `from` keyframe during
+       `animation-delay`, so any 0 -> 1 opacity behind a delay would pin the LCP
+       element at 0 for exactly that long.
+   Transform does not affect paintability, so the paragraph is a candidate on
+   frame one. The other three are smaller than it, so fading them in later cannot
+   promote a new, later LCP candidate.
+
+   Do not add a masked translateY reveal to `.bould-hero__headline .line-inner`.
+   It is translateY(0) in the base rules and nothing hides it, so the headline
+   paints at FCP today. Hiding it would make a LARGER element paint late, which
+   is this same bug at a different address.
+══════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference) {
+  /* Zero delay on the eyebrow too: it sits above the paragraph, and staggering
+     it while the paragraph moves reads as an ordering mistake. The stagger runs
+     downward, below the paragraph, where it looks intentional. */
+  .bould-anim-ready .bould-hero__eyebrow {
+    animation: bould-hero-rise-fade 700ms cubic-bezier(0.16, 1, 0.3, 1) 0ms both;
+  }
+  .bould-anim-ready .bould-hero__body {
+    animation: bould-hero-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) 0ms both;
+  }
+  .bould-anim-ready .bould-hero__actions {
+    animation: bould-hero-rise-fade 700ms cubic-bezier(0.16, 1, 0.3, 1) 140ms both;
+  }
+  .bould-anim-ready .bould-hero__stats {
+    animation: bould-hero-rise-fade-sm 700ms cubic-bezier(0.16, 1, 0.3, 1) 220ms both;
+  }
+}
+
+/* The LCP element's keyframe. No opacity here, deliberately — see above. */
+@keyframes bould-hero-rise {
+  from { transform: translateY(20px); }
+  to   { transform: translateY(0); }
+}
+@keyframes bould-hero-rise-fade {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes bould-hero-rise-fade-sm {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ══════════════════════════════════════
+   ANIMATION GATE — scroll reveals
 
    `bould-anim-ready` is set on <html> by an inline script in the document head,
    before the body paints — so there is no flash of the final state first — and
@@ -3081,23 +3149,14 @@ details[open].menu-opening .menu-drawer__utility-links {
    reduced). Everything below is the animated START state; without the class the
    page renders in its final state and simply does not animate.
 
+   This now covers only the below-the-fold scroll reveals, which genuinely do
+   need JavaScript because they fire on a ScrollTrigger. The hero moved out of
+   it and into the CSS block above; it must not come back here.
+
    components/SiteAnimations.tsx removes the class again if the animation module
    has not loaded within a couple of seconds, so a slow or failed chunk resolves
    to visible rather than blank.
 ══════════════════════════════════════ */
-.bould-anim-ready .bould-hero__eyebrow {
-  opacity: 0;
-  transform: translateY(16px);
-}
-.bould-anim-ready .bould-hero__body,
-.bould-anim-ready .bould-hero__actions {
-  opacity: 0;
-  transform: translateY(20px);
-}
-.bould-anim-ready .bould-hero__stats {
-  opacity: 0;
-  transform: translateY(10px);
-}
 .bould-anim-ready .bould-reveal {
   opacity: 0;
   transform: translateY(40px);
