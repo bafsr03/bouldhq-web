@@ -65,10 +65,27 @@ export function organizationSchema() {
     telephone: PHONE || undefined,
     description:
       'Websites for local service businesses and growing brands, built to turn visitors into calls and quote requests. Based in Utah, with clients in Utah, Texas, and Minnesota. Hosting, updates, and Google Business Profile management included.',
+    /*
+      Points at /icon, the generated 512x512 PNG, not at public/bould.svg.
+
+      Two reasons, both from Google's logo requirements. The mark in bould.svg
+      is a white wordmark on transparency, and the guidance is explicit: "if the
+      logo is mostly white or gray, it may not look how you want it to look when
+      displayed on a white background" — on Google's white UI it renders as
+      nothing at all. And the format "must be supported by Google Images", which
+      does not index SVG.
+
+      /icon is drawn from that same bould.svg at build time (see lib/logo.ts), so
+      there is still one mark on disk and no second copy to drift. It is a PNG,
+      it is 512px square against the requirement of 112px minimum, and the dark
+      tile means the mark is visible wherever Google puts it.
+    */
     logo: compact({
       '@type': 'ImageObject',
-      url: `${SITE_URL}/bould.svg`,
-      contentUrl: `${SITE_URL}/bould.svg`,
+      url: `${SITE_URL}/icon`,
+      contentUrl: `${SITE_URL}/icon`,
+      width: 512,
+      height: 512,
     }),
     image: `${SITE_URL}/opengraph-image`,
     priceRange: '$$',
