@@ -76,6 +76,16 @@ const nextConfig: NextConfig = {
       // Client pages. Their case studies are written but unpublished (the
       // clients have not approved results), so these land on /work, where the
       // portfolio card links out to the live store.
+      // Client showcase pages that were live on the storefront. They are indexed
+      // and they are proof of work, so they land on /work rather than the
+      // homepage — Run it Back is still a current project there.
+      { source: '/pages/ghosts-vintage', destination: '/work', permanent: true },
+      { source: '/pages/charlie-pike-tobacco', destination: '/work', permanent: true },
+      { source: '/pages/run-it-back-classics', destination: '/work', permanent: true },
+
+      // Shopify's CCPA opt-out page. Its subject matter is privacy, not terms.
+      { source: '/pages/data-sharing-opt-out', destination: '/privacy', permanent: true },
+
       { source: '/pages/joon-distribution', destination: '/work', permanent: true },
       { source: '/pages/dummiez', destination: '/work', permanent: true },
       { source: '/pages/adophies', destination: '/work', permanent: true },
@@ -119,6 +129,9 @@ const nextConfig: NextConfig = {
       { source: '/cart/:slug*', destination: '/', permanent: true },
       { source: '/account/:slug*', destination: '/', permanent: true },
       { source: '/apps/:slug*', destination: '/', permanent: true },
+      // The storefront blog. It has an index but no articles; there is no blog on
+      // the new site, so the index and any future article URL both go home.
+      { source: '/blogs/:slug*', destination: '/', permanent: true },
       { source: '/search', destination: '/work', permanent: true },
       // Declared last so every named /pages rule above wins.
       { source: '/pages/:slug*', destination: '/', permanent: true },
