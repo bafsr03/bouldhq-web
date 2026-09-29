@@ -17,7 +17,7 @@ import { RUBIO_REVIEWS_LABEL } from '@/lib/content/work'
  */
 const TITLE = 'How We Get Local Businesses More Leads'
 const DESCRIPTION =
-  'The Visibility × Conversion formula, the free audit, the build, the 60-day launch plan, and what you get in the monthly report. Exactly how Bould works, start to finish. Based in Utah.'
+  'Visibility times conversion: the free audit, the build, the 60-day launch plan, and the monthly report. Exactly how Bould works, start to finish.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,

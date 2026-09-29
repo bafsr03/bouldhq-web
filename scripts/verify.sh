@@ -80,6 +80,36 @@ for path in / /how-it-works /pricing /visibility-audit /work \
 done
 
 echo
+echo "Snippets fit in a search result"
+# Google renders roughly 60 characters of title and 155-160 of description, then
+# truncates mid-word. Every description on this site was once over that — the
+# homepage's was 248 characters, so its last ninety never reached a searcher.
+# These are soft limits, so the thresholds are the generous end of them: the
+# check exists to catch a new page shipping a 250-character description, not to
+# police a copy edit that lands at 159.
+TITLE_MAX=60
+DESC_MAX=158
+for path in / /how-it-works /pricing /visibility-audit /work \
+            /work/rubio-brothers-concrete /industries /industries/contractors \
+            /web-design-utah-county /about /contact /services/shopify-stores; do
+  html=$(curl -sL "$BASE$path")
+  title=$(printf '%s' "$html" | grep -o '<title>[^<]*</title>' | head -1 | sed 's/<[^>]*>//g')
+  desc=$(printf '%s' "$html" | grep -o '<meta name="description" content="[^"]*"' | head -1 | sed 's/.*content="//;s/"$//')
+  tlen=${#title}
+  dlen=${#desc}
+
+  if [ -z "$desc" ]; then
+    fail "$path has no meta description"
+  elif [ "$tlen" -gt "$TITLE_MAX" ]; then
+    fail "$path title is $tlen chars (max $TITLE_MAX) — will truncate"
+  elif [ "$dlen" -gt "$DESC_MAX" ]; then
+    fail "$path description is $dlen chars (max $DESC_MAX) — will truncate"
+  else
+    pass "$path  title $tlen, description $dlen"
+  fi
+done
+
+echo
 echo "Canonicals are absolute and point at the right path"
 # Canonicals are built from NEXT_PUBLIC_SITE_URL, which stays production even on
 # a preview — and that is correct: a preview must never tell Google it is the

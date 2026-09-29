@@ -18,7 +18,8 @@ import { CLIENT_STATES } from '@/lib/site'
  * own link away from it.
  */
 const TITLE = 'Industries We Build Websites For'
-const DESCRIPTION = `Websites for contractors, home services, auto repair, and product brands. Based in Utah, with clients in ${CLIENT_STATES}. If your business depends on the phone ringing, we build for you.`
+const DESCRIPTION =
+  'Websites for contractors, home services, auto repair, and product brands. Based in Utah. If your business depends on the phone ringing, we build for you.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,

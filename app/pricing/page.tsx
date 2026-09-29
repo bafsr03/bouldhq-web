@@ -18,7 +18,7 @@ import { PLANS, PLAN_SCORE_THRESHOLD, PRICING_FAQS } from '@/lib/content/pricing
  */
 const TITLE = 'Website Plans & Pricing'
 const DESCRIPTION =
-  'Two website plans: Website Build at $250/month, and Golden Formula at $450/month with Google Business Profile management and reviews. Based in Utah. No long-term contracts, and you own your website.'
+  'Website Build at $250/month, Golden Formula at $450/month with Google Business Profile and review management. No long-term contracts. You own the site.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,

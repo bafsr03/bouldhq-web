@@ -23,8 +23,9 @@ import { CLIENT_STATES } from '@/lib/site'
  * business we did not build for is the kind of thin, unearned local page the
  * brief warns Google penalises.
  */
-const TITLE = 'Web Design for Utah County & Salt Lake Businesses'
-const DESCRIPTION = `Website design and local SEO for businesses in Utah County and Salt Lake County. Based in Utah, with clients in ${CLIENT_STATES}. Local work you can drive to, and someone you can meet in person.`
+const TITLE = 'Utah County & Salt Lake Web Design'
+const DESCRIPTION =
+  'Website design and local SEO for Utah County and Salt Lake County businesses. Local work you can drive to, and someone you can actually meet in person.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,

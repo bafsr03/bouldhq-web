@@ -154,7 +154,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     liveUrl: 'https://rubiobrothersconcrete.com/',
     title: 'Rubio Brothers Concrete: From 0 to 6 Leads',
     description:
-      `Rubio Brothers Concrete had ${RUBIO_REVIEWS_LABEL} and a year of zero leads from their old website. Their Bould site brought the first lead in about two weeks and $20,000 in new work in three months.`,
+      `Rubio Brothers Concrete had ${RUBIO_REVIEWS_LABEL} and a year of zero leads. Their Bould site brought $20,000 in new work in three months.`,
     h1: 'A year of zero leads, then the first one in two weeks',
     problem: {
       heading: 'The problem',

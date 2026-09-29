@@ -16,7 +16,7 @@ import { CLIENT_STATES, LEGAL_NAME } from '@/lib/site'
  * it through the "%s | Bould Inc" template would print the name twice.
  */
 const TITLE = `About ${LEGAL_NAME} | Jake Knudsen & Brian Ellsworth`
-const DESCRIPTION = `${LEGAL_NAME} is Jake Knudsen and Brian Ellsworth — two people who build and manage every website themselves. Based in Utah, with clients in ${CLIENT_STATES}. No account managers, no offshore team, no handoff after launch.`
+const DESCRIPTION = `${LEGAL_NAME} is Jake Knudsen and Brian Ellsworth. Two people who build and manage every site themselves. No account managers, no offshore team, no handoff.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,

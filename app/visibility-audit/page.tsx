@@ -9,7 +9,7 @@ import { AUDIT_QUESTIONS, TOTAL_POINTS } from '@/lib/content/audit'
 
 /** Brief, site map — Free visibility audit. "Lead magnet and qualifier in one." */
 const TITLE = 'Free Local Visibility Audit for Your Business'
-const DESCRIPTION = `Score your business out of ${TOTAL_POINTS} on the things that decide whether local customers can find you: your Google profile, reviews, listings, and search results. Free, about five minutes, no obligation.`
+const DESCRIPTION = `Score your business out of ${TOTAL_POINTS} on what decides whether local customers find you: your Google profile, reviews, and listings. Free, about five minutes.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,

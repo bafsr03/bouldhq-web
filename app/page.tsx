@@ -23,7 +23,7 @@ import {
 
 /** Brief, site map — Home: title and H1 are specified verbatim. */
 const TITLE = `Websites That Bring Local Businesses Leads | ${LEGAL_NAME}`
-const DESCRIPTION = `${LEGAL_NAME} builds websites that turn searches into calls for contractors, auto shops, and home service businesses. Based in Utah, with clients in ${CLIENT_STATES}. See the Rubio Brothers case study, or get a free 20-point visibility audit.`
+const DESCRIPTION = `${LEGAL_NAME} builds websites that turn local searches into phone calls for contractors, auto shops, and home service businesses. Based in Utah. Free audit.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,

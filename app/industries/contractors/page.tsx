@@ -22,7 +22,7 @@ import { RUBIO_REVIEWS_LABEL } from '@/lib/content/work'
  */
 const TITLE = 'Websites for Contractors'
 const DESCRIPTION =
-  'Websites for concrete, excavation, and trade contractors: instant estimators, call buttons that work on a phone, a page per service, and real local job photos. See what it did for Rubio Brothers Concrete in Pleasant Grove, Utah.'
+  'Websites for concrete, excavation, and trade contractors: instant estimators, call buttons that work on a phone, and a page per service. See the proof.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,

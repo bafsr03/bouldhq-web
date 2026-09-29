@@ -26,7 +26,7 @@ import { PROJECTS } from '@/lib/content/work'
  */
 const TITLE = 'Shopify Store Design & Development'
 const DESCRIPTION =
-  'Custom Shopify storefronts for product brands, with 3D product visuals for products customers need to inspect before they buy. Migrations, merchandising, and speed. Built from Utah for brands anywhere.'
+  'Custom Shopify storefronts for product brands, with 3D product visuals for things customers need to inspect before they buy. Migrations, speed, merchandising.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
