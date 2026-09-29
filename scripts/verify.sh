@@ -300,6 +300,11 @@ printf '%s' "$sitemap" | grep -q '/industries<' && pass "sitemap lists the indus
 
 echo
 echo "Lead API accepts a valid lead and rejects an invalid one"
+# The valid-lead probe below uses an @example.com address. /api/lead treats that
+# as a probe and skips the send: example.com is reserved by RFC 2606, so it can
+# never be a real enquiry. Without that, every run of this script — including
+# every run against production — dropped a fake "Verify Co" lead into the inbox
+# real leads arrive in. Do not change these addresses to a deliverable domain.
 ok=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE/api/lead" \
   -H 'Content-Type: application/json' \
   -d '{"source":"contact","name":"Verify","business":"Verify Co","email":"verify@example.com","elapsedMs":9000}')

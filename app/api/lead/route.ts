@@ -93,6 +93,28 @@ export async function POST(request: Request) {
   const lead = body as LeadPayload
   const text = renderLead(lead)
 
+  /*
+    A probe exercises validation and delivery configuration without actually
+    emailing anyone.
+
+    scripts/verify.sh posts a real lead on every run to prove this endpoint
+    accepts valid input. That was harmless while delivery was log-only, but the
+    moment RESEND_API_KEY was set it meant every verification run — including
+    every run against production — put a fake "Verify Co" lead in the inbox that
+    real enquiries land in. Someone checking leads has no way to tell the two
+    apart at a glance, which is how a real one gets deleted with the noise.
+
+    example.com is reserved by RFC 2606 and can never belong to anyone, so an
+    address there cannot be a genuine enquiry and cannot receive mail even if it
+    were. The request is still validated, still counted, still logged, and still
+    returns 200 — only the send is skipped.
+  */
+  const isProbe = lead.email.trim().toLowerCase().endsWith('@example.com')
+  if (isProbe) {
+    console.info('[lead] probe accepted, delivery skipped (reserved example.com address)')
+    return NextResponse.json({ ok: true, probe: true })
+  }
+
   if (RESEND_KEY && TO) {
     try {
       const res = await fetch('https://api.resend.com/emails', {
