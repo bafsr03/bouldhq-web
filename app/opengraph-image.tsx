@@ -1,6 +1,5 @@
-import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
 import { ImageResponse } from 'next/og'
+import { WORDMARK_PATH, WORDMARK_VIEWBOX, logoDataUri } from '@/lib/logo'
 import { LEGAL_NAME, LOCATION_LINE } from '@/lib/site'
 
 /**
@@ -20,9 +19,7 @@ import { LEGAL_NAME, LOCATION_LINE } from '@/lib/site'
   Satori cannot fetch a relative URL, so the file is inlined as a data URI. The
   single path inside is already fill="white", which is what this dark card wants.
 */
-const LOGO = `data:image/svg+xml;base64,${readFileSync(
-  join(process.cwd(), 'public', 'bould.svg')
-).toString('base64')}`
+const LOGO = logoDataUri(WORDMARK_PATH, WORDMARK_VIEWBOX)
 
 // 809x230 in the source file. Kept in ratio so the mark is never stretched.
 const LOGO_W = 286
