@@ -15,8 +15,8 @@ import { CLIENT_STATES, LEGAL_NAME } from '@/lib/site'
  * The title is `absolute` because it already carries the business name; running
  * it through the "%s | Bould Inc" template would print the name twice.
  */
-const TITLE = `About ${LEGAL_NAME} | Jake Knudsen & Brian Ellsworth`
-const DESCRIPTION = `${LEGAL_NAME} is Jake Knudsen and Brian Ellsworth. Two people who build and manage every site themselves. No account managers, no offshore team, no handoff.`
+const TITLE = `About ${LEGAL_NAME} | Jake Knudsen & Brian Sanchez`
+const DESCRIPTION = `${LEGAL_NAME} is Jake Knudsen and Brian Sanchez. Two people who build and manage every site themselves. No account managers, no offshore team, no handoff.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -42,7 +42,7 @@ export default function AboutPage() {
         ghost="About"
         eyebrow="About"
         title="Two people. Every site."
-        sub={`${LEGAL_NAME} is Jake Knudsen and Brian Ellsworth. We design it, we build it, we run it, and we are the ones who answer when you call.`}
+        sub={`${LEGAL_NAME} is Jake Knudsen and Brian Sanchez. We design it, we build it, we run it, and we are the ones who answer when you call.`}
       />
 
       <section className="bould-section" aria-labelledby="story-heading">
