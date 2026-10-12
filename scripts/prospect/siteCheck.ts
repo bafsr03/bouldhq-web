@@ -26,6 +26,12 @@ export type SiteCheck = {
   platform?: string
   /** The Google listing's phone number appears on the page. */
   phoneMatches?: boolean
+  /**
+   * Evidence the business already pays for leads: an ad or pixel tag, call
+   * tracking, a Google Guaranteed badge. The best outside sign of a marketing
+   * budget, and it changes the pitch from "start spending" to "stop wasting".
+   */
+  adSignals?: string[]
   /** Lighthouse mobile performance, 0–100. */
   pagespeed?: number
   error?: string
@@ -41,6 +47,18 @@ const PLATFORMS: [string, RegExp][] = [
   ['Duda', /multiscreensite|dudaone|dudamobile/i],
   ['Shopify', /cdn\.shopify\.com/i],
   ['WordPress', /wp-content|wp-includes/i],
+]
+
+/**
+ * Matched against the raw homepage HTML. Tags injected later by a tag manager
+ * are invisible to a single GET, so a miss means "not seen", never "not
+ * spending" — which is why the sheet only ever lists what it found.
+ */
+const AD_SIGNALS: [string, RegExp][] = [
+  ['Google Ads', /['"]AW-\d{6,}|googleadservices\.com|google_conversion_id/i],
+  ['Meta pixel', /connect\.facebook\.net\/[^'"]*fbevents|fbq\(\s*['"]init/i],
+  ['Call tracking', /callrail|calltrackingmetrics|invoca\.net|marchex/i],
+  ['Google Guaranteed', /google guaranteed|google screened|local services ads/i],
 ]
 
 const UA =
@@ -96,6 +114,7 @@ export async function checkSite(
         copyrightYear: years.length ? Math.max(...years) : undefined,
         platform: PLATFORMS.find(([, re]) => re.test(html) || re.test(headers))?.[0],
         phoneMatches: ctx.phone ? phonePattern(ctx.phone).test(text) : undefined,
+        adSignals: AD_SIGNALS.filter(([, re]) => re.test(html)).map(([name]) => name),
         error: res.ok ? undefined : `HTTP ${res.status}`,
       }
     } catch (err) {

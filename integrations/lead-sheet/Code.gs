@@ -37,7 +37,7 @@ var INBOUND_COLUMNS = [
 
 var PROSPECT_DATA_COLUMNS = [
   'Tier', 'Opportunity', 'Business', 'Phone', 'City', 'Industry',
-  'Opener', 'Top gaps', 'Ask on call',
+  'Opener', 'Rubio lookalike', 'Ad signals', 'Top gaps', 'Ask on call',
   'Est. score', 'Verdict', 'Plan',
   'Rating', 'Reviews', 'Map rank', 'Website', 'Site issues', 'PageSpeed (mobile)',
   'Google category', 'Maps link', 'Query', 'Place ID', 'Refreshed',
@@ -173,7 +173,8 @@ function alert_(lead, audit) {
 function upsertProspects_(prospects) {
   var sheet = ensureSheet_(PROSPECTS, PROSPECT_COLUMNS)
   var data = sheet.getDataRange().getValues()
-  var h = indexOf_(data[0])
+  var header = data[0]
+  var h = indexOf_(header)
   var rowByPlace = {}
   for (var r = 1; r < data.length; r++) rowByPlace[data[r][h['Place ID']]] = r
 
@@ -191,9 +192,13 @@ function upsertProspects_(prospects) {
       })
       updated++
     } else {
-      appends.push(PROSPECT_COLUMNS.map(function (c) {
+      // Built in the sheet's actual header order, not PROSPECT_COLUMNS order:
+      // columns added by a later version of this script sit at the end of an
+      // existing sheet, and a row built in script order would shift under them.
+      appends.push(header.map(function (c) {
         if (c === 'Status') return 'New'
-        return PIPELINE_COLUMNS.indexOf(c) === -1 ? safe_(p[c]) : ''
+        if (PROSPECT_DATA_COLUMNS.indexOf(c) === -1) return ''
+        return safe_(p[c])
       }))
       rowByPlace[p['Place ID']] = -1
       inserted++
@@ -204,7 +209,7 @@ function upsertProspects_(prospects) {
     sheet.getRange(1, 1, data.length, data[0].length).setValues(data)
   }
   if (appends.length) {
-    sheet.getRange(sheet.getLastRow() + 1, 1, appends.length, PROSPECT_COLUMNS.length).setValues(appends)
+    sheet.getRange(sheet.getLastRow() + 1, 1, appends.length, header.length).setValues(appends)
   }
   return { ok: true, inserted: inserted, updated: updated }
 }

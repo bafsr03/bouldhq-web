@@ -37,6 +37,10 @@ export type Scored = {
   opener: string
   opportunity: number
   tier: 'A' | 'B' | 'C'
+  /** Rubio's position before Bould: found on Google, losing them at the website. */
+  rubioLookalike: boolean
+  /** What the site shows of an existing marketing spend (siteCheck AD_SIGNALS). */
+  adSignals: string[]
 }
 
 const Q = Object.fromEntries(AUDIT_QUESTIONS.map((q) => [q.id, q]))
@@ -95,9 +99,17 @@ export function score(place: Place, trade: Trade, city: string, site: SiteCheck)
 
   const askOnCall = AUDIT_QUESTIONS.filter((q) => answers[q.id] === 'unknown').map((q) => q.question)
 
-  const opportunity = opportunityScore(place, site, answers)
+  const lookalike = isRubioLookalike(place, site)
+  const adSignals = site.adSignals ?? []
+  const opportunity = opportunityScore(place, site, answers, lookalike, adSignals)
+  // A lookalike is Tier A whatever its opportunity number: it is the one
+  // segment Bould has a published, sourced result for.
   const tier: Scored['tier'] =
-    opportunity >= 60 && place.reviews >= 10 ? 'A' : opportunity >= 40 && place.reviews >= 5 ? 'B' : 'C'
+    lookalike || (opportunity >= 60 && place.reviews >= 10)
+      ? 'A'
+      : opportunity >= 40 && place.reviews >= 5
+        ? 'B'
+        : 'C'
 
   return {
     place,
@@ -113,10 +125,29 @@ export function score(place: Place, trade: Trade, city: string, site: SiteCheck)
     siteIssues,
     gaps: gaps.slice(0, 3),
     askOnCall,
-    opener: opener(place, trade, city, site, answers, estimate),
+    opener: opener(place, trade, city, site, answers, estimate, adSignals),
     opportunity,
     tier,
+    rubioLookalike: lookalike,
+    adSignals,
   }
+}
+
+/**
+ * Rubio Brothers Concrete before their rebuild: 40+ reviews at 4.8 stars,
+ * people finding them on Google and clicking through, and a website that
+ * turned none of it into calls. A business in that position gets results from
+ * Website Build fastest, and the Rubio case study is its own proof, so these
+ * are the first calls of the day.
+ *
+ * Thresholds are looser than Rubio's own numbers so the segment is not a
+ * handful: 30+ reviews and 4.3+ stars is "people already choose them", and the
+ * site test is "the click lands somewhere that cannot make a phone ring".
+ */
+function isRubioLookalike(p: Place, site: SiteCheck): boolean {
+  if (p.reviews < 30 || (p.rating ?? 0) < 4.3) return false
+  if (site.kind !== 'site' || !site.reachable) return true
+  return site.telLink === false || site.mobileViewport === false
 }
 
 /**
@@ -125,7 +156,13 @@ export function score(place: Place, trade: Trade, city: string, site: SiteCheck)
  * 0–100. Independent of the audit estimate on purpose: a 4/20 business with
  * three reviews is less likely to buy than a 9/20 one with ninety.
  */
-function opportunityScore(p: Place, site: SiteCheck, a: Record<string, Answer>): number {
+function opportunityScore(
+  p: Place,
+  site: SiteCheck,
+  a: Record<string, Answer>,
+  lookalike: boolean,
+  adSignals: string[]
+): number {
   let need = 0
   if (site.kind === 'none') need += 35
   else if (site.kind === 'social') need += 30
@@ -158,7 +195,11 @@ function opportunityScore(p: Place, site: SiteCheck, a: Record<string, Answer>):
     (site.pagespeed ?? 100) >= 80
   if (strong) return 5
 
-  return Math.min(100, need + established)
+  // Signals that the gap costs them money they can see, and that there is a
+  // budget to fix it from.
+  const signals = (lookalike ? 8 : 0) + (adSignals.length ? 8 : 0)
+
+  return Math.min(100, need + established + signals)
 }
 
 function describeSite(s: SiteCheck): string[] {
@@ -204,7 +245,8 @@ function opener(
   city: string,
   site: SiteCheck,
   a: Record<string, Answer>,
-  estimate: number
+  estimate: number,
+  adSignals: string[]
 ): string {
   const facts: string[] = []
   if (site.kind === 'none') facts.push("people who find you on Google have no website to click through to")
@@ -222,10 +264,29 @@ function opener(
       : facts.length === 1
         ? `The big one: ${facts[0]}.`
         : 'You are in decent shape, but there are a couple of gaps worth five minutes.'
+  // Paid clicks only matter to the pitch when the site is where they leak, so
+  // the sentence names the leak itself rather than leaning on whichever facts
+  // happened to make the opener.
+  const paidClicks = adSignals.some((s) => s === 'Google Ads' || s === 'Meta pixel')
+  const leak = siteLeak(site)
+  const spend =
+    paidClicks && leak
+      ? ` You're also running ads, and ${leak}, so some of those paid clicks never turn into calls.`
+      : ''
   return (
     `Hi, is this the owner of ${p.name}? This is [your name] with Bould — we're based here in Utah. ` +
     `I ran ${p.name} through the same 20-point Google visibility check we use for our clients — ` +
-    `you came out around ${estimate} out of ${TOTAL_POINTS}. ${why} ` +
+    `you came out around ${estimate} out of ${TOTAL_POINTS}. ${why}${spend} ` +
     `Can I send you the full breakdown? It's free.`
   )
+}
+
+/** The one thing on the site most likely to lose a paid click, in words for the call. */
+function siteLeak(site: SiteCheck): string | null {
+  if (site.kind !== 'site') return null
+  if (!site.reachable) return "the website isn't loading"
+  if (!site.telLink) return "there's no tap-to-call button on the site"
+  if (site.mobileViewport === false) return "the site isn't built for phones"
+  if (site.pagespeed !== undefined && site.pagespeed < 50) return `the site scores ${site.pagespeed}/100 for speed on a phone`
+  return null
 }

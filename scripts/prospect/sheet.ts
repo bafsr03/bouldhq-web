@@ -25,6 +25,8 @@ export function toRow(s: Scored): ProspectRow {
     City: s.city,
     Industry: `${s.trade.industry} — ${s.trade.key}`,
     Opener: s.opener,
+    'Rubio lookalike': s.rubioLookalike ? 'Yes' : '',
+    'Ad signals': s.adSignals.join(', '),
     'Top gaps': s.gaps.join('\n'),
     'Ask on call': s.askOnCall.join('\n'),
     'Est. score': `≈${s.estimate}/20 (${s.known} confirmed, ${s.unknownPoints} pts unchecked)`,

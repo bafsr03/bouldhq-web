@@ -33,10 +33,18 @@ export const TRADES: Trade[] = [
   { key: 'painting', industry: 'Contractors', terms: ['painting contractor'], words: ['paint'], seasonal: false },
   { key: 'electrician', industry: 'Contractors', terms: ['electrician'], words: ['electric'], seasonal: false },
   { key: 'plumbing', industry: 'Contractors', terms: ['plumber'], words: ['plumb', 'rooter', 'drain'], seasonal: false },
+  // High-ticket jobs: a single new customer pays for months of a plan.
+  { key: 'remodeling', industry: 'Contractors', terms: ['remodeling contractor'], words: ['remodel', 'renovat', 'kitchen', 'bath', 'basement'], seasonal: false },
   { key: 'hvac', industry: 'Home services', terms: ['HVAC contractor'], words: ['hvac', 'heating', 'air condition', 'cooling', 'furnace', 'comfort'], seasonal: false },
   { key: 'landscaping', industry: 'Home services', terms: ['landscaper'], words: ['landscap', 'lawn', 'yard', 'sprinkler'], seasonal: true },
   { key: 'exterior-cleaning', industry: 'Home services', terms: ['pressure washing service', 'window cleaning service'], words: ['wash', 'window', 'clean'], seasonal: true },
   { key: 'holiday-lighting', industry: 'Home services', terms: ['christmas light installation'], words: ['light'], seasonal: true },
+  // Its season opens in November; the window to sell it is now.
+  { key: 'snow-removal', industry: 'Home services', terms: ['snow removal service'], words: ['snow', 'plow'], seasonal: true },
+  { key: 'garage-door', industry: 'Home services', terms: ['garage door repair'], words: ['garage', 'door'], seasonal: false },
+  { key: 'tree-service', industry: 'Home services', terms: ['tree service'], words: ['tree', 'arbor', 'stump'], seasonal: false },
+  { key: 'pest-control', industry: 'Home services', terms: ['pest control service'], words: ['pest', 'bug', 'termite', 'exterminat', 'rodent'], seasonal: false },
+  { key: 'junk-removal', industry: 'Home services', terms: ['junk removal service'], words: ['junk', 'haul', 'dumpster'], seasonal: false },
   { key: 'auto-repair', industry: 'Auto repair', terms: ['auto repair shop'], words: ['auto', 'automotive', 'car', 'repair', 'mechanic', 'motor', 'tire', 'transmission', 'garage', 'service'], seasonal: false },
   { key: 'auto-body', industry: 'Auto repair', terms: ['auto body shop'], words: ['body', 'collision', 'paint', 'auto'], seasonal: false },
   { key: 'auto-detailing', industry: 'Auto repair', terms: ['auto detailing'], words: ['detail'], seasonal: false },
@@ -72,6 +80,9 @@ export const CHAINS = [
   'two men and a truck', 'college hunks', 'lawn doctor', 'trugreen', 'weed man',
   'home depot', "lowe's", 'ace hardware', 'sears', 'christmas decor', 'leaffilter',
   'bath fitter', 're-bath', 'power home remodeling', 'window nation', 'renewal by andersen',
+  'orkin', 'terminix', 'aptive', 'rentokil', 'truly nolen', '1-800-got-junk', 'junk king',
+  'junkluggers', 'overhead door', 'precision door', 'precision garage door', 'a1 garage',
+  'davey tree', 'bartlett tree', 'window world', 'bath planet', 'kitchen tune-up',
 ]
 
 export function tradesFor(selector: string): Trade[] {

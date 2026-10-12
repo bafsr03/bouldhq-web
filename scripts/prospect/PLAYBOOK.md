@@ -9,7 +9,7 @@ The audit does the selling: it's twelve yes-or-no questions, and the owner answe
 | When | What |
 |---|---|
 | First thing | Check **Inbound**. Any row with Status *New* gets called before anything else. |
-| 2-hour block | Work **Prospects**, Tier A first, sorted by Opportunity. About 40 dials. |
+| 2-hour block | Work **Prospects**, Tier A first. Rubio lookalikes are at the top of it; call them first. About 40 dials. |
 | End of day | Update Status, Next action and Last contacted on every row you touched. |
 
 **The inbound rule.** When a **CALL NOW** alert arrives, call within 5 minutes during business hours, or the same evening otherwise. Someone who just took the audit is the warmest lead Bould will ever get, and the odds of reaching them drop with every hour.
@@ -17,6 +17,8 @@ The audit does the selling: it's twelve yes-or-no questions, and the owner answe
 ## The call
 
 1. **Open** with the row's *Opener*. It quotes two facts the owner can check while you're on the phone (map position, review count, no tap-to-call button). Say "around" for the score; it's an estimate.
+   - **Rubio lookalike?** Lead with the story: "A concrete company in Pleasant Grove was where you are: great reviews, and a site that wasn't turning them into calls. First lead in two weeks after the rebuild." Send `bouldhq.com/work/rubio-brothers-concrete` with the audit link.
+   - **Ad signals?** They already pay for clicks. The opener says where the clicks are leaking; the pitch is fixing the leak, not more spend.
 2. **Ask the *Ask on call* questions** in plain words:
    - "Can you log into your Google profile today?"
    - "Do you know how many leads you got last month?"
@@ -53,10 +55,11 @@ The day 1 text is sent **by hand from your phone**, one at a time. Never use a b
 Add these to the sheet by hand, with the source in Notes:
 
 - **New businesses:** Google profiles with fewer than 5 reviews, and new Utah business registrations. They need everything, and nobody else has called yet.
-- **Seasonal timing:** call roofing, concrete, landscaping and exterior cleaning **in January–February**, before the season. The site needs to be ready before the phone should ring.
-- **Referral partners:** concrete and lumber supply yards, the Utah County Home Builders Association, BNI chapters, and bookkeepers who serve trades.
+- **Seasonal timing:** call roofing, concrete, landscaping and exterior cleaning **from October**, as their season winds down. The owner is off the truck, has the summer's cash, and a site started in November is live well before spring. **January–February is the second wave**, not the first. Snow removal is the opposite: its season starts in November, so it's a now-or-next-year call.
+- **Report-card mailers:** for Tier A prospects who don't pick up, mail a one-page printout of their row: score, map rank, top gaps, and a QR code to the audit. Owners in the trades ignore email but open mail.
+- **Referral partners:** concrete and lumber supply yards, the Utah County Home Builders Association, BNI chapters, and bookkeepers who serve trades. Also vehicle wrap and sign shops (a new business buys a wrap before a website), contractor licensing course providers, and business bankers and insurance agents who work with trades.
 - **Existing clients:** ask every client for one referral and a Google review. A referral that closes earns the client a free month.
-- **Bould's own listings:** Bing Places, Apple Business Connect, Yelp, BBB, Clutch, the Shopify Partners directory, and the Utah Valley Chamber. Use the name and phone exactly as on the website.
+- **Bould's own listings:** Bing Places, Apple Business Connect, Yelp, BBB, Clutch, DesignRush, Nextdoor, the Shopify Partners directory, and the Utah Valley Chamber. Use the name and phone exactly as on the website.
 
 ## Weekly numbers (Friday, 10 minutes)
 

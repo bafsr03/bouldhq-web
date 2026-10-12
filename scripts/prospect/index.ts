@@ -122,7 +122,13 @@ async function main() {
   const tierRank = { A: 0, B: 1, C: 2 } as const
   const kept = scored
     .filter((s) => tierRank[s.tier] <= tierRank[minTier as 'A' | 'B' | 'C'])
-    .sort((a, b) => tierRank[a.tier] - tierRank[b.tier] || b.opportunity - a.opportunity)
+    // Within a tier, Rubio lookalikes first: they are the first calls of the day.
+    .sort(
+      (a, b) =>
+        tierRank[a.tier] - tierRank[b.tier] ||
+        Number(b.rubioLookalike) - Number(a.rubioLookalike) ||
+        b.opportunity - a.opportunity
+    )
     .slice(0, limit)
 
   // 4. Output.
@@ -131,6 +137,9 @@ async function main() {
   const tally = { A: 0, B: 0, C: 0 }
   kept.forEach((s) => tally[s.tier]++)
   console.log(`\n${kept.length} prospects — Tier A ${tally.A}, B ${tally.B}, C ${tally.C}`)
+  const lookalikes = kept.filter((s) => s.rubioLookalike).length
+  const spending = kept.filter((s) => s.adSignals.length).length
+  console.log(`Rubio lookalikes: ${lookalikes} · already running ads or call tracking: ${spending}`)
   console.log(`CSV: ${csv}`)
 
   if (dryRun) {
@@ -141,7 +150,8 @@ async function main() {
   }
 
   for (const s of kept.slice(0, 5)) {
-    console.log(`\n[${s.tier} · ${s.opportunity}] ${s.place.name} — ${s.place.phone} — ${s.city}`)
+    const flags = [s.rubioLookalike ? 'Rubio lookalike' : '', ...s.adSignals].filter(Boolean).join(', ')
+    console.log(`\n[${s.tier} · ${s.opportunity}] ${s.place.name} — ${s.place.phone} — ${s.city}${flags ? ` (${flags})` : ''}`)
     console.log(`  ${s.siteIssues.slice(0, 3).join(' · ') || 'site looks fine'}`)
     console.log(`  ${s.opener}`)
   }

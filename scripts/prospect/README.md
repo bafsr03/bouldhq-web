@@ -29,7 +29,7 @@ Run it weekly. Re-runs are cheap: searches are cached for 7 days and site checks
 
 **Cost.** Each search is one Places request returning up to 20 businesses. It's billed at the Text Search Enterprise rate, because rating, review count, phone and website are Enterprise fields.
 
-- A run of `--industry all --city utah` is 14 trades × 12 cities, about 180 requests.
+- A run of `--industry all --city utah` is 20 trades (21 search terms) × 12 cities, about 250 requests.
 - Check [current pricing](https://developers.google.com/maps/billing-and-pricing/pricing) and the monthly free usage before scaling up with `--pages 3`.
 - PageSpeed is free, but slow (10–40 seconds per site). Use `--no-pagespeed` for a quick pass.
 
@@ -37,9 +37,11 @@ Run it weekly. Re-runs are cheap: searches are cached for 7 days and site checks
 
 | Column | Meaning |
 |---|---|
-| **Tier** | **A**: an established business (10+ reviews) with a gap it can see. Call these first. **B**: a smaller business or a smaller gap. **C**: everything else, including businesses already winning on every front. |
+| **Tier** | **A**: an established business (10+ reviews) with a gap it can see, or any Rubio lookalike. Call these first. **B**: a smaller business or a smaller gap. **C**: everything else, including businesses already winning on every front. |
 | **Opportunity** | 0–100. How much need there is (no or poor site, outside the top 3, few reviews), plus how established the business is (reviews are the best outside proxy for "can pay"). |
 | **Opener** | The first lines of the call. Replace `[your name]`. |
+| **Rubio lookalike** | *Yes* when the business is where Rubio Brothers was before its rebuild: 30+ reviews at 4.3★ or better, and the Google listing sends people to no site, a social page, a broken site, or one with no tap-to-call. People already choose them; the site is losing the calls. Sorted to the top of Tier A. Pitch Website Build and the Rubio case study. |
+| **Ad signals** | What their homepage shows of money already spent on marketing: *Google Ads*, *Meta pixel*, *Call tracking*, *Google Guaranteed*. They have a budget, so the pitch is "stop wasting it", not "start spending". A blank cell means nothing was seen in the page source, not that they don't advertise. |
 | **Top gaps** | The audit items it fails, heaviest first, each paired with the fix from the audit. This is the pitch. |
 | **Ask on call** | The audit questions that can't be checked from outside, such as profile access, posting, listings and lead tracking. These are the discovery questions. |
 | **Est. score** | Confirmed points plus half of the unchecked ones. It's an estimate, so call it "around" on the phone. Once they fill in the real audit, that score replaces it. |
