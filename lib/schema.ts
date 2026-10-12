@@ -63,8 +63,10 @@ export function organizationSchema() {
     url: `${SITE_URL}/`,
     email: EMAIL,
     telephone: PHONE || undefined,
+    // Profile management is only in Golden Formula, so it is not claimed for
+    // the business as a whole; the pricing page scopes it to that plan.
     description:
-      'Websites for local service businesses and growing brands, built to turn visitors into calls and quote requests. Based in Utah, with clients in Utah, Texas, and Minnesota. Hosting, updates, and Google Business Profile management included.',
+      'Websites for local service businesses and growing brands, built to turn visitors into calls and quote requests. Based in Utah, with clients in Utah, Texas, and Minnesota. Hosting and updates included.',
     /*
       Points at /icon, the generated 512x512 PNG, not at public/bould.svg.
 

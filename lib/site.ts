@@ -111,10 +111,25 @@ export const ALLOW_INDEXING = process.env.NEXT_PUBLIC_ALLOW_INDEXING === 'true'
 export const GBP_UTM =
   '?utm_source=google&utm_medium=business_profile&utm_campaign=website'
 
+/**
+ * Bould's own profiles. Each URL was checked to be Bould Inc's (it names the
+ * business and links back to bouldhq.com) before it went in; a profile that
+ * merely shares the name — LinkedIn's /company/bould, Crunchbase's
+ * /organization/bould — belongs to someone else, and claiming it in `sameAs`
+ * tells Google the two are the same entity.
+ *
+ * Left blank on purpose:
+ *  - `bing`: Bing Places has no stable public URL for a listing, only search
+ *    URLs whose parameters change. Fill it if Bing ever issues one.
+ *  - `crunchbase`, `instagram`: no profile verified as Bould Inc's yet.
+ */
 export const SOCIAL = {
-  linkedin: '',
+  facebook: 'https://www.facebook.com/bouldhq',
+  linkedin: 'https://www.linkedin.com/company/bould-inc',
+  youtube: 'https://www.youtube.com/@bouldhq',
+  bing: '',
+  crunchbase: '',
   instagram: '',
-  facebook: '',
 } as const
 
 /**
@@ -125,9 +140,12 @@ export const SOCIAL = {
  */
 export const SAME_AS: string[] = [
   GBP_URL,
-  SOCIAL.linkedin,
-  SOCIAL.instagram,
   SOCIAL.facebook,
+  SOCIAL.linkedin,
+  SOCIAL.youtube,
+  SOCIAL.bing,
+  SOCIAL.crunchbase,
+  SOCIAL.instagram,
 ].filter(Boolean)
 
 /** Brief, site map: "Nav: How it works, Pricing, Work, Industries, Free audit, Contact." */

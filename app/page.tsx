@@ -50,7 +50,7 @@ export default function HomePage() {
           serviceSchema({
             name: 'Website design and local SEO for local businesses',
             description:
-              'Custom websites for local service businesses, with hosting, updates, Google Business Profile management, and monthly reporting.',
+              'Custom websites for local service businesses, with hosting, updates, and monthly reporting.',
             path: '/',
             serviceType: 'Website design',
           })
