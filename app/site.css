@@ -1514,3 +1514,57 @@ body:has(.header-wrapper.is-open) .bould-mobile-cta {
   grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
   margin-top: 3.2rem;
 }
+
+/* ── Hero poster ───────────────────────────────────────────────
+   The still "B" that paints before (and, on phones, instead of) the live
+   particle scene. See HeroScene.tsx for why the scene starts late.
+   `screen` drops the capture's black so only the glow lands on the hero,
+   exactly as the transparent canvas does. It sits under the canvas and
+   fades out once the scene's own particles start forming over it. */
+.bould-hero__still {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transition: opacity 1.4s ease;
+  /* Same fade as the canvas, so the poster and the scene line up. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.15) 30%, black 55%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.15) 30%, black 55%);
+}
+
+.bould-hero__still img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bould-hero.is-scene-live .bould-hero__still {
+  opacity: 0;
+}
+
+/* Reduced motion never starts the scene: the poster is the hero. */
+@media (prefers-reduced-motion: reduce) {
+  .bould-hero__canvas {
+    display: none;
+  }
+}
+
+/* Phones never start the scene either. The poster takes the canvas's place
+   in the stacked layout, at the same height. */
+@media (max-width: 768px) {
+  .bould-hero__canvas {
+    display: none;
+  }
+
+  .bould-hero__still {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: var(--b-hero-canvas-h);
+    flex-shrink: 0;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}

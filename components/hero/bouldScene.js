@@ -216,11 +216,15 @@ class BouldScene {
       } else {
         document.addEventListener('bould:hero-revealed', this._onHeroRevealed, { once: true });
       }
-      /* Last-resort fallback only — the choreography handoff is the primary path. */
-      this._revealTimer = setTimeout(() => {
-        console.warn('[BouldScene] reveal via 3s fallback — choreography handoff did not fire');
-        this._triggerReveal();
-      }, 3000);
+      /* Last-resort fallback only — the choreography handoff is the primary path.
+         Not armed when the latch already revealed the scene, which is now the
+         usual case: HeroScene boots the scene long after the FLIP finished. */
+      if (!this.revealed) {
+        this._revealTimer = setTimeout(() => {
+          console.warn('[BouldScene] reveal via 3s fallback — choreography handoff did not fire');
+          this._triggerReveal();
+        }, 3000);
+      }
       this._loop();
     });
   }
@@ -418,6 +422,10 @@ class BouldScene {
     this._stateAge = 0;
     this._curShape    = 0;
     this._targetShape = 0;
+
+    /* Cue for HeroScene to fade out the still poster now that the live
+       particles are about to form the same shape over it. */
+    document.dispatchEvent(new CustomEvent('bould:scene-live'));
 
     const N = this._N, cur = this._cur, vel = this._vel, home = this._homes[0];
     for (let i = 0; i < N; i++) {

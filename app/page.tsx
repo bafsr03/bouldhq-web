@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/seo'
 import Link from 'next/link'
 
-import HeroScene from '@/components/HeroScene'
+import HeroScene, { HeroStill } from '@/components/HeroScene'
 import ProofStrip from '@/components/ProofStrip'
 import FormulaChart from '@/components/FormulaChart'
 import WorkGrid from '@/components/WorkGrid'
@@ -59,6 +59,7 @@ export default function HomePage() {
 
       <section className="bould-hero" id="bould-hero">
         <div className="bould-hero__bg-grid" aria-hidden="true" />
+        <HeroStill />
         <HeroScene models={HERO_MODELS} />
 
         <div className="bould-hero__content">
