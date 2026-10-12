@@ -127,6 +127,9 @@ Lighthouse on `/` and `/visibility-audit`, and paste `/` and
 | `components/hero/` | The Three.js particle scene and FLIP choreography, ported from the theme. |
 | `app/bould.css` | The ported design system, near-verbatim from the Shopify theme. |
 | `app/site.css` | Styles for surfaces the theme had no equivalent of (header, audit tool, plans, tables). |
+| `lib/leadSheet.ts` | Posts leads and prospects to the "Bould Leads" Google Sheet. Optional; it fails soft. |
+| `integrations/lead-sheet/` | The Apps Script that owns the sheet: columns, the instant CALL NOW alert, and prospect upserts. |
+| `scripts/prospect/` | The prospect engine (`npm run prospect`): finds local businesses, scores them on the audit, and ranks a call list. `PLAYBOOK.md` is the sales process. |
 
 ## Before launch
 
@@ -172,6 +175,13 @@ Ordered by how much each one costs if it is skipped.
 
 Shopify keeps billing until the store is closed in the admin. Cancelling the
 domain is not cancelling the subscription.
+
+## Leads and the call list
+
+Every lead and prospect ends up in one Google Sheet, so the salesperson works from one place.
+
+- **Inbound:** `/api/lead` emails the lead (Resend). If `LEAD_SHEET_WEBHOOK_URL` and `LEAD_SHEET_SECRET` are set, it also appends the lead to the sheet's **Inbound** tab. The sheet's Apps Script then sends an instant CALL NOW alert by email and optionally by text. Setup: `integrations/lead-sheet/README.md`.
+- **Outbound:** `npm run prospect` scores Wasatch Front service businesses on the same 20-point audit the site uses, and upserts a ranked call list into the **Prospects** tab. Setup and columns: `scripts/prospect/README.md`. How to work the list: `scripts/prospect/PLAYBOOK.md`.
 
 ## Rules this codebase holds itself to
 

@@ -332,6 +332,14 @@ else
   printf '  \033[33m·\033[0m leads are log-only (set RESEND_API_KEY + LEAD_TO_EMAIL to email them)\n'
 fi
 
+# The lead sheet is where the salesperson works and where the instant call alert
+# comes from. Optional, so it never fails the run — but say which state it is in.
+if curl -s "$BASE/api/lead" | grep -q '"sheet":true'; then
+  pass "leads are copied to the lead sheet"
+else
+  printf '  \033[33m·\033[0m lead sheet off (set LEAD_SHEET_WEBHOOK_URL + LEAD_SHEET_SECRET, see integrations/lead-sheet)\n'
+fi
+
 echo
 if [ "$FAILED" -eq 0 ]; then
   printf '\033[32mAll checks passed.\033[0m\n'

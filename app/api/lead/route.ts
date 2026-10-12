@@ -4,6 +4,7 @@ import {
   validateLead,
   type LeadPayload,
 } from '@/lib/leads'
+import { leadForSheet, leadSheetConfigured, postToLeadSheet } from '@/lib/leadSheet'
 import { LEGAL_NAME } from '@/lib/site'
 
 /**
@@ -66,6 +67,7 @@ export async function GET() {
     ok: true,
     delivery: RESEND_KEY && TO ? 'email' : 'log-only',
     configured: Boolean(RESEND_KEY && TO),
+    sheet: leadSheetConfigured(),
   })
 }
 
@@ -115,6 +117,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, probe: true })
   }
 
+  /*
+    The sheet is where the salesperson works, and its Apps Script also sends
+    the instant call-this-lead alert. Started before the email so the two run
+    side by side; awaited before responding because a serverless function may
+    be frozen the moment the response is sent.
+  */
+  const sheet = leadSheetConfigured()
+    ? postToLeadSheet({ action: 'append_lead', lead: leadForSheet(lead) }).then((r) => {
+        if (!r.ok) console.error('[lead] sheet delivery failed:', r.error)
+      })
+    : Promise.resolve()
+
   if (RESEND_KEY && TO) {
     try {
       const res = await fetch('https://api.resend.com/emails', {
@@ -150,6 +164,8 @@ export async function POST(request: Request) {
     )
     console.info(text)
   }
+
+  await sheet
 
   return NextResponse.json({ ok: true })
 }

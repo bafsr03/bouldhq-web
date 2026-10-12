@@ -7,3 +7,7 @@ out
 next-env.d.ts
 .DS_Store
 .env*
+
+# Prospect engine: API cache and call-list exports (contain business contact data)
+scripts/prospect/.cache
+scripts/prospect/out
