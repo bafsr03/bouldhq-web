@@ -180,7 +180,8 @@ export const FOOTER_NAV = [
   {
     heading: 'Locations',
     links: [
-      { href: '/web-design-utah-county', label: 'Utah (home base)' },
+      { href: '/web-design-west-jordan', label: 'West Jordan (home base)' },
+      { href: '/web-design-utah-county', label: 'Utah County' },
     ],
   },
   {

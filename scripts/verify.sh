@@ -57,7 +57,7 @@ echo
 echo "Pages return 200 and carry one H1"
 for path in / /how-it-works /pricing /visibility-audit /work \
             /work/rubio-brothers-concrete /industries /industries/contractors \
-            /web-design-utah-county /about /contact /services/shopify-stores \
+            /web-design-utah-county /web-design-west-jordan /about /contact /services/shopify-stores \
             /privacy /terms; do
   body=$(curl -sL -w '\n%{http_code}' "$BASE$path")
   code=$(printf '%s' "$body" | tail -1)
@@ -91,7 +91,7 @@ TITLE_MAX=60
 DESC_MAX=158
 for path in / /how-it-works /pricing /visibility-audit /work \
             /work/rubio-brothers-concrete /industries /industries/contractors \
-            /web-design-utah-county /about /contact /services/shopify-stores; do
+            /web-design-utah-county /web-design-west-jordan /about /contact /services/shopify-stores; do
   html=$(curl -sL "$BASE$path")
   title=$(printf '%s' "$html" | grep -o '<title>[^<]*</title>' | head -1 | sed 's/<[^>]*>//g')
   desc=$(printf '%s' "$html" | grep -o '<meta name="description" content="[^"]*"' | head -1 | sed 's/.*content="//;s/"$//')

@@ -124,7 +124,7 @@ export default function UtahCountyPage() {
           }),
           breadcrumbSchema([
             { name: 'Home', path: '/' },
-            { name: 'Utah (home base)', path: '/web-design-utah-county' },
+            { name: 'Utah County', path: '/web-design-utah-county' },
           ]),
           serviceSchema({
             name: 'Web design in Utah County and Salt Lake County',
@@ -138,7 +138,7 @@ export default function UtahCountyPage() {
 
       <PageHero
         ghost="Utah"
-        eyebrow="Home base"
+        eyebrow="Wasatch Front"
         title="Web design for Utah County & Salt Lake businesses."
         sub="Based in Utah. The clients below are along the Wasatch Front, and you can drive to any of the work."
       />
