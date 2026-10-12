@@ -15,14 +15,19 @@ import { INDUSTRIES } from '@/lib/content/industries'
 import { PUBLISHED_REVIEWS } from '@/lib/content/reviews'
 import {
   CLIENT_STATES,
+  HOME_TITLE,
   LEGAL_NAME,
   LOCATION_SHORT,
   PHONE,
   PHONE_DISPLAY,
 } from '@/lib/site'
 
-/** Brief, site map — Home: title and H1 are specified verbatim. */
-const TITLE = `Websites That Bring Local Businesses Leads | ${LEGAL_NAME}`
+/**
+ * Brief, site map — Home: the H1 is specified verbatim. The title follows the
+ * brief's wording with Brian's correction (Oct 2026): "Local Businesses Leads"
+ * read as a typo, so it says "More Leads".
+ */
+const TITLE = HOME_TITLE
 const DESCRIPTION = `${LEGAL_NAME} builds websites that turn local searches into phone calls for contractors, auto shops, and home service businesses. Based in Utah. Free audit.`
 
 export const metadata: Metadata = pageMetadata({

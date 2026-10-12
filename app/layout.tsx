@@ -14,6 +14,7 @@ import { graph, organizationSchema, websiteSchema } from '@/lib/schema'
 import {
   ALLOW_INDEXING,
   DEFAULT_DESCRIPTION,
+  HOME_TITLE,
   LEGAL_NAME,
   SITE_URL,
   TITLE_TEMPLATE,
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
      * word "Bould" — no service, no city, competing with Bould Design, Fred
      * Bould, and a bouldering app for its own name.
      */
-    default: `Websites That Bring Local Businesses Leads | ${LEGAL_NAME}`,
+    default: HOME_TITLE,
     template: TITLE_TEMPLATE,
   },
   description: DEFAULT_DESCRIPTION,
@@ -59,13 +60,13 @@ export const metadata: Metadata = {
     siteName: LEGAL_NAME,
     locale: 'en_US',
     url: SITE_URL,
-    title: `Websites That Bring Local Businesses Leads | ${LEGAL_NAME}`,
+    title: HOME_TITLE,
     description: DEFAULT_DESCRIPTION,
     images: ['/opengraph-image'],
   },
   twitter: {
     card: 'summary_large_image',
-    title: `Websites That Bring Local Businesses Leads | ${LEGAL_NAME}`,
+    title: HOME_TITLE,
     description: DEFAULT_DESCRIPTION,
     images: ['/opengraph-image'],
   },
