@@ -211,10 +211,6 @@ These come from the brief and are worth keeping when adding pages.
   of emailed. `GET /api/lead` reports which mode it is in, and `verify.sh` fails
   the run if production is still log-only. This is the one remaining launch
   blocker: everything else on the update list is built.
-- **Devin's Google review.** `lib/content/reviews.ts` has the entry with an
-  empty `text`, and the homepage renders only reviews that have text — so it
-  currently shows one review and will show two the moment the wording is pasted
-  in. Nothing else needs changing.
 - **Confirm which stores are on Shopify Plus.** Everything now says "Shopify",
   per Jake's answer. If Joon, Dummiez, Adophies, or Run it Back turns out to be
   on the Plus plan, change that one project's `category` in

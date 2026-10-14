@@ -38,8 +38,10 @@ export const REVIEWS: Review[] = [
     text: 'It was anxiety filled because I knew they were going to bill me and just take my money without me seeing results and every time I would address issues it seems like nothing got resolved and I was told SEO takes time and I would start seeing results after a year.',
   },
   {
-    author: 'Devin',
-    text: '',
+    author: 'Devon',
+    // Verbatim from the profile, "qaulity" included: these are quotes, and a
+    // quote that has been corrected is no longer one.
+    text: 'These guys help us get a more updated and unique website rolling that fit our business perfectly and super responsive on any questions or updates. The qaulity of work from bould is above and beyond what you pay for !',
   },
 ]
 
