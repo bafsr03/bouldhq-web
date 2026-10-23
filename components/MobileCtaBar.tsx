@@ -10,13 +10,13 @@ import { trackContactClick } from '@/lib/track'
  * thumb already is.
  *
  * Shown only under 900px (CSS); `body` gets bottom padding to match so the
- * footer is never covered. Hidden on /contact and /visibility-audit, where the
- * page IS the call to action and a floating bar just covers the form the
- * visitor is filling in.
+ * footer is never covered. Hidden on /contact, /visibility-audit and the
+ * /check/ results pages, where the page IS the call to action and a floating
+ * bar just covers the form the visitor is filling in.
  */
 export default function MobileCtaBar() {
   const pathname = usePathname()
-  if (pathname === '/contact' || pathname === '/visibility-audit') return null
+  if (pathname === '/contact' || pathname === '/visibility-audit' || pathname.startsWith('/check/')) return null
 
   return (
     <div className="bould-mobile-cta" role="complementary" aria-label="Contact Bould">
