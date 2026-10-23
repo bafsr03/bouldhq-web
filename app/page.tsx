@@ -28,7 +28,7 @@ import {
  * read as a typo, so it says "More Leads".
  */
 const TITLE = HOME_TITLE
-const DESCRIPTION = `${LEGAL_NAME} builds websites that turn local searches into phone calls for contractors, auto shops, and home service businesses. Based in Utah. Free audit.`
+const DESCRIPTION = `${LEGAL_NAME} builds websites that turn local searches into phone calls for contractors, auto shops, and home services. Based in Utah. Free ranking check.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -89,7 +89,7 @@ export default function HomePage() {
 
           <div className="bould-hero__actions">
             <Link href="/visibility-audit" className="bould-btn bould-btn--primary">
-              Get a free audit
+              Get a free ranking check
             </Link>
             {PHONE ? (
               <a href={`tel:${PHONE}`} className="bould-btn bould-btn--ghost">
@@ -198,7 +198,7 @@ export default function HomePage() {
         <div className="bould-section__inner">
           <p className="bould-section-label">The monthly plans</p>
           <h2 className="bould-section-title" id="plan-heading">
-            Two plans, and the audit tells you which one you need.
+            Two plans, and the free ranking check tells you which one you need.
           </h2>
           <p className="bould-section-body">
             Both halves of the formula cost money to run, so they are priced
@@ -285,7 +285,7 @@ export default function HomePage() {
 
       <PageCta
         label="Not sure whether you need a new site or more visibility?"
-        cta="Take the free 20-point audit"
+        cta="Get a free ranking check"
       />
     </div>
   )

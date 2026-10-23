@@ -146,7 +146,7 @@ export default async function CaseStudyPage({ params }: Props) {
 
       <PageCta
         label={`Want to know where your business scores?`}
-        cta="Take the free 20-point audit"
+        cta="Get a free ranking check"
       />
     </article>
   )

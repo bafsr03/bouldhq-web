@@ -5,10 +5,13 @@ import {
   type LeadPayload,
 } from '@/lib/leads'
 import { leadForSheet, leadSheetConfigured, postToLeadSheet } from '@/lib/leadSheet'
+import { bouldLeadsConfigured, sendToBouldLeads } from '@/lib/bouldleads'
+import { verifyTurnstile } from '@/lib/turnstile'
+import { utmLine } from '@/lib/utm'
 import { LEGAL_NAME } from '@/lib/site'
 
 /**
- * Lead intake for the audit and contact forms.
+ * Lead intake for the ranking check, contact, and results-page callback forms.
  *
  * Node runtime (the default): this talks to an outbound email API and has no
  * latency requirement that would justify the Edge runtime's constraints.
@@ -20,38 +23,42 @@ import { LEGAL_NAME } from '@/lib/site'
  * var is missing is worse than one that files to the runtime log.
  */
 export const dynamic = 'force-dynamic'
+// Ranking-check requests wait for BouldLeads to run the Google check (see lib/bouldleads.ts).
+export const maxDuration = 30
 
 const TO = process.env.LEAD_TO_EMAIL
 const RESEND_KEY = process.env.RESEND_API_KEY
 
 function renderLead(lead: LeadPayload): string {
-  const lines: string[] = [
-    `New lead — ${lead.source}`,
-    '',
-    `Name:      ${lead.name}`,
-    `Business:  ${lead.business}`,
-    `Email:     ${lead.email}`,
-  ]
+  const lines: string[] = [`New lead — ${lead.source}`, '', `Name:      ${lead.name}`]
+  if (lead.business) lines.push(`Business:  ${lead.business}`)
+  if (lead.email) lines.push(`Email:     ${lead.email}`)
   if (lead.phone) lines.push(`Phone:     ${lead.phone}`)
   if (lead.website) lines.push(`Website:   ${lead.website}`)
-  if (lead.industry) lines.push(`Industry:  ${lead.industry}`)
+  if (lead.industry) lines.push(`${lead.source === 'ranking-check' ? 'Does:     ' : 'Industry: '} ${lead.industry}`)
   if (lead.city) lines.push(`City:      ${lead.city}`)
   if (lead.heardVia) lines.push(`Heard via: ${lead.heardVia}`)
+  if (lead.checkSlug) lines.push(`Results:   /check/${lead.checkSlug}`)
+  const utm = utmLine(lead.utm)
+  if (utm) lines.push(`Came from: ${utm}`)
   if (lead.message) lines.push('', 'Message:', lead.message)
 
-  if (lead.audit) {
+  if (lead.source === 'ranking-check') {
     lines.push(
       '',
-      `Visibility score: ${lead.audit.score} / ${lead.audit.total} — ${lead.audit.verdict}`,
-      '',
-      'Answers:'
+      bouldLeadsConfigured()
+        ? 'The top-3 check is running in BouldLeads (tagged "Site request"). Call within one business day.'
+        : 'BouldLeads is not connected: run the top-3 check by hand. Call within one business day.'
     )
-    for (const a of lead.audit.answers) {
-      lines.push(`  [${a.answer === 'yes' ? 'x' : ' '}] (${a.points}) ${a.question}`)
-    }
   }
 
   return lines.join('\n')
+}
+
+function subjectFor(lead: LeadPayload): string {
+  if (lead.source === 'ranking-check') return `Ranking check request: ${lead.business} (${lead.city})`
+  if (lead.source === 'check-callback') return `Call me back: ${lead.name}, from a results link`
+  return `New inquiry — ${lead.business}`
 }
 
 /**
@@ -68,6 +75,8 @@ export async function GET() {
     delivery: RESEND_KEY && TO ? 'email' : 'log-only',
     configured: Boolean(RESEND_KEY && TO),
     sheet: leadSheetConfigured(),
+    bouldleads: bouldLeadsConfigured(),
+    turnstile: Boolean(process.env.TURNSTILE_SECRET_KEY),
   })
 }
 
@@ -84,6 +93,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true })
   }
 
+  // Probes (see below) deliver nothing, so they skip the bot check: that keeps
+  // scripts/verify.sh working against production with Turnstile switched on.
+  const probe = (body.email ?? '').trim().toLowerCase().endsWith('@example.com')
+  const human =
+    probe ||
+    (await verifyTurnstile(
+      body['cf-turnstile-response'],
+      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? null
+    ))
+  if (!human) {
+    return NextResponse.json(
+      { ok: false, error: 'Please complete the "verify you are human" check and send again.' },
+      { status: 422 }
+    )
+  }
+
   const { fields } = validateLead(body)
   if (Object.keys(fields).length > 0) {
     return NextResponse.json(
@@ -92,7 +117,9 @@ export async function POST(request: Request) {
     )
   }
 
-  const lead = body as LeadPayload
+  const { 'cf-turnstile-response': _token, ...rest } = body
+  void _token
+  const lead = rest as LeadPayload
   const text = renderLead(lead)
 
   /*
@@ -111,8 +138,7 @@ export async function POST(request: Request) {
     were. The request is still validated, still counted, still logged, and still
     returns 200 — only the send is skipped.
   */
-  const isProbe = lead.email.trim().toLowerCase().endsWith('@example.com')
-  if (isProbe) {
+  if (probe) {
     console.info('[lead] probe accepted, delivery skipped (reserved example.com address)')
     return NextResponse.json({ ok: true, probe: true })
   }
@@ -129,6 +155,18 @@ export async function POST(request: Request) {
       })
     : Promise.resolve()
 
+  /*
+    BouldLeads saves the lead and runs the top-3 check before answering, so
+    Jake opens a lead that is ready to call. Callbacks attach to the lead whose
+    results link the owner was on.
+  */
+  const leads =
+    bouldLeadsConfigured() && (lead.source === 'ranking-check' || lead.source === 'check-callback')
+      ? sendToBouldLeads(lead).then((r) => {
+          if (!r.ok) console.error('[lead] BouldLeads intake failed:', r.error)
+        })
+      : Promise.resolve()
+
   if (RESEND_KEY && TO) {
     try {
       const res = await fetch('https://api.resend.com/emails', {
@@ -140,11 +178,8 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           from: `${LEGAL_NAME} <leads@bouldhq.com>`,
           to: [TO],
-          reply_to: lead.email,
-          subject:
-            lead.audit != null
-              ? `Audit lead — ${lead.business} scored ${lead.audit.score}/${lead.audit.total}`
-              : `New inquiry — ${lead.business}`,
+          ...(lead.email ? { reply_to: lead.email } : {}),
+          subject: subjectFor(lead),
           text,
         }),
       })
@@ -165,7 +200,7 @@ export async function POST(request: Request) {
     console.info(text)
   }
 
-  await sheet
+  await Promise.all([sheet, leads])
 
   return NextResponse.json({ ok: true })
 }

@@ -2,13 +2,13 @@ import Link from 'next/link'
 
 /**
  * Brief: the old site's closing ask was "Ready to go 3D? Book a Demo" — the
- * wrong request for a contractor. Every page now ends on the free audit, which
+ * wrong request for a contractor. Every page now ends on the free ranking check, which
  * is both the lead magnet and the first step of the sales playbook.
  */
 export default function PageCta({
-  label = 'Find out where you stand',
+  label = 'See how you stack up against the top 3',
   href = '/visibility-audit',
-  cta = 'Get a free website audit',
+  cta = 'Get a free ranking check',
 }: {
   label?: string
   href?: string

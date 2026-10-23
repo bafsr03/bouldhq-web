@@ -85,9 +85,9 @@ export default function ContactPage() {
             <p className="bould-section-body bould-section-body--muted">
               Not ready to talk yet? The{' '}
               <Link href="/visibility-audit" className="bould-inline-link bould-inline-link--tap">
-                free visibility audit
+                free ranking check
               </Link>{' '}
-              gives you a score and a verdict without speaking to anyone.
+              shows how you compare to the top 3 businesses near you on Google.
             </p>
           </div>
 

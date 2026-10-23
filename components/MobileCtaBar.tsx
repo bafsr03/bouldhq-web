@@ -38,7 +38,7 @@ export default function MobileCtaBar() {
         </a>
       )}
       <Link href="/visibility-audit" className="bould-mobile-cta__audit">
-        Free audit
+        Free ranking check
       </Link>
     </div>
   )

@@ -40,7 +40,7 @@ import { CLIENT_STATES, PHONE_DISPLAY } from '@/lib/site'
 const PATH = '/web-design-west-jordan'
 const TITLE = 'Web Design in West Jordan, UT'
 const DESCRIPTION =
-  'Website design and local SEO from a West Jordan business. We meet owners in person across the southwest valley. Start with a free visibility audit.'
+  'Website design and local SEO from a West Jordan business. We meet owners in person across the southwest valley. Start with a free ranking check.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -100,11 +100,11 @@ const WEST_JORDAN_FAQS: Faq[] = [
   },
   {
     q: 'Why does a business from the next city over show up before me?',
-    a: 'Usually distance to the searcher, a better-matched category, or more recent reviews. The free audit checks the last two in about five minutes, and they are the two you can change.',
+    a: 'Usually distance to the searcher, a better-matched category, or more recent reviews. The free ranking check compares your reviews and category to the top 3 near you, and those are the two you can change.',
   },
   {
     q: 'What does it cost?',
-    a: `Monthly plans start at ${PLANS[0].price} a month for ${PLANS[0].name} and ${PLANS[1].price} for ${PLANS[1].name}, with the setup quoted per project. The audit score is what decides which one fits.`,
+    a: `Monthly plans start at ${PLANS[0].price} a month for ${PLANS[0].name} and ${PLANS[1].price} for ${PLANS[1].name}, with the setup quoted per project. The free ranking check is what decides which one fits.`,
   },
   {
     q: 'Can we meet first?',
@@ -228,7 +228,7 @@ export default function WestJordanPage() {
         </div>
       </section>
 
-      <PageCta label="See where you stand in West Jordan" cta="Take the free audit" />
+      <PageCta label="See how you stack up in West Jordan" />
     </div>
   )
 }

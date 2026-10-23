@@ -10,6 +10,8 @@ import Footer from '@/components/Footer'
 import MobileCtaBar from '@/components/MobileCtaBar'
 import SiteAnimations from '@/components/SiteAnimations'
 import JsonLd from '@/components/JsonLd'
+import MetaPixel from '@/components/MetaPixel'
+import UtmCapture from '@/components/UtmCapture'
 import { graph, organizationSchema, websiteSchema } from '@/lib/schema'
 import {
   ALLOW_INDEXING,
@@ -140,8 +142,12 @@ export default function RootLayout({
         <Footer />
         <MobileCtaBar />
         <SiteAnimations />
+        <UtmCapture />
         {process.env.NEXT_PUBLIC_GA4_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA4_ID} />
+        )}
+        {process.env.NEXT_PUBLIC_META_PIXEL_ID && (
+          <MetaPixel pixelId={process.env.NEXT_PUBLIC_META_PIXEL_ID} />
         )}
       </body>
     </html>

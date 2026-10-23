@@ -18,6 +18,8 @@ declare global {
   interface Window {
     gtag?: Gtag
     dataLayer?: unknown[]
+    /** Meta Pixel (components/MetaPixel.tsx), when NEXT_PUBLIC_META_PIXEL_ID is set. */
+    fbq?: (...args: unknown[]) => void
   }
 }
 
@@ -37,11 +39,15 @@ export function trackContactClick(method: 'phone' | 'email', location: string) {
   })
 }
 
-/** `source` identifies which form produced the lead: audit, contact, industry page. */
+/**
+ * `source` identifies which form produced the lead: ranking check, contact,
+ * results-page callback. Also the Meta Pixel "Lead" event the ads optimize for.
+ */
 export function trackLeadSubmit(source: string, extra: Record<string, unknown> = {}) {
   emit('generate_lead', { lead_source: source, ...extra })
-}
-
-export function trackAuditComplete(score: number, verdict: string) {
-  emit('audit_complete', { score, verdict })
+  try {
+    window.fbq?.('track', 'Lead', { content_name: source })
+  } catch {
+    /* analytics must never break a submit */
+  }
 }

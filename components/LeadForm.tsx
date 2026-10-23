@@ -4,14 +4,50 @@ import { useEffect, useRef, useState } from 'react'
 import type { LeadPayload, LeadSource } from '@/lib/leads'
 import type { Field } from '@/lib/formFields'
 import { trackLeadSubmit } from '@/lib/track'
+import { readUtm } from '@/lib/utm'
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+const TURNSTILE_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+
+type Turnstile = {
+  render: (el: HTMLElement, opts: Record<string, unknown>) => string
+  reset: (id: string) => void
+  remove: (id: string) => void
+}
+
+declare global {
+  interface Window {
+    turnstile?: Turnstile
+  }
+}
+
+/** Loads the Turnstile script once per page, however many forms ask for it. */
+let turnstileLoading: Promise<Turnstile | undefined> | null = null
+function loadTurnstile(): Promise<Turnstile | undefined> {
+  if (window.turnstile) return Promise.resolve(window.turnstile)
+  turnstileLoading ??= new Promise((resolve) => {
+    const s = document.createElement('script')
+    s.src = TURNSTILE_SRC
+    s.async = true
+    s.onload = () => resolve(window.turnstile)
+    s.onerror = () => {
+      turnstileLoading = null
+      resolve(undefined)
+    }
+    document.head.appendChild(s)
+  })
+  return turnstileLoading
+}
 
 /**
  * The shared lead form.
  *
- * `extra` carries the audit result when this is mounted under the scorer, so one
- * submission delivers both the contact details and the twelve answers — which is
- * what makes the emailed audit possible without a second round trip to the
- * prospect.
+ * `extra` carries anything the page knows that the visitor should not have to
+ * type — on a results page, which check they were looking at.
+ *
+ * When NEXT_PUBLIC_TURNSTILE_SITE_KEY is set, a Cloudflare Turnstile widget is
+ * rendered above the button. It adds its token to the form as
+ * `cf-turnstile-response`, which the API route verifies.
  */
 export default function LeadForm({
   source,
@@ -27,7 +63,7 @@ export default function LeadForm({
   extra?: Partial<LeadPayload>
   submitLabel?: string
   successTitle?: string
-  successBody?: string
+  successBody?: React.ReactNode
   note?: React.ReactNode
 }) {
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
@@ -35,6 +71,23 @@ export default function LeadForm({
   const [formError, setFormError] = useState('')
   const mountedAt = useRef(Date.now())
   const successRef = useRef<HTMLDivElement>(null)
+  const turnstileRef = useRef<HTMLDivElement>(null)
+  const widgetId = useRef<string | null>(null)
+
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY || !turnstileRef.current) return
+    let cancelled = false
+    const el = turnstileRef.current
+    loadTurnstile().then((t) => {
+      if (cancelled || !t) return
+      widgetId.current = t.render(el, { sitekey: TURNSTILE_SITE_KEY, theme: 'dark', size: 'flexible' })
+    })
+    return () => {
+      cancelled = true
+      if (widgetId.current) window.turnstile?.remove(widgetId.current)
+      widgetId.current = null
+    }
+  }, [])
 
   // Move focus to the confirmation so the outcome is announced rather than
   // silently swapped in below the fold.
@@ -50,6 +103,7 @@ export default function LeadForm({
     const payload: Record<string, unknown> = {
       ...extra,
       source,
+      utm: readUtm(),
       elapsedMs: Date.now() - mountedAt.current,
     }
     data.forEach((value, key) => {
@@ -73,13 +127,15 @@ export default function LeadForm({
       }
 
       if (!json.ok) {
+        // A Turnstile token is single-use: get a fresh one for the retry.
+        if (widgetId.current) window.turnstile?.reset(widgetId.current)
         setErrors(json.fields ?? {})
         setFormError(json.error ?? 'Something went wrong. Please try again.')
         setState('error')
         return
       }
 
-      trackLeadSubmit(source, extra?.audit ? { score: extra.audit.score } : {})
+      trackLeadSubmit(source)
       setState('done')
     } catch {
       setFormError(
@@ -98,7 +154,7 @@ export default function LeadForm({
         role="status"
       >
         <p className="bould-contact__success-title">{successTitle}</p>
-        <p className="bould-contact__success-text">{successBody}</p>
+        <div className="bould-contact__success-text">{successBody}</div>
       </div>
     )
   }
@@ -203,6 +259,8 @@ export default function LeadForm({
           )
         })}
       </div>
+
+      {TURNSTILE_SITE_KEY && <div className="bould-lead-form__turnstile" ref={turnstileRef} />}
 
       {note && <p className="bould-contact__disclaimer">{note}</p>}
 

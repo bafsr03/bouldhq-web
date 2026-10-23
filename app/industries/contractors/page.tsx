@@ -129,7 +129,7 @@ export default function ContractorsPage() {
 
       <PageCta
         label="Find out whether your problem is the site or the visibility"
-        cta="Score your contracting business"
+        cta="Get a free ranking check"
       />
     </div>
   )

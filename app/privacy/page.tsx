@@ -33,9 +33,11 @@ export default function PrivacyPage() {
           <p>
             Only what you type into a form: your name, business name, email
             address, and optionally a phone number, website, industry, city, how
-            you heard about us, and your message. If you complete the visibility
-            audit, we also receive your answers to the twelve questions and the
-            resulting score.
+            you heard about us, and your message. If you request a ranking check,
+            we also look up your business&apos;s public Google listing and the
+            businesses ranking near it. If you arrived from an ad or a link with
+            campaign tags, we note which one, so we know where enquiries come
+            from.
           </p>
           <p>
             We do not sell anything on this site, so there is no payment
@@ -44,8 +46,8 @@ export default function PrivacyPage() {
 
           <h2>Why we collect it</h2>
           <p>
-            To reply to you, to prepare the audit you asked for, and to follow up
-            once about it. That is the whole list. We do not sell, rent, or share
+            To reply to you, to run the ranking check you asked for and call you
+            about it, and to follow up once. That is the whole list. We do not sell, rent, or share
             your details with anyone else for their own marketing.
           </p>
 
@@ -55,6 +57,13 @@ export default function PrivacyPage() {
             when someone taps a phone number, an email address, or submits a
             form. This tells us which pages produce inquiries. We do not use it to
             identify you personally.
+          </p>
+          <p>
+            When it is switched on, the Meta (Facebook) pixel records page views
+            and form submissions so we can measure our Facebook and Instagram
+            ads. Meta processes that data under its own privacy policy. Our forms
+            are protected from spam by Cloudflare Turnstile, which checks your
+            browser without a puzzle in most cases.
           </p>
 
           <h2>How long we keep it</h2>

@@ -33,6 +33,9 @@ var INBOUND_COLUMNS = [
   'Received', 'Source', 'Name', 'Business', 'Phone', 'Email',
 ].concat(PIPELINE_COLUMNS).concat([
   'Website', 'Industry', 'City', 'Heard via', 'Score', 'Verdict', 'Gaps (answered no)', 'Message',
+  // Oct 2026 (ranking check): added at the end so existing rows never shift.
+  // Score / Verdict / Gaps stay for the old quiz leads; new leads leave them blank.
+  'Came from', 'Results link',
 ])
 
 var PROSPECT_DATA_COLUMNS = [
@@ -128,16 +131,23 @@ function appendLead_(lead) {
     'Verdict': audit ? audit.verdict : '',
     'Gaps (answered no)': gaps,
     'Message': lead.message,
+    'Came from': utmLine_(lead.utm),
+    'Results link': lead.checkSlug ? 'https://bouldhq.com/check/' + lead.checkSlug : '',
   }
   sheet.appendRow(INBOUND_COLUMNS.map(function (c) { return safe_(row[c]) }))
   alert_(lead, audit)
   return { ok: true, row: sheet.getLastRow() }
 }
 
+function utmLine_(utm) {
+  if (!utm) return ''
+  return [utm.utm_source, utm.utm_medium, utm.utm_campaign].filter(function (v) { return v }).join(' / ')
+}
+
 /**
- * The speed-to-lead alert. Someone who just filled in the audit is the hottest
- * lead Bould will ever get, and the odds of reaching them fall off within
- * minutes — so the alert says who, the number to dial, and the score.
+ * The speed-to-lead alert. Someone who just asked for a ranking check is the
+ * hottest lead Bould will ever get, and the odds of reaching them fall off
+ * within minutes — so the alert says who, the number to dial, and what they asked for.
  */
 function alert_(lead, audit) {
   var props = PropertiesService.getScriptProperties()
@@ -145,7 +155,11 @@ function alert_(lead, audit) {
   var sms = props.getProperty('ALERT_SMS_EMAIL')
   var headline = audit
     ? 'CALL NOW: ' + lead.business + ' scored ' + audit.score + '/' + audit.total
-    : 'CALL NOW: ' + lead.business + ' (' + lead.source + ')'
+    : lead.source === 'ranking-check'
+      ? 'CALL NOW: ranking check for ' + lead.business + ', ' + (lead.city || '')
+      : lead.source === 'check-callback'
+        ? 'CALL NOW: ' + lead.name + ' asked for a call back from their results link'
+        : 'CALL NOW: ' + (lead.business || lead.name) + ' (' + lead.source + ')'
 
   if (to) {
     var lines = [
@@ -157,6 +171,8 @@ function alert_(lead, audit) {
       'Industry: ' + (lead.industry || ''),
       'City:     ' + (lead.city || ''),
     ]
+    if (lead.utm) lines.push('Came from: ' + utmLine_(lead.utm))
+    if (lead.checkSlug) lines.push('Results:  https://bouldhq.com/check/' + lead.checkSlug)
     if (audit) lines.push('', 'Verdict: ' + audit.verdict)
     if (lead.message) lines.push('', lead.message)
     lines.push('', 'Sheet: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl())

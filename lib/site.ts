@@ -148,13 +148,13 @@ export const SAME_AS: string[] = [
   SOCIAL.instagram,
 ].filter(Boolean)
 
-/** Brief, site map: "Nav: How it works, Pricing, Work, Industries, Free audit, Contact." */
+/** Brief, site map: "Nav: How it works, Pricing, Work, Industries, Free audit, Contact." The audit became the free ranking check (Oct 2026). */
 export const NAV = [
   { href: '/how-it-works', label: 'How it works' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/work', label: 'Work' },
   { href: '/industries', label: 'Industries' },
-  { href: '/visibility-audit', label: 'Free audit' },
+  { href: '/visibility-audit', label: 'Free ranking check' },
   { href: '/contact', label: 'Contact' },
 ] as const
 
@@ -166,7 +166,7 @@ export const FOOTER_NAV = [
       { href: '/how-it-works', label: 'How it works' },
       { href: '/pricing', label: 'Pricing & plans' },
       { href: '/services/shopify-stores', label: 'Ecommerce websites' },
-      { href: '/visibility-audit', label: 'Free visibility audit' },
+      { href: '/visibility-audit', label: 'Free ranking check' },
     ],
   },
   {
@@ -211,4 +211,4 @@ export const TITLE_TEMPLATE = `%s | ${LEGAL_NAME}`
  */
 export const HOME_TITLE = `Websites That Bring Local Businesses More Leads | ${LEGAL_NAME}`
 
-export const DEFAULT_DESCRIPTION = `${LEGAL_NAME} builds and manages websites for local service businesses and growing brands. Based in Utah, with clients in ${CLIENT_STATES}. Sites built to turn visitors into calls and quote requests. Free website and visibility audit.`
+export const DEFAULT_DESCRIPTION = `${LEGAL_NAME} builds and manages websites for local service businesses and growing brands. Based in Utah, with clients in ${CLIENT_STATES}. Sites built to turn visitors into calls and quote requests. Free ranking check.`

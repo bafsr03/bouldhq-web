@@ -6,7 +6,7 @@ import PageHero from '@/components/PageHero'
 import PageCta from '@/components/PageCta'
 import JsonLd from '@/components/JsonLd'
 import { breadcrumbSchema, faqSchema, graph, webPageSchema } from '@/lib/schema'
-import { PLANS, PLAN_SCORE_THRESHOLD, PRICING_FAQS } from '@/lib/content/pricing'
+import { PLANS, PRICING_FAQS } from '@/lib/content/pricing'
 
 /**
  * Brief, site map — Pricing.
@@ -85,12 +85,12 @@ export default function PricingPage() {
           </div>
 
           <p className="bould-section-body bould-section-body--narrow">
-            <strong>Which one?</strong> The free audit scores your visibility out
-            of 20. {PLAN_SCORE_THRESHOLD} or higher means people already find you
-            and the website is what is losing them &mdash; Website Build. Under{' '}
-            {PLAN_SCORE_THRESHOLD} means a new site on its own would multiply a
-            very small number, so the visibility work comes with it &mdash;
-            Golden Formula.
+            <strong>Which one?</strong> The free ranking check compares you to the
+            top 3 businesses near you on Google Maps. Already in the top 3 means
+            people find you and the website is what is losing them &mdash; Website
+            Build. Close but behind them means a new site on its own would
+            multiply a small number, so the work that closes the gap comes with
+            it &mdash; Golden Formula.
           </p>
           <p className="bould-section-body bould-section-body--narrow">
             Setup is quoted per project on both plans. No long-term contracts.
@@ -125,7 +125,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <PageCta label="Find out which plan you actually need" cta="Take the free audit" />
+      <PageCta label="Find out which plan you actually need" />
     </div>
   )
 }

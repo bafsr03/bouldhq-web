@@ -89,7 +89,7 @@ export default function Header() {
             </a>
           )}
           <Link href="/visibility-audit" className="bould-btn bould-btn--primary bould-header__cta">
-            Get a free audit
+            Get a free ranking check
           </Link>
           <button
             type="button"
@@ -121,7 +121,7 @@ export default function Header() {
           href="/visibility-audit"
           className="bould-btn bould-btn--primary bould-mobile-nav__cta"
         >
-          Get a free audit
+          Get a free ranking check
         </Link>
         {PHONE && (
           <a

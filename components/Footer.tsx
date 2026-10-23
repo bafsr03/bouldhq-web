@@ -24,26 +24,26 @@ export default function Footer() {
     <footer className="bould-footer" aria-label="Site footer">
       <div className="bould-footer__hero">
         <div className="bould-footer__hero-inner">
-          <p className="bould-footer__eyebrow bould-reveal">Find out where you stand</p>
+          <p className="bould-footer__eyebrow bould-reveal">See how you stack up</p>
           <h2 className="bould-footer__headline">
             <span className="bould-line-reveal">
               <span className="bould-line-reveal-inner">Get a free</span>
             </span>
             <span className="bould-line-reveal">
               <span className="bould-line-reveal-inner bould-footer__headline-accent">
-                website audit.
+                ranking check.
               </span>
             </span>
           </h2>
           <p className="bould-footer__hero-body bould-reveal">
-            Twenty points, about five minutes, and a straight answer about whether
-            a new website is the thing you actually need.
+            Where you rank on Google Maps, how you compare to the top 3 near you,
+            and the one thing holding you back. We run it and call you.
           </p>
           <Link
             href="/visibility-audit"
             className="bould-btn bould-btn--primary bould-footer__cta bould-reveal"
           >
-            Start the free audit
+            Get a free ranking check
             <svg
               className="bould-btn__arrow"
               width="14"

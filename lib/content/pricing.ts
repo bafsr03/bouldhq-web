@@ -7,14 +7,18 @@
  * business people already find. Golden Formula adds the visibility half for a
  * business they do not.
  *
- * That is also why the audit recommends between them by score rather than by
- * budget: the score measures visibility, so it is the correct input. See
- * PLAN_FOR_SCORE below and VERDICTS in ./audit.
+ * That is also why the free ranking check recommends between them rather than
+ * the budget: it measures visibility, so it is the correct input. Close to the
+ * top 3 with one clear gap → Golden Formula. Already in the top 3 but losing
+ * the calls on a weak site → Website Build. (Competitor Check spec v2, §3.4.)
  *
  * The setup fee is deliberately "quoted per project" rather than invented — it
  * is a real number that does not exist yet, and printing a guess is worse than
  * printing nothing.
  */
+
+/** The button every local plan card ends on. */
+const CTA = 'Get a free ranking check'
 
 export type Plan = {
   id: string
@@ -29,15 +33,6 @@ export type Plan = {
   /** Where the card's button goes, and what it says. */
   cta: { href: string; label: string }
 }
-
-/**
- * The audit score at which the recommendation flips.
- *
- * 14+ means visibility is already working, so the website is what is losing the
- * leads: Website Build. Under 14 means a new site would multiply a small
- * number, so the visibility work has to come with it: Golden Formula.
- */
-export const PLAN_SCORE_THRESHOLD = 14
 
 export const PLANS: Plan[] = [
   {
@@ -56,8 +51,8 @@ export const PLANS: Plan[] = [
       'Call and form tracking',
       'Monthly report: calls, forms, and where they came from',
     ],
-    best: `Local service businesses scoring ${PLAN_SCORE_THRESHOLD} or higher on the free audit.`,
-    cta: { href: '/visibility-audit', label: 'Start with the free audit' },
+    best: 'Local service businesses already in the top 3 on Google Maps, losing the calls on their website.',
+    cta: { href: '/visibility-audit', label: CTA },
   },
   {
     id: 'golden-formula',
@@ -74,9 +69,9 @@ export const PLANS: Plan[] = [
       'Review kit: link, text template, and QR card',
       'Directory listings kept consistent',
     ],
-    best: `Local service businesses scoring under ${PLAN_SCORE_THRESHOLD} on the free audit.`,
+    best: 'Local service businesses close to the top 3 on Google Maps, with a gap to close.',
     featured: true,
-    cta: { href: '/visibility-audit', label: 'Start with the free audit' },
+    cta: { href: '/visibility-audit', label: CTA },
   },
   {
     id: 'ecommerce',
@@ -96,11 +91,10 @@ export const PLANS: Plan[] = [
     ],
     best: 'Product brands selling online.',
     /*
-      Not the audit. The audit is a LOCAL visibility scorecard — map pack,
-      service-area listings, "do you serve one clear market" — and a Shopify
-      brand selling nationally scores badly on it for reasons that say nothing
-      about their store. Sending them there produces a bad number and a bad
-      first conversation.
+      Not the ranking check. It compares a business to the top 3 on Google
+      Maps near it, and a Shopify brand selling nationally has no map pack to
+      be in. Sending them there produces a meaningless result and a bad first
+      conversation.
     */
     cta: { href: '/contact', label: 'Book a call' },
   },
@@ -116,7 +110,7 @@ export const PRICING_FAQS: Faq[] = [
   },
   {
     q: 'Which plan do I need?',
-    a: `The free audit answers it in about five minutes. Score ${PLAN_SCORE_THRESHOLD} or higher and people are already finding you, so the website is what is losing them: Website Build. Score under ${PLAN_SCORE_THRESHOLD} and a new site on its own would multiply a very small number, so the visibility work has to come with it: Golden Formula.`,
+    a: 'The free ranking check answers it. If you are already in the top 3 on Google Maps near you, people are finding you, so the website is what is losing them: Website Build. If you are close but behind the top 3, a new site on its own would multiply a small number, so the work that closes the gap has to come with it: Golden Formula.',
   },
   {
     q: 'Shopify or custom — which one do I need?',

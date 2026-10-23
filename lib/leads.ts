@@ -3,14 +3,20 @@
  * route so the two can never disagree about what a lead is.
  */
 
-export type LeadSource = 'visibility-audit' | 'contact' | 'industry' | 'pricing'
+export type LeadSource =
+  | 'ranking-check'
+  | 'check-callback'
+  | 'contact'
+  | 'industry'
+  | 'pricing'
 
-export type AuditAnswerSummary = {
-  id: string
-  question: string
-  answer: 'yes' | 'no'
-  points: number
-}
+/** First-touch campaign parameters, captured by components/UtmCapture.tsx. */
+export type LeadUtm = Partial<
+  Record<
+    'utm_source' | 'utm_medium' | 'utm_campaign' | 'utm_term' | 'utm_content' | 'gclid' | 'fbclid' | 'landing',
+    string
+  >
+>
 
 export type LeadPayload = {
   source: LeadSource
@@ -19,18 +25,17 @@ export type LeadPayload = {
   email: string
   phone?: string
   website?: string
+  /** Ranking check: "What you do", in the owner's words ("concrete contractor"). */
   industry?: string
   city?: string
   /** Brief, contact page: "How did you hear about us?" — the attribution question. */
   heardVia?: string
   message?: string
-  /** Present only for audit submissions. */
-  audit?: {
-    score: number
-    total: number
-    verdict: string
-    answers: AuditAnswerSummary[]
-  }
+  /** Callbacks from a results page: which check the owner was looking at. */
+  checkSlug?: string
+  utm?: LeadUtm
+  /** Cloudflare Turnstile token; the widget adds it to the form under this name. */
+  'cf-turnstile-response'?: string
   /** Honeypot: must be empty. Real users never see this field. */
   company_website_confirm?: string
   /** Milliseconds the form was on screen before submit. */
@@ -42,18 +47,35 @@ export type LeadResult =
   | { ok: false; error: string; fields?: Record<string, string> }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+const PHONE_RE = /\d.*\d.*\d.*\d.*\d.*\d.*\d/ // at least seven digits, any formatting
 
 export function validateLead(input: Partial<LeadPayload>): {
   fields: Record<string, string>
 } {
   const fields: Record<string, string> = {}
+  const callback = input.source === 'check-callback'
+  const check = input.source === 'ranking-check'
 
   if (!input.name?.trim()) fields.name = 'Please tell us your name.'
-  if (!input.business?.trim()) fields.business = 'Please tell us your business name.'
-  if (!input.email?.trim()) {
-    fields.email = 'We need an email to send the audit to.'
-  } else if (!EMAIL_RE.test(input.email.trim())) {
-    fields.email = 'That email address does not look right.'
+
+  // A callback from a results page only needs a name and a number to call.
+  if (!callback) {
+    if (!input.business?.trim()) fields.business = 'Please tell us your business name.'
+    if (!input.email?.trim()) {
+      fields.email = 'We need an email so we can reach you.'
+    } else if (!EMAIL_RE.test(input.email.trim())) {
+      fields.email = 'That email address does not look right.'
+    }
+  }
+
+  // The ranking check is run from the city and the service, and ends in a call.
+  if (check) {
+    if (!input.city?.trim()) fields.city = 'Which city are your customers in?'
+    if (!input.industry?.trim()) fields.industry = 'Tell us what you do, like "concrete contractor".'
+  }
+  if (check || callback) {
+    if (!input.phone?.trim()) fields.phone = 'We need a number to call you with the results.'
+    else if (!PHONE_RE.test(input.phone)) fields.phone = 'That phone number does not look right.'
   }
 
   return { fields }

@@ -12,7 +12,7 @@ import { LEGAL_NAME, NAV } from '@/lib/site'
 export const metadata: Metadata = {
   title: { absolute: `Page Not Found | ${LEGAL_NAME}` },
   description:
-    'That page does not exist. Find websites, pricing, our work, and the free visibility audit here instead.',
+    'That page does not exist. Find websites, pricing, our work, and the free ranking check here instead.',
   robots: { index: false, follow: true },
 }
 

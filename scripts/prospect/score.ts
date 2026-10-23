@@ -275,9 +275,8 @@ function opener(
       : ''
   return (
     `Hi, is this the owner of ${p.name}? This is [your name] with Bould — we're based here in Utah. ` +
-    `I ran ${p.name} through the same 20-point Google visibility check we use for our clients — ` +
-    `you came out around ${estimate} out of ${TOTAL_POINTS}. ${why}${spend} ` +
-    `Can I send you the full breakdown? It's free.`
+    `I looked ${p.name} up on Google Maps next to the top 3 businesses near you. ${why}${spend} ` +
+    `Can I text you the comparison? It's free.`
   )
 }
 

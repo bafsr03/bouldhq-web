@@ -17,7 +17,7 @@ import { RUBIO_REVIEWS_LABEL } from '@/lib/content/work'
  */
 const TITLE = 'How We Get Local Businesses More Leads'
 const DESCRIPTION =
-  'Visibility times conversion: the free audit, the build, the 60-day launch plan, and the monthly report. Exactly how Bould works, start to finish.'
+  'Visibility times conversion: the free ranking check, the build, the 60-day launch plan, and the monthly report. Exactly how Bould works, start to finish.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -28,8 +28,8 @@ export const metadata: Metadata = pageMetadata({
 const STEPS = [
   {
     n: '01',
-    name: 'The free audit',
-    body: 'We score your business out of 20 on the things that decide whether people find you: the Google profile, reviews, listings, the map pack, and whether you own your own name in search. It takes about five minutes and you get the number whether or not you ever hire us.',
+    name: 'The free ranking check',
+    body: 'We look up where you rank on Google Maps for what you do in your city, compare you to the top 3 businesses near you, and call you with the one thing between you and them: reviews, rating, category, or your website. It is free whether or not you ever hire us.',
     out: 'A score, a verdict, and a list of gaps in priority order.',
   },
   {
@@ -176,7 +176,7 @@ export default function HowItWorksPage() {
 
       <PageCta
         label="Step one is free, and you keep the result either way"
-        cta="Score your business out of 20"
+        cta="Get a free ranking check"
       />
     </div>
   )

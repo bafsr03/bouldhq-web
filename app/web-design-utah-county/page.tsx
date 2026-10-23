@@ -79,7 +79,7 @@ const LOCAL_SIGNALS: { name: string; body: string }[] = [
 const IN_PERSON: string[] = [
   'The first conversation, at your shop or on a job site',
   'Photography of your real work, rather than stock images of someone else’s',
-  'Sitting down together over the audit findings',
+  'Sitting down together over your ranking check',
   'A walkthrough when the site goes live',
 ]
 
@@ -94,7 +94,7 @@ const UTAH_FAQS: Faq[] = [
   },
   {
     q: 'I already rank fine. Do I need this?',
-    a: 'Maybe not. Take the free audit first — it scores you out of 20 on the things that decide local visibility, and if you score well it will tell you so. Rubio Brothers scored badly on the website while their Google profile was already strong, which is why the fix was a new site rather than more marketing.',
+    a: 'Maybe not. Get the free ranking check first — it compares you to the top 3 businesses near you on Google Maps, and if you are already there it will tell you so. Rubio Brothers already ranked well on Google while their website was losing the calls, which is why the fix was a new site rather than more marketing.',
   },
   {
     q: 'Do I have to hand over my Google Business Profile?',
@@ -248,7 +248,7 @@ export default function UtahCountyPage() {
         </div>
       </section>
 
-      <PageCta label="Start with your score" cta="Take the free audit" />
+      <PageCta label="See how you stack up in Utah County" />
     </div>
   )
 }

@@ -299,6 +299,14 @@ printf '%s' "$sitemap" | grep -q '/industries<' && pass "sitemap lists the indus
   || fail "sitemap is missing /industries"
 
 echo
+echo "Results links are private"
+miss=$(curl -s -w '\n%{http_code}' "$BASE/check/does-not-exist-verify")
+code=$(printf '%s' "$miss" | tail -1)
+[ "$code" = "404" ] && pass "/check/<unknown> returns 404" || fail "/check/<unknown> returned $code"
+curl -s "$BASE/robots.txt" | grep -q 'Disallow: /check/' && pass "robots.txt disallows /check/" \
+  || { curl -s "$BASE/robots.txt" | grep -q 'Disallow: /$' && pass "robots.txt closed (indexing off)" || fail "robots.txt does not disallow /check/"; }
+
+echo
 echo "Lead API accepts a valid lead and rejects an invalid one"
 # The valid-lead probe below uses an @example.com address. /api/lead treats that
 # as a probe and skips the send: example.com is reserved by RFC 2606, so it can
@@ -314,6 +322,16 @@ bad=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE/api/lead" \
   -H 'Content-Type: application/json' \
   -d '{"source":"contact","name":"","business":"","email":"nope","elapsedMs":9000}')
 [ "$bad" = "422" ] && pass "invalid lead rejected (422)" || fail "invalid lead returned $bad"
+
+check=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE/api/lead" \
+  -H 'Content-Type: application/json' \
+  -d '{"source":"ranking-check","name":"Verify","business":"Verify Co","city":"Provo","industry":"concrete contractor","phone":"801-555-0100","email":"verify@example.com","elapsedMs":9000}')
+[ "$check" = "200" ] && pass "ranking-check request accepted (200)" || fail "ranking-check request returned $check"
+
+nophone=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE/api/lead" \
+  -H 'Content-Type: application/json' \
+  -d '{"source":"ranking-check","name":"Verify","business":"Verify Co","city":"Provo","industry":"concrete","email":"verify@example.com","elapsedMs":9000}')
+[ "$nophone" = "422" ] && pass "ranking-check without a phone rejected (422)" || fail "ranking-check without a phone returned $nophone"
 
 hp=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE/api/lead" \
   -H 'Content-Type: application/json' \
