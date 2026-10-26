@@ -118,7 +118,7 @@ export const PRICING_FAQS: Faq[] = [
   },
   {
     q: 'What happens if I cancel?',
-    a: 'You keep the site and the domain. We export everything, hand over the accounts, and help you move to your own hosting. No long-term contracts. You own your website, and the plan should earn its place every month.',
+    a: 'You keep the site and the domain. We export everything, hand over the accounts, and help you move to your own hosting. You own your website, and the plan should earn its place every month.',
   },
   {
     q: 'Why is there a monthly fee at all? Can I just buy a website?',

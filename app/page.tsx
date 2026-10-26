@@ -81,10 +81,10 @@ export default function HomePage() {
           </h1>
 
           <p className="bould-hero__body">
-            Most small-business websites are a brochure nobody asked for. We build
-            the other kind: a site that turns the people already searching for you
-            into phone calls and quote requests — and we keep it working after
-            launch.
+            Most local websites look fine and never ring the phone. We&rsquo;re
+            Jake and Brian. We build sites that turn the people already searching
+            for you into calls and quote requests, and we stay on after launch to
+            keep them working.
           </p>
 
           <div className="bould-hero__actions">
@@ -134,8 +134,8 @@ export default function HomePage() {
               In their words, not ours.
             </h2>
             <p className="bould-section-body">
-              Both of these are on the Google profile, unedited. The first one is
-              worth reading twice: it is not about us.
+              Both are on our Google profile, unedited. Cesar&rsquo;s is about the
+              agency he had before us.
             </p>
             <ul className="bould-reviews">
               {PUBLISHED_REVIEWS.map((r) => (
@@ -165,6 +165,44 @@ export default function HomePage() {
         </section>
       )}
 
+      {/* ── Us vs. them ───────────────────────────────────────────────────── */}
+      {/*
+        How we work, never what we promise. Every line in the left column has
+        to stay true for every client; contract terms stay off the site.
+      */}
+      <section className="bould-section bould-section--alt" aria-labelledby="different-heading">
+        <div className="bould-section__inner bould-section__inner--narrow">
+          <p className="bould-section-label">How we&rsquo;re different</p>
+          <h2 className="bould-section-title" id="different-heading">
+            Cesar&rsquo;s story is common. Here&rsquo;s what we do about it.
+          </h2>
+          <div className="bould-two-col">
+            <div>
+              <h3 className="bould-mini-card__title">Bould (us)</h3>
+              <ul className="bould-check-list">
+                <li>You work with Jake and Brian, the two people who design and build your site. Same two people from the first call through launch, and after.</li>
+                <li>Before we talk price, we look up where you rank on Google Maps and show you the top 3 near you, with their names and review counts.</li>
+                <li>You hear back within the day. Changes are made by the person who built the page.</li>
+                <li>If you&rsquo;re in Utah, we meet you in person. On the job, at the shop, wherever&rsquo;s easy.</li>
+                <li>Your site and your domain are yours. If you ever leave, you take them with you.</li>
+                <li>We won&rsquo;t promise you a ranking or a number of leads. We&rsquo;ll show you the gap, and what we&rsquo;re doing about it.</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="bould-mini-card__title">A typical agency (them)</h3>
+              <ul className="bould-x-list">
+                <li>A salesperson closes the deal. Then you&rsquo;re handed to an account manager who passes your notes to people you never meet.</li>
+                <li>The pitch starts with a package and a price, before anyone has looked at how you show up today.</li>
+                <li>A simple change becomes a support ticket, and the ticket sits.</li>
+                <li>Every meeting is a video call with someone in another state.</li>
+                <li>The domain is in their name. Leaving means starting over.</li>
+                <li>You&rsquo;re promised page one. A few months in, you&rsquo;re told SEO takes a year.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── The formula ───────────────────────────────────────────────────── */}
       <section className="bould-section" aria-labelledby="formula-heading">
         <div className="bould-section__inner bould-section__inner--split">
@@ -174,16 +212,15 @@ export default function HomePage() {
               Leads = Visibility &times; Conversion
             </h2>
             <p className="bould-section-body">
-              It is a multiplication, not an addition. If nobody can find you,
-              the best website in your county still produces nothing. If everyone
-              finds you and the site gives them nothing to do, you get what Rubio
-              Brothers got for a year: zero.
+              You need both halves. If nobody can find you, even a great website
+              brings in nothing. If people find you and the site gives them no
+              reason to call, you get what Rubio Brothers got for a year: no leads
+              at all.
             </p>
             <p className="bould-section-body">
-              We fix conversion with the build, and visibility with the work that
-              runs every month after it — the Google profile, the reviews, the
-              listings. Most agencies sell one half and quietly hope you do not
-              notice the other.
+              The website takes care of the second half. The monthly work on your
+              Google profile, reviews and listings takes care of the first. A lot
+              of agencies only sell you one of them.
             </p>
             <Link href="/how-it-works" className="bould-inline-link bould-inline-link--tap">
               See the whole process &rarr;
@@ -201,10 +238,9 @@ export default function HomePage() {
             Two plans, and the free ranking check tells you which one you need.
           </h2>
           <p className="bould-section-body">
-            Both halves of the formula cost money to run, so they are priced
-            separately. If people already find you, you only need the website
-            half. If they do not, buying the website half on its own is buying a
-            multiplier for a number close to zero.
+            If people already find you, Website Build is enough. If they
+            don&rsquo;t, a new site on its own won&rsquo;t fix that, so Golden
+            Formula adds the work that gets you found.
           </p>
 
           <div className="bould-plans bould-plans--compact">
@@ -229,8 +265,8 @@ export default function HomePage() {
           </div>
 
           <p className="bould-section-body">
-            Setup is quoted per project. No long-term contracts. You own your
-            website, and the domain, from day one.
+            Setup is quoted per project. You own your website and your domain
+            from day one.
           </p>
           <Link href="/pricing" className="bould-inline-link bould-inline-link--tap">
             Full plans and pricing &rarr;

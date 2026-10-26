@@ -18,7 +18,7 @@ import { PLANS, PRICING_FAQS } from '@/lib/content/pricing'
  */
 const TITLE = 'Website Plans & Pricing'
 const DESCRIPTION =
-  'Website Build at $250/month, Golden Formula at $450/month with Google Business Profile and review management. No long-term contracts. You own the site.'
+  'Website Build at $250/month, Golden Formula at $450/month with Google Business Profile and review management. You own the site.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -93,7 +93,7 @@ export default function PricingPage() {
             it &mdash; Golden Formula.
           </p>
           <p className="bould-section-body bould-section-body--narrow">
-            Setup is quoted per project on both plans. No long-term contracts.
+            Setup is quoted per project on both plans.
             You own your website. What moves a setup quote is scope: how many
             services you offer, whether you are migrating an existing store, and
             how much of the visibility work is already done.
