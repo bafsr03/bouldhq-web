@@ -109,6 +109,13 @@ vercel env add LEAD_TO_EMAIL production
 vercel env add NEXT_PUBLIC_GA4_ID production
 vercel env add NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION production
 vercel env add NEXT_PUBLIC_GBP_URL production
+vercel env add NEXT_PUBLIC_META_PIXEL_ID production
+vercel env add NEXT_PUBLIC_TURNSTILE_SITE_KEY production
+vercel env add TURNSTILE_SECRET_KEY production
+vercel env add LEAD_SHEET_WEBHOOK_URL production
+vercel env add LEAD_SHEET_SECRET production
+vercel env add BOULDLEADS_URL production
+vercel env add BOULDLEADS_SECRET production
 ```
 
 Then check by hand what a script cannot: submit a real lead through `/contact`
@@ -121,12 +128,14 @@ Lighthouse on `/` and `/visibility-audit`, and paste `/` and
 | Path | What is in it |
 |---|---|
 | `lib/site.ts` | NAP, nav, service areas. **Single source of truth** — the footer, the contact page, and the JSON-LD all read from here so they cannot drift. |
-| `lib/content/` | Audit questions, portfolio, case studies, plans, FAQs. Editing copy means editing these, not JSX. |
+| `lib/content/` | The prospect engine's audit questions, portfolio, case studies, plans, FAQs. Editing copy means editing these, not JSX. |
 | `lib/schema.ts` | JSON-LD builders (Organization/ProfessionalService, Service, FAQPage, Article, BreadcrumbList). |
 | `lib/seo.ts` | `pageMetadata()` — every page's title, description, canonical, and share card. |
 | `components/hero/` | The Three.js particle scene and FLIP choreography, ported from the theme. |
 | `app/bould.css` | The ported design system, near-verbatim from the Shopify theme. |
 | `app/site.css` | Styles for surfaces the theme had no equivalent of (header, audit tool, plans, tables). |
+| `app/visibility-audit/` | The free ranking check request form (Competitor Check spec v2, Part 3). The URL is the old quiz's, kept so existing links work. |
+| `app/check/[slug]/` | A lead's results page, read from BouldLeads: rank, top 3, the one fix, and a call-me-back form. `noindex` and disallowed in robots. |
 | `lib/leadSheet.ts` | Posts leads and prospects to the "Bould Leads" Google Sheet. Optional; it fails soft. |
 | `integrations/lead-sheet/` | The Apps Script that owns the sheet: columns, the instant CALL NOW alert, and prospect upserts. |
 | `scripts/prospect/` | The prospect engine (`npm run prospect`): finds local businesses, scores them on the audit, and ranks a call list. `PLAYBOOK.md` is the sales process. |
@@ -180,8 +189,8 @@ domain is not cancelling the subscription.
 
 Every lead and prospect ends up in one Google Sheet, so the salesperson works from one place.
 
-- **Inbound:** `/api/lead` emails the lead (Resend). If `LEAD_SHEET_WEBHOOK_URL` and `LEAD_SHEET_SECRET` are set, it also appends the lead to the sheet's **Inbound** tab. The sheet's Apps Script then sends an instant CALL NOW alert by email and optionally by text. Setup: `integrations/lead-sheet/README.md`.
-- **Outbound:** `npm run prospect` scores Wasatch Front service businesses on the same 20-point audit the site uses, and upserts a ranked call list into the **Prospects** tab. Setup and columns: `scripts/prospect/README.md`. How to work the list: `scripts/prospect/PLAYBOOK.md`.
+- **Inbound:** `/api/lead` emails the lead (Resend). Ranking-check requests are also saved in BouldLeads tagged "Site request", where the top-3 check runs, when `BOULDLEADS_URL` and `BOULDLEADS_SECRET` are set; without them they still reach email and the sheet. If `LEAD_SHEET_WEBHOOK_URL` and `LEAD_SHEET_SECRET` are set, it also appends the lead to the sheet's **Inbound** tab. The sheet's Apps Script then sends an instant CALL NOW alert by email and optionally by text. Setup: `integrations/lead-sheet/README.md`.
+- **Outbound:** `npm run prospect` scores Wasatch Front service businesses on the 20-point audit in `lib/content/audit.ts` (the site no longer shows it; `/visibility-audit` is now the ranking-check request form), and upserts a ranked call list into the **Prospects** tab. Setup and columns: `scripts/prospect/README.md`. How to work the list: `scripts/prospect/PLAYBOOK.md`.
 
 ## Rules this codebase holds itself to
 
@@ -202,15 +211,17 @@ These come from the brief and are worth keeping when adding pages.
 - **AI crawlers stay allowed.** `app/robots.ts` deliberately has no GPTBot /
   ClaudeBot / PerplexityBot block. For a business that wants to be recommended by
   an assistant, blocking them is self-harm.
-- **Every page ends on the free audit**, not "book a demo".
+- **Every page ends on the free ranking check**, not "book a demo". Buttons say "Get a free ranking check"; "20-point", "12 questions" and "free audit" stay off the site.
 
 ## Still open
 
-- **Lead delivery is not configured.** `RESEND_API_KEY` + `LEAD_TO_EMAIL` are
-  unset, so audit and contact submissions are written to the runtime log instead
-  of emailed. `GET /api/lead` reports which mode it is in, and `verify.sh` fails
-  the run if production is still log-only. This is the one remaining launch
-  blocker: everything else on the update list is built.
+- **Ranking-check setup** (spec v2, due Oct 30). Email delivery is live. Still
+  to set on production: Turnstile keys, `NEXT_PUBLIC_META_PIXEL_ID`, and
+  `LEAD_SHEET_WEBHOOK_URL` / `LEAD_SHEET_SECRET` (`GET /api/lead` reports
+  `"sheet": false` until they are), plus pasting the current
+  `integrations/lead-sheet/Code.gs` into Apps Script as a new version.
+  `BOULDLEADS_URL` / `BOULDLEADS_SECRET` wait for BouldLeads' top-3 deploy;
+  until then `/check/` links do not exist and checks are run by hand.
 - **Confirm which stores are on Shopify Plus.** Everything now says "Shopify",
   per Jake's answer. If Joon, Dummiez, Adophies, or Run it Back turns out to be
   on the Plus plan, change that one project's `category` in
@@ -247,9 +258,10 @@ These come from the brief and are worth keeping when adding pages.
   of blank. Do not move those `opacity: 0` rules back into the base selectors.
 - **The proof numbers do not animate at all.** The Rubio results and the
   homepage proof strip are the argument, not decoration.
-- **The audit's twelve questions render server-side, in one list.** A wizard
-  would hide eleven of them from the crawler, and this page is meant to rank for
-  people searching whether their business shows up on Google.
+- **The ranking check is a request, not a self-serve tool.** Spec v2 dropped
+  the public quiz: ad leads stay on Facebook, the site's traffic is small, and
+  the top-3 comparison earns its keep on the call. A public tool is listed under
+  "Later" in the spec, once the site has real traffic.
 - **No Review or AggregateRating JSON-LD.** The reviews live on the Google
   profile, where they carry weight; self-hosted review markup about your own
   business is what the structured-data guidelines single out.
