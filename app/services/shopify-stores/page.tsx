@@ -60,7 +60,6 @@ export default function ShopifyStoresPage() {
       />
 
       <PageHero
-        ghost="Shopify"
         eyebrow="Ecommerce"
         title="Shopify stores for brands whose product is the pitch."
         sub="Custom builds, migrations, and 3D product visuals — for the products that lose sales because a photograph cannot show them properly."

@@ -4,7 +4,8 @@ import Link from 'next/link'
 
 import HeroScene, { HeroStill } from '@/components/HeroScene'
 import ProofStrip from '@/components/ProofStrip'
-import FormulaChart from '@/components/FormulaChart'
+import FormulaCheck from '@/components/FormulaCheck'
+import Team from '@/components/Team'
 import WorkGrid from '@/components/WorkGrid'
 import PageCta from '@/components/PageCta'
 import JsonLd from '@/components/JsonLd'
@@ -200,6 +201,7 @@ export default function HomePage() {
               </ul>
             </div>
           </div>
+          <Team />
         </div>
       </section>
 
@@ -226,7 +228,7 @@ export default function HomePage() {
               See the whole process &rarr;
             </Link>
           </div>
-          <FormulaChart />
+          <FormulaCheck />
         </div>
       </section>
 

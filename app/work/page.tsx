@@ -45,7 +45,6 @@ export default function WorkPage() {
       />
 
       <PageHero
-        ghost="Work"
         eyebrow="Selected work"
         title="The sites, and what happened after they launched."
         sub="Case studies first, because a screenshot proves nothing. Where a client has not yet given us numbers to publish, we say so instead of inventing one."

@@ -133,7 +133,6 @@ export default function WestJordanPage() {
       />
 
       <PageHero
-        ghost="West Jordan"
         eyebrow="Home base"
         title="Web design in West Jordan, from a West Jordan business."
         sub="Bould works from West Jordan. If your business is in the southwest valley, the first meeting can be at your shop this week."

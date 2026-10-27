@@ -32,11 +32,11 @@ html {
 body {
   margin: 0;
   font-size: 1.5rem;
-  letter-spacing: 0.06rem;
+  letter-spacing: 0;
   line-height: 1.8;
   font-family: var(--b-font);
-  background: var(--b-black);
-  color: var(--b-white);
+  background: var(--b-bg);
+  color: var(--b-ink);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -46,69 +46,107 @@ body {
   }
 }
 
-/* ── Tokens ── */
+/* ── Tokens ──
+   The site is light. Navy is kept for the places that need a dark ground:
+   the hero (the particle "B" is additive light), page heroes, the work
+   band, client-logo wells (the logos are white) and the footer. Those
+   re-declare the same tokens, so every rule below reads the right value
+   for wherever it sits. --b-tint is the RGB that overlays and hairlines
+   are mixed from; --b-bg-rgb is the page colour for translucent fills. */
 :root {
-  --b-black: #080808;
-  --b-dark: #111111;
-  --b-card: #141414;
-  --b-border: #1E1E1E;
-  --b-border2: #2A2A2A;
-  --b-muted: #555555;
-  --b-muted2: #888888;
-  --b-white: #F0EDE8;
-  --b-purple: #8B5CF6;
-  --b-purple2: #7C3AED;
-  --b-purple3: #A78BFA;
-  --b-font: var(--font-space-grotesk), 'Space Grotesk', 'Inter', sans-serif;
+  --b-bg: #F4F6FA;
+  --b-bg-rgb: 244, 246, 250;
+  --b-bg-alt: #E9EEF7;
+  --b-surface: #FFFFFF;
+  --b-border: #DCE2EC;
+  --b-border2: #C5CEDD;
+  --b-muted: #5B6780;
+  --b-muted2: #3D4A63;
+  --b-ink: #101A30;
+  --b-tint: 16, 26, 48;
+  --b-accent: #3A66E0;
+  --b-accent-deep: #2C4FB8;
+  --b-accent-light: #3659C3;
+  --b-lift: 0 24px 48px rgba(16, 26, 48, 0.1);
+  --b-font: var(--font-archivo), 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   --b-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --b-ease2: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
+.bould-hero,
+.bould-work,
+.bould-project-card__logo,
+.bould-footer,
+body:has(.bould-hero) .header-wrapper:not(.scrolled) {
+  --b-bg: #080F22;
+  --b-bg-rgb: 8, 15, 34;
+  --b-bg-alt: #0C1730;
+  --b-surface: #101D39;
+  --b-border: #17233F;
+  --b-border2: #24345A;
+  --b-muted: #68748B;
+  --b-muted2: #9DA9C1;
+  --b-ink: #F7F8FC;
+  --b-tint: 255, 255, 255;
+  --b-accent: #4B7CFF;
+  --b-accent-deep: #3659C3;
+  --b-accent-light: #91ADFF;
+  --b-lift: 0 28px 56px rgba(0, 0, 0, 0.4);
+  color: var(--b-ink);
+}
+
 /* ── Base overrides for Bould sections ── */
 .bould-page-wrap {
-  background: var(--b-black);
+  background: var(--b-bg);
   overflow-x: hidden;
 }
 
-/* Force dark body background on all Bould pages (homepage + inner pages) */
 body:has(.bould-hero),
 body:has(.bould-page-hero),
 body:has(.bould-policy-wrap) {
-  background-color: var(--b-black) !important;
+  background-color: var(--b-bg) !important;
 }
 
-/* ── Global dark header for all Bould pages ── */
+/* ── Header: solid light everywhere, except see-through over the
+   homepage hero until the page scrolls ── */
 .header-wrapper {
-  background: rgba(8, 8, 8, 0.96) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+  background: rgba(var(--b-bg-rgb), 0.92) !important;
+  border-bottom: 1px solid rgba(var(--b-tint), 0.08) !important;
   backdrop-filter: blur(12px);
   transition: background 0.3s ease, border-color 0.3s ease;
 }
 
+/* The wordmark file is white; on the light header it is drawn in ink. */
+.header-wrapper .bould-header__logo img {
+  filter: brightness(0) saturate(100%) invert(9%) sepia(17%) saturate(2700%) hue-rotate(194deg);
+}
+body:has(.bould-hero) .header-wrapper:not(.scrolled) .bould-header__logo img {
+  filter: none;
+}
+
 .header {
-  --color-foreground: 240, 237, 232;
-  --color-background: 8, 8, 8;
+  --color-foreground: 16, 26, 48;
+  --color-background: 244, 246, 250;
 }
 
 .header__heading-link,
-.header-wrapper a,
+.header-wrapper a:not(.bould-btn),
 .header__icon svg {
-  color: var(--b-white) !important;
-  stroke: var(--b-white) !important;
+  color: var(--b-ink) !important;
+  stroke: var(--b-ink) !important;
 }
 
-/* Hero pages: fully transparent until scroll */
-body:has(.bould-hero) .header-wrapper,
-body:has(.bould-page-hero) .header-wrapper {
+/* Homepage hero: fully transparent until scroll */
+body:has(.bould-hero) .header-wrapper:not(.scrolled) {
   background: transparent !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-bottom: 1px solid rgba(var(--b-tint), 0.05) !important;
   backdrop-filter: none;
 }
 
-/* Scrolled state: dark blur on all pages */
+/* Scrolled state: light blur on all pages */
 .header-wrapper.scrolled {
-  background: rgba(8, 8, 8, 0.95) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(var(--b-bg-rgb), 0.95) !important;
+  border-bottom: 1px solid rgba(var(--b-tint), 0.08) !important;
   backdrop-filter: blur(14px) !important;
 }
 
@@ -116,7 +154,7 @@ body:has(.bould-page-hero) .header-wrapper {
 body:has(.bould-hero) .footer-section,
 body:has(.bould-page-hero) .footer-section,
 body:has(.bould-policy-wrap) .footer-section {
-  background: var(--b-dark);
+  background: var(--b-bg-alt);
   border-top: 1px solid var(--b-border);
   color: var(--b-muted2);
 }
@@ -139,7 +177,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   position: fixed;
   width: 8px;
   height: 8px;
-  background: var(--b-white);
+  background: var(--b-ink);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: width 0.2s, height 0.2s, opacity 0.2s;
@@ -151,7 +189,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   position: fixed;
   width: 40px;
   height: 40px;
-  border: 1px solid rgba(240, 237, 232, 0.5);
+  border: 1px solid rgba(var(--b-tint), 0.5);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -162,7 +200,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-cursor--hover .bould-cursor__ring {
   width: 64px;
   height: 64px;
-  border-color: var(--b-purple);
+  border-color: var(--b-accent);
 }
 
 .bould-cursor--hover .bould-cursor__dot {
@@ -215,7 +253,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   width: 100%;
   height: 100svh;
   min-height: 640px;
-  background: var(--b-black);
+  background: var(--b-bg);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -247,11 +285,11 @@ body:has(.bould-policy-wrap) .footer-section * {
   align-items: center;
   gap: 0.8rem;
   padding: 0.8rem 1.6rem;
-  border-radius: 100px;
-  border: 1px solid rgba(139, 92, 246, 0.35);
-  background: rgba(8, 8, 8, 0.55);
+  border-radius: 6px;
+  border: 1px solid rgba(75, 124, 255, 0.35);
+  background: rgba(var(--b-bg-rgb), 0.55);
   backdrop-filter: blur(10px);
-  color: var(--b-purple3);
+  color: var(--b-accent-light);
   font-family: var(--b-font);
   font-size: 1.1rem;
   font-weight: 500;
@@ -315,34 +353,20 @@ body:has(.bould-policy-wrap) .footer-section * {
   inset: 0;
   z-index: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(var(--b-tint), 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--b-tint), 0.02) 1px, transparent 1px);
   background-size: 80px 80px;
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
 }
 
 .bould-hero__content {
-  position: absolute;
+  position: relative;
   z-index: 2;
   padding: 0 6vw;
   max-width: 56%;
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
-  /* Start centered — FLIP JS will animate to left-aligned final state */
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  align-items: center;
-}
-
-/* After choreography completes, switch to final left-aligned layout */
-.bould-hero__content.is-final {
-  position: relative;
-  left: auto;
-  top: auto;
-  transform: none;
   text-align: left;
   align-items: flex-start;
 }
@@ -354,26 +378,18 @@ body:has(.bould-policy-wrap) .footer-section * {
   font-family: var(--b-font);
   font-size: 1.1rem;
   font-weight: 500;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--b-purple);
-}
-
-.bould-hero__eyebrow::before {
-  content: '';
-  display: block;
-  width: 24px;
-  height: 1px;
-  background: var(--b-purple);
+  color: var(--b-accent);
 }
 
 .bould-hero__headline {
   font-family: var(--b-font);
   font-size: clamp(4rem, 7.5vw, 9rem);
   font-weight: 700;
-  line-height: 0.92;
-  letter-spacing: -0.03em;
-  color: var(--b-white);
+  line-height: 0.95;
+  letter-spacing: -0.005em;
+  color: var(--b-ink);
   margin: 0;
   overflow: hidden;
 }
@@ -390,7 +406,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 
 
 .bould-hero__headline .line--accent {
-  color: var(--b-purple);
+  color: var(--b-accent);
 }
 
 .bould-hero__body {
@@ -419,7 +435,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   letter-spacing: 0.04em;
   text-decoration: none;
   padding: 1.4rem 2.8rem;
-  border-radius: 100px;
+  border-radius: 6px;
   transition: all 0.3s var(--b-ease);
   cursor: pointer;
   border: none;
@@ -427,19 +443,19 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-btn--primary {
-  background: var(--b-purple);
-  color: var(--b-white);
+  background: var(--b-accent);
+  color: #fff;
 }
 
 .bould-btn--primary:hover {
-  background: var(--b-purple3);
+  background: var(--b-accent-deep);
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.45);
+  box-shadow: var(--b-lift);
 }
 
 .bould-btn--ghost {
   background: transparent;
-  color: var(--b-white);
+  color: var(--b-ink);
   border: 1px solid var(--b-border2);
 }
 
@@ -504,7 +520,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   font-family: var(--b-font);
   font-size: 2.4rem;
   font-weight: 700;
-  color: var(--b-white);
+  color: var(--b-ink);
   letter-spacing: -0.02em;
 }
 
@@ -559,12 +575,12 @@ body:has(.bould-policy-wrap) .footer-section * {
 ══════════════════════════════════════ */
 .bould-marquee {
   position: relative;
-  background: #0C0518;
+  background: var(--b-bg-alt);
   overflow: hidden;
   padding: 1.6rem 0;
   font-family: var(--b-font);
-  border-top: 1px solid rgba(139, 92, 246, 0.2);
-  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+  border-top: 1px solid rgba(75, 124, 255, 0.2);
+  border-bottom: 1px solid rgba(75, 124, 255, 0.2);
 }
 
 .bould-marquee__track {
@@ -596,7 +612,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--b-purple3);
+  color: var(--b-accent-light);
   white-space: nowrap;
 }
 
@@ -604,7 +620,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--b-purple);
+  background: var(--b-accent);
   opacity: 0.5;
   flex-shrink: 0;
 }
@@ -613,7 +629,7 @@ body:has(.bould-policy-wrap) .footer-section * {
    SERVICES
 ══════════════════════════════════════ */
 .bould-services {
-  background: var(--b-black);
+  background: var(--b-bg);
   padding: clamp(8rem, 12vw, 14rem) 6vw;
   font-family: var(--b-font);
   border-top: 1px solid var(--b-border);
@@ -630,29 +646,21 @@ body:has(.bould-policy-wrap) .footer-section * {
 
 .bould-section-label {
   font-size: 1.1rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--b-purple);
+  color: var(--b-accent);
   display: flex;
   align-items: center;
   gap: 0.8rem;
-}
-
-.bould-section-label::before {
-  content: '';
-  display: inline-block;
-  width: 20px;
-  height: 1px;
-  background: var(--b-purple);
 }
 
 .bould-section-title {
   font-size: clamp(3.2rem, 5vw, 6.4rem);
   font-weight: 700;
   line-height: 1.0;
-  letter-spacing: -0.03em;
-  color: var(--b-white);
+  letter-spacing: -0.02em;
+  color: var(--b-ink);
   max-width: 18ch;
   margin: 0;
 }
@@ -702,13 +710,13 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-service-item:hover .bould-service-item__num {
-  color: var(--b-purple);
+  color: var(--b-accent);
 }
 
 .bould-service-item__name {
   font-size: clamp(2rem, 3vw, 3.6rem);
   font-weight: 700;
-  color: var(--b-white);
+  color: var(--b-ink);
   letter-spacing: -0.02em;
   line-height: 1;
   transition: color 0.3s, transform 0.4s var(--b-ease);
@@ -716,7 +724,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-service-item:hover .bould-service-item__name {
-  color: var(--b-purple);
+  color: var(--b-accent);
 }
 
 .bould-service-item__desc {
@@ -751,9 +759,9 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-service-item:hover .bould-service-item__arrow {
-  background: var(--b-purple);
-  border-color: var(--b-purple);
-  color: var(--b-black);
+  background: var(--b-accent);
+  border-color: var(--b-accent);
+  color: var(--b-bg);
   transform: rotate(45deg);
 }
 
@@ -766,7 +774,7 @@ body:has(.bould-policy-wrap) .footer-section * {
    WORK / SHOWCASE
 ══════════════════════════════════════ */
 .bould-work {
-  background: var(--b-dark);
+  background: var(--b-bg-alt);
   padding: clamp(8rem, 12vw, 14rem) 6vw;
   font-family: var(--b-font);
   border-top: 1px solid var(--b-border);
@@ -782,10 +790,10 @@ body:has(.bould-policy-wrap) .footer-section * {
 
 .bould-work-card {
   position: relative;
-  border-radius: 20px;
+  border-radius: 8px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(var(--b-tint), 0.03);
+  border: 1px solid rgba(var(--b-tint), 0.08);
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -795,8 +803,8 @@ body:has(.bould-policy-wrap) .footer-section * {
 
 .bould-work-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 28px 56px rgba(0, 0, 0, 0.4);
+  border-color: rgba(var(--b-tint), 0.18);
+  box-shadow: var(--b-lift);
 }
 
 .bould-work-card__logo-wrap {
@@ -824,14 +832,14 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-work-card__initials {
   font-size: 5rem;
   font-weight: 800;
-  color: rgba(255, 255, 255, 0.12);
-  letter-spacing: -0.04em;
+  color: rgba(var(--b-tint), 0.12);
+  letter-spacing: -0.02em;
   font-family: var(--b-font);
 }
 
 .bould-work-card__footer {
   padding: 1.8rem 2.4rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(var(--b-tint), 0.08);
   background: rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: flex-end;
@@ -859,14 +867,14 @@ body:has(.bould-policy-wrap) .footer-section * {
   font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--b-purple);
+  color: var(--b-accent);
   display: block;
 }
 
 .bould-work-card__name {
   font-size: clamp(1.6rem, 2vw, 2.2rem);
   font-weight: 700;
-  color: var(--b-white);
+  color: var(--b-ink);
   letter-spacing: -0.02em;
   line-height: 1.15;
   margin: 0;
@@ -877,7 +885,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-work-card:hover .bould-work-card__name {
-  color: var(--b-purple3);
+  color: var(--b-accent-light);
 }
 
 .bould-work-card__year {
@@ -890,17 +898,17 @@ body:has(.bould-policy-wrap) .footer-section * {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(var(--b-tint), 0.07);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--b-white);
+  color: var(--b-ink);
   transition: background 0.25s, transform 0.25s;
   flex-shrink: 0;
 }
 
 .bould-work-card:hover .bould-work-card__cta-icon {
-  background: var(--b-purple);
+  background: var(--b-accent);
   transform: rotate(45deg);
 }
 
@@ -910,7 +918,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: var(--b-card);
+  background: var(--b-surface);
 }
 
 .bould-work-card__meta {
@@ -924,7 +932,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--b-purple);
+  color: var(--b-accent);
 }
 
 /* Override year position when inside body (not overlay) */
@@ -935,7 +943,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-work-card__title {
   font-size: clamp(1.8rem, 2.5vw, 2.6rem);
   font-weight: 700;
-  color: var(--b-white);
+  color: var(--b-ink);
   letter-spacing: -0.02em;
   line-height: 1.1;
   margin: 0;
@@ -943,7 +951,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-work-card:hover .bould-work-card__title {
-  color: var(--b-purple3);
+  color: var(--b-accent-light);
 }
 
 .bould-work-card__result {
@@ -957,7 +965,7 @@ body:has(.bould-policy-wrap) .footer-section * {
    CAPABILITIES
 ══════════════════════════════════════ */
 .bould-capabilities {
-  background: var(--b-black);
+  background: var(--b-bg);
   padding: clamp(8rem, 12vw, 14rem) 6vw;
   font-family: var(--b-font);
   border-top: 1px solid var(--b-border);
@@ -982,7 +990,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   align-items: center;
   gap: 1.2rem;
   padding: 1.6rem 2rem;
-  background: var(--b-card);
+  background: var(--b-surface);
   border: 1px solid var(--b-border);
   border-radius: 12px;
   transition: border-color 0.3s, transform 0.3s var(--b-ease);
@@ -1009,7 +1017,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-tech-pill__name {
   font-size: 1.4rem;
   font-weight: 600;
-  color: var(--b-white);
+  color: var(--b-ink);
 }
 
 .bould-capabilities__visual {
@@ -1017,7 +1025,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   aspect-ratio: 1;
   border-radius: 24px;
   overflow: hidden;
-  background: var(--b-card);
+  background: var(--b-surface);
   border: 1px solid var(--b-border);
   display: flex;
   align-items: center;
@@ -1028,7 +1036,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   font-size: 22vw;
   font-weight: 700;
   color: rgba(242, 228, 55, 0.08);
-  letter-spacing: -0.05em;
+  letter-spacing: -0.02em;
   line-height: 1;
   font-family: var(--b-font);
   user-select: none;
@@ -1038,11 +1046,11 @@ body:has(.bould-policy-wrap) .footer-section * {
    STATS
 ══════════════════════════════════════ */
 .bould-stats {
-  background: #0C0518;
+  background: var(--b-bg-alt);
   padding: clamp(8rem, 10vw, 12rem) 6vw;
   font-family: var(--b-font);
-  border-top: 1px solid rgba(139, 92, 246, 0.15);
-  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+  border-top: 1px solid rgba(75, 124, 255, 0.15);
+  border-bottom: 1px solid rgba(75, 124, 255, 0.15);
   position: relative;
   overflow: hidden;
 }
@@ -1051,7 +1059,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(75, 124, 255, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -1063,15 +1071,15 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-stat {
-  border-left: 2px solid rgba(139, 92, 246, 0.3);
+  border-left: 2px solid rgba(75, 124, 255, 0.3);
   padding-left: 2.4rem;
 }
 
 .bould-stat__num {
   font-size: clamp(4.8rem, 6vw, 8rem);
   font-weight: 700;
-  color: var(--b-purple3);
-  letter-spacing: -0.04em;
+  color: var(--b-accent-light);
+  letter-spacing: -0.02em;
   line-height: 1;
   display: block;
 }
@@ -1090,8 +1098,8 @@ body:has(.bould-policy-wrap) .footer-section * {
   grid-column: span 4;
   font-size: clamp(2.8rem, 4vw, 5.2rem);
   font-weight: 700;
-  color: var(--b-white);
-  letter-spacing: -0.03em;
+  color: var(--b-ink);
+  letter-spacing: -0.02em;
   line-height: 1.05;
   margin: 0 0 clamp(4rem, 6vw, 7rem);
   max-width: 24ch;
@@ -1099,7 +1107,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 
 .bould-stats__headline em {
   font-style: normal;
-  color: var(--b-purple);
+  color: var(--b-accent);
   opacity: 0.7;
 }
 
@@ -1107,7 +1115,7 @@ body:has(.bould-policy-wrap) .footer-section * {
    CTA
 ══════════════════════════════════════ */
 .bould-cta {
-  background: var(--b-dark);
+  background: var(--b-bg-alt);
   padding: clamp(10rem, 16vw, 18rem) 6vw;
   font-family: var(--b-font);
   text-align: center;
@@ -1124,7 +1132,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   width: 800px;
   height: 800px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(75, 124, 255, 0.1) 0%, transparent 70%);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -1134,7 +1142,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--b-purple);
+  color: var(--b-accent);
   margin-bottom: 2.4rem;
   display: block;
 }
@@ -1142,8 +1150,8 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-cta__title {
   font-size: clamp(5rem, 9vw, 12rem);
   font-weight: 700;
-  color: var(--b-white);
-  letter-spacing: -0.04em;
+  color: var(--b-ink);
+  letter-spacing: -0.02em;
   line-height: 0.9;
   margin: 0 0 3.2rem;
   overflow: hidden;
@@ -1154,7 +1162,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-cta__title .bould-cta__title--accent {
-  color: var(--b-purple);
+  color: var(--b-accent);
 }
 
 .bould-cta__sub {
@@ -1189,12 +1197,12 @@ body:has(.bould-policy-wrap) .footer-section * {
   flex: 1;
   min-width: 260px;
   padding: 1.4rem 2rem;
-  background: var(--b-card);
+  background: var(--b-surface);
   border: 1px solid var(--b-border2);
-  border-radius: 100px;
+  border-radius: 6px;
   font-family: var(--b-font);
   font-size: 1.5rem;
-  color: var(--b-white);
+  color: var(--b-ink);
   outline: none;
   transition: border-color 0.3s;
 }
@@ -1204,7 +1212,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-cta__input:focus {
-  border-color: var(--b-purple);
+  border-color: var(--b-accent);
 }
 
 /* ══════════════════════════════════════
@@ -1245,34 +1253,16 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-page-hero {
   position: relative;
   overflow: hidden;
-  padding: clamp(12rem, 16vw, 18rem) 6vw clamp(6rem, 8vw, 10rem);
+  padding: clamp(6rem, 9vw, 11rem) 6vw clamp(5rem, 7vw, 8rem);
   border-bottom: 1px solid var(--b-border);
   font-family: var(--b-font);
-  background: var(--b-black);
+  background: var(--b-bg);
 }
 
 .bould-page-hero__inner {
   max-width: 80ch;
   position: relative;
   z-index: 1;
-}
-
-/* Ghost watermark text */
-.bould-page-hero__ghost {
-  position: absolute;
-  top: 50%;
-  right: -0.02em;
-  transform: translateY(-50%);
-  font-size: clamp(12rem, 28vw, 36rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  color: rgba(240, 237, 232, 0.025);
-  line-height: 1;
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-  font-family: var(--b-font);
-  z-index: 0;
 }
 
 /* Scroll indicator inside page hero */
@@ -1289,18 +1279,18 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-page-hero__title {
-  font-size: clamp(4.8rem, 8vw, 11rem);
+  font-size: clamp(4rem, 6vw, 7.2rem);
   font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
-  color: var(--b-white);
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  color: var(--b-ink);
   margin: 2.4rem 0 3.2rem;
   display: flex;
   flex-direction: column;
 }
 
 .bould-accent {
-  color: var(--b-purple);
+  color: var(--b-accent);
 }
 
 .bould-page-hero__sub {
@@ -1316,7 +1306,7 @@ body:has(.bould-policy-wrap) .footer-section * {
    can't be swapped out — restyle it in place to match the Bould look.)
 ══════════════════════════════════════ */
 .bould-policy-wrap {
-  background: var(--b-black);
+  background: var(--b-bg);
 }
 
 .bould-policy-wrap .shopify-policy__container {
@@ -1338,16 +1328,16 @@ body:has(.bould-policy-wrap) .footer-section * {
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--b-purple);
+  color: var(--b-accent);
   margin-bottom: 1.6rem;
 }
 
 .bould-policy-wrap .shopify-policy__title h1 {
   font-size: clamp(3.2rem, 5vw, 6rem);
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   line-height: 1;
-  color: var(--b-white);
+  color: var(--b-ink);
   margin: 0;
 }
 
@@ -1366,7 +1356,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-policy-wrap .shopify-policy__body .rte h2,
 .bould-policy-wrap .shopify-policy__body .rte h3,
 .bould-policy-wrap .shopify-policy__body .rte h4 {
-  color: var(--b-white);
+  color: var(--b-ink);
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.25;
@@ -1398,17 +1388,17 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-policy-wrap .shopify-policy__body .rte a {
-  color: var(--b-white);
+  color: var(--b-ink);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .bould-policy-wrap .shopify-policy__body .rte a:hover {
-  color: var(--b-purple);
+  color: var(--b-accent);
 }
 
 .bould-policy-wrap .shopify-policy__body .rte strong {
-  color: var(--b-white);
+  color: var(--b-ink);
   font-weight: 600;
 }
 
@@ -1419,7 +1409,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-policy-wrap .shopify-policy__body .rte blockquote {
-  border-left: 2px solid var(--b-purple);
+  border-left: 2px solid var(--b-accent);
   padding-left: 2rem;
   margin: 0 0 1.8rem;
   font-style: italic;
@@ -1460,8 +1450,8 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-page-cta__label {
   font-size: clamp(2.8rem, 4vw, 5rem);
   font-weight: 700;
-  color: var(--b-white);
-  letter-spacing: -0.03em;
+  color: var(--b-ink);
+  letter-spacing: -0.02em;
 }
 
 /* ── Studio ── */
@@ -1473,12 +1463,12 @@ body:has(.bould-policy-wrap) .footer-section * {
   grid-template-columns: 1fr 2fr;
   gap: 6rem;
   align-items: start;
-  background: var(--b-black);
+  background: var(--b-bg);
 }
 
 .bould-studio-mission__text p {
   font-size: clamp(1.8rem, 2.2vw, 2.6rem);
-  color: var(--b-white);
+  color: var(--b-ink);
   line-height: 1.55;
   letter-spacing: -0.01em;
 }
@@ -1489,7 +1479,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   padding: 0;
   border: none;
   font-size: clamp(1.8rem, 2.2vw, 2.6rem);
-  color: var(--b-white);
+  color: var(--b-ink);
   line-height: 1.55;
   letter-spacing: -0.01em;
   font-style: normal;
@@ -1533,7 +1523,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-studio-value__name {
   font-size: clamp(2rem, 2.5vw, 2.8rem);
   font-weight: 700;
-  color: var(--b-white);
+  color: var(--b-ink);
   letter-spacing: -0.02em;
   margin: 0 0 1.2rem;
 }
@@ -1563,7 +1553,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   align-items: center;
   padding: 0.4rem 1.2rem;
   border: 1px solid var(--b-border2);
-  border-radius: 100px;
+  border-radius: 6px;
   font-size: 1.1rem;
   font-weight: 500;
   color: var(--b-muted2);
@@ -1594,7 +1584,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-process__num {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--b-purple);
+  color: var(--b-accent);
   letter-spacing: 0.1em;
   display: block;
   margin-bottom: 2rem;
@@ -1603,7 +1593,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-process__name {
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--b-white);
+  color: var(--b-ink);
   letter-spacing: -0.02em;
   margin: 0 0 1.2rem;
 }
@@ -1638,14 +1628,14 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-signal-featured:hover .bould-signal-featured__title {
-  color: var(--b-purple3);
+  color: var(--b-accent-light);
 }
 
 .bould-signal-featured__title {
   font-size: clamp(2.4rem, 3vw, 4rem);
   font-weight: 700;
-  color: var(--b-white);
-  letter-spacing: -0.03em;
+  color: var(--b-ink);
+  letter-spacing: -0.02em;
   line-height: 1.1;
   margin: 1.6rem 0;
   transition: color 0.2s;
@@ -1655,14 +1645,14 @@ body:has(.bould-policy-wrap) .footer-section * {
   aspect-ratio: 16/10;
   border-radius: 12px;
   overflow: hidden;
-  background: var(--b-card);
+  background: var(--b-surface);
 }
 
 .bould-signal-featured__placeholder,
 .bould-signal-card__placeholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #1A1A2E 0%, #0D1B42 100%);
+  background: linear-gradient(135deg, var(--b-surface) 0%, var(--b-bg-alt) 100%);
 }
 
 .bould-signal-featured__excerpt {
@@ -1696,7 +1686,7 @@ body:has(.bould-policy-wrap) .footer-section * {
   aspect-ratio: 3/2;
   border-radius: 10px;
   overflow: hidden;
-  background: var(--b-card);
+  background: var(--b-surface);
   transition: transform 0.4s var(--b-ease);
 }
 
@@ -1713,14 +1703,14 @@ body:has(.bould-policy-wrap) .footer-section * {
 .bould-signal-card__title {
   font-size: 1.8rem;
   font-weight: 600;
-  color: var(--b-white);
+  color: var(--b-ink);
   letter-spacing: -0.02em;
   line-height: 1.25;
   transition: color 0.2s;
 }
 
 .bould-signal-card:hover .bould-signal-card__title {
-  color: var(--b-purple3);
+  color: var(--b-accent-light);
 }
 
 .bould-signal-empty {
@@ -1743,7 +1733,7 @@ body:has(.bould-policy-wrap) .footer-section * {
    FOOTER
 ══════════════════════════════════════ */
 .bould-footer {
-  background: var(--b-black);
+  background: var(--b-bg);
   border-top: 1px solid var(--b-border);
   font-family: var(--b-font);
 }
@@ -1775,16 +1765,16 @@ body:has(.bould-policy-wrap) .footer-section * {
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--b-purple);
+  color: var(--b-accent);
   margin: 0 0 2.8rem;
 }
 
 .bould-footer__headline {
   font-size: clamp(5.6rem, 11vw, 14rem);
   font-weight: 700;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   line-height: 0.92;
-  color: var(--b-white);
+  color: var(--b-ink);
   margin: 0 0 6rem;
   display: flex;
   flex-direction: column;
@@ -1792,7 +1782,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-footer__headline-accent {
-  color: var(--b-purple);
+  color: var(--b-accent);
 }
 
 .bould-footer__cta {
@@ -1872,7 +1862,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-footer__social-link:hover {
-  color: var(--b-purple3);
+  color: var(--b-accent-light);
   transform: translateY(-2px);
 }
 
@@ -1907,7 +1897,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 }
 
 .bould-footer__nav-link:hover {
-  color: var(--b-white);
+  color: var(--b-ink);
   padding-left: 0.6rem;
 }
 
@@ -2222,7 +2212,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 /* Backdrop scrim — covers right side when drawer is open */
 header-drawer details[open]>summary::before,
 .js header-drawer details[open]>summary::before {
-  background: rgba(4, 0, 12, 0.85) !important;
+  background: rgba(var(--b-bg-rgb), 0.9) !important;
   backdrop-filter: blur(10px) saturate(0.6) !important;
   -webkit-backdrop-filter: blur(10px) saturate(0.6) !important;
 }
@@ -2230,13 +2220,13 @@ header-drawer details[open]>summary::before,
 /* Drawer panel — force dark over any color scheme */
 .menu-drawer,
 #menu-drawer {
-  background: rgba(8, 0, 20, 0.94) !important;
+  background: rgba(var(--b-bg-rgb), 0.94) !important;
   backdrop-filter: blur(28px) saturate(1.6) !important;
   -webkit-backdrop-filter: blur(28px) saturate(1.6) !important;
-  border-right: 1px solid rgba(139, 92, 246, 0.18) !important;
+  border-right: 1px solid rgba(75, 124, 255, 0.18) !important;
   filter: none !important;
-  --color-background: 8, 0, 20 !important;
-  --color-foreground: 240, 237, 232 !important;
+  --color-background: 8, 15, 34 !important;
+  --color-foreground: 247, 248, 252 !important;
   --gradient-background: transparent !important;
 }
 
@@ -2255,7 +2245,7 @@ header-drawer details[open]>summary::before,
   background-size: 256px 256px;
 }
 
-/* Purple glow bloom */
+/* Blue glow bloom */
 .menu-drawer::after {
   content: '';
   position: absolute;
@@ -2263,7 +2253,7 @@ header-drawer details[open]>summary::before,
   left: -30%;
   width: 120%;
   height: 55%;
-  background: radial-gradient(ellipse at 40% 30%, rgba(139, 92, 246, 0.18) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 40% 30%, rgba(75, 124, 255, 0.18) 0%, transparent 65%);
   pointer-events: none;
   z-index: 0;
 }
@@ -2283,7 +2273,7 @@ header-drawer details[open]>summary::before,
 
 /* Nav links — Bould typography */
 .menu-drawer__menu-item {
-  color: rgba(240, 237, 232, 0.9) !important;
+  color: rgba(var(--b-tint), 0.9) !important;
   font-family: var(--b-font) !important;
   font-size: 2.6rem !important;
   font-weight: 600 !important;
@@ -2303,7 +2293,7 @@ header-drawer details[open]>summary::before,
   transform: translateY(-50%) scaleY(0);
   width: 2px;
   height: 60%;
-  background: var(--b-purple);
+  background: var(--b-accent);
   border-radius: 2px;
   transition: transform 0.25s var(--b-ease);
 }
@@ -2316,37 +2306,37 @@ header-drawer details[open]>summary::before,
 .menu-drawer__menu-item:hover,
 .menu-drawer__menu-item--active,
 .menu-drawer__close-button:hover {
-  color: var(--b-white) !important;
-  background: rgba(139, 92, 246, 0.06) !important;
+  color: var(--b-ink) !important;
+  background: rgba(75, 124, 255, 0.06) !important;
   padding-left: 4rem !important;
 }
 
 .menu-drawer__menu-item--active {
-  color: var(--b-purple3) !important;
+  color: var(--b-accent-light) !important;
 }
 
 /* Submenu */
 .js .menu-drawer__submenu {
-  background: rgba(8, 0, 20, 0.92) !important;
+  background: rgba(var(--b-bg-rgb), 0.92) !important;
   backdrop-filter: blur(28px) !important;
   -webkit-backdrop-filter: blur(28px) !important;
 }
 
 /* Utility / social strip */
 .menu-drawer__utility-links {
-  background: rgba(139, 92, 246, 0.04) !important;
-  border-top: 1px solid rgba(139, 92, 246, 0.12);
+  background: rgba(75, 124, 255, 0.04) !important;
+  border-top: 1px solid rgba(75, 124, 255, 0.12);
 }
 
 .menu-drawer .list-social__link svg,
 .menu-drawer .list-social__link .svg-wrapper svg {
-  fill: rgba(240, 237, 232, 0.5);
+  fill: rgba(var(--b-tint), 0.5);
   stroke: none;
   transition: fill 0.2s;
 }
 
 .menu-drawer .list-social__link:hover svg {
-  fill: var(--b-purple3);
+  fill: var(--b-accent-light);
 }
 
 /* ── Staggered entrance animations ── */
@@ -2421,9 +2411,9 @@ details[open].menu-opening .menu-drawer__utility-links {
 }
 
 .bould-theme-card {
-  background: var(--b-card);
+  background: var(--b-surface);
   border: 1px solid var(--b-border);
-  border-radius: 1.6rem;
+  border-radius: 8px;
   overflow: hidden;
   transition: border-color 0.35s var(--b-ease), transform 0.35s var(--b-ease), box-shadow 0.35s var(--b-ease);
 }
@@ -2439,7 +2429,7 @@ details[open].menu-opening .menu-drawer__utility-links {
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: var(--b-dark);
+  background: var(--b-bg-alt);
   text-decoration: none;
 }
 
@@ -2462,17 +2452,17 @@ details[open].menu-opening .menu-drawer__utility-links {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--b-dark) 0%, #1a0a2e 100%);
+  background: linear-gradient(135deg, var(--b-bg-alt) 0%, var(--b-surface) 100%);
   font-size: 6rem;
   font-weight: 700;
-  color: var(--b-purple);
+  color: var(--b-accent);
   font-family: var(--b-font);
 }
 
 .bould-theme-card__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(8, 0, 20, 0.5);
+  background: rgba(var(--b-bg-rgb), 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2493,10 +2483,10 @@ details[open].menu-opening .menu-drawer__utility-links {
   font-size: 1.4rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: var(--b-white);
-  background: var(--b-purple);
+  color: var(--b-ink);
+  background: var(--b-accent);
   padding: 1rem 2.4rem;
-  border-radius: 100px;
+  border-radius: 6px;
 }
 
 .bould-theme-card__body {
@@ -2516,7 +2506,7 @@ details[open].menu-opening .menu-drawer__utility-links {
 .bould-theme-card__name {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--b-white);
+  color: var(--b-ink);
   letter-spacing: -0.02em;
   margin: 0;
   font-family: var(--b-font);
@@ -2528,11 +2518,11 @@ details[open].menu-opening .menu-drawer__utility-links {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--b-purple3);
-  background: rgba(139, 92, 246, 0.12);
-  border: 1px solid rgba(139, 92, 246, 0.25);
+  color: var(--b-accent-light);
+  background: rgba(75, 124, 255, 0.12);
+  border: 1px solid rgba(75, 124, 255, 0.25);
   padding: 0.3rem 1rem;
-  border-radius: 100px;
+  border-radius: 6px;
 }
 
 .bould-theme-card__desc {
@@ -2553,7 +2543,7 @@ details[open].menu-opening .menu-drawer__utility-links {
    CONTACT PAGE
 ══════════════════════════════════════ */
 .bould-contact {
-  background: var(--b-black);
+  background: var(--b-bg);
   min-height: 100vh;
   font-family: var(--b-font);
   position: relative;
@@ -2566,7 +2556,7 @@ details[open].menu-opening .menu-drawer__utility-links {
   right: -8%;
   width: 560px;
   height: 560px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.07) 0%, transparent 68%);
+  background: radial-gradient(circle, rgba(75, 124, 255, 0.07) 0%, transparent 68%);
   pointer-events: none;
   z-index: 0;
 }
@@ -2583,9 +2573,9 @@ details[open].menu-opening .menu-drawer__utility-links {
 .bould-contact__title {
   font-size: clamp(4.4rem, 6.5vw, 8rem);
   font-weight: 700;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   line-height: 0.95;
-  color: var(--b-white);
+  color: var(--b-ink);
   margin: 2.4rem 0 3.2rem;
 }
 
@@ -2603,7 +2593,7 @@ details[open].menu-opening .menu-drawer__utility-links {
   gap: 0.9rem;
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--b-purple3);
+  color: var(--b-accent-light);
   text-decoration: none;
   margin-bottom: 4rem;
   transition: color 0.2s;
@@ -2611,7 +2601,7 @@ details[open].menu-opening .menu-drawer__utility-links {
 }
 
 .bould-contact__email:hover {
-  color: var(--b-white);
+  color: var(--b-ink);
 }
 
 .bould-contact__process {
@@ -2636,7 +2626,7 @@ details[open].menu-opening .menu-drawer__utility-links {
 .bould-contact__process li span {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--b-purple);
+  color: var(--b-accent);
   letter-spacing: 0.1em;
   min-width: 2.4rem;
   flex-shrink: 0;
@@ -2644,7 +2634,7 @@ details[open].menu-opening .menu-drawer__utility-links {
 
 /* Form card */
 .bould-contact__form-wrap {
-  background: var(--b-card);
+  background: var(--b-surface);
   border: 1px solid var(--b-border);
   border-radius: 24px;
   padding: 4rem;
@@ -2676,13 +2666,13 @@ details[open].menu-opening .menu-drawer__utility-links {
 .bould-contact__input,
 .bould-contact__select,
 .bould-contact__textarea {
-  background: var(--b-dark);
+  background: var(--b-surface);
   border: 1px solid var(--b-border2);
   border-radius: 12px;
   padding: 1.3rem 1.6rem;
   font-family: var(--b-font);
   font-size: 1.5rem;
-  color: var(--b-white);
+  color: var(--b-ink);
   outline: none;
   transition: border-color 0.25s, box-shadow 0.25s;
   width: 100%;
@@ -2697,8 +2687,8 @@ details[open].menu-opening .menu-drawer__utility-links {
 .bould-contact__input:focus,
 .bould-contact__select:focus,
 .bould-contact__textarea:focus {
-  border-color: var(--b-purple);
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+  border-color: var(--b-accent);
+  box-shadow: 0 0 0 3px rgba(75, 124, 255, 0.12);
 }
 
 .bould-contact__select {
@@ -2712,8 +2702,8 @@ details[open].menu-opening .menu-drawer__utility-links {
 }
 
 .bould-contact__select option {
-  background: var(--b-dark);
-  color: var(--b-white);
+  background: var(--b-surface);
+  color: var(--b-ink);
 }
 
 .bould-contact__textarea {
@@ -2733,7 +2723,7 @@ details[open].menu-opening .menu-drawer__utility-links {
   width: 1.8rem;
   height: 1.8rem;
   margin-top: 0.2rem;
-  accent-color: var(--b-purple);
+  accent-color: var(--b-accent);
   cursor: pointer;
 }
 
@@ -2745,13 +2735,13 @@ details[open].menu-opening .menu-drawer__utility-links {
 }
 
 .bould-contact__consent-label a {
-  color: var(--b-white);
+  color: var(--b-ink);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .bould-contact__consent-label a:hover {
-  color: var(--b-purple);
+  color: var(--b-accent);
 }
 
 .bould-contact__submit {
@@ -2786,18 +2776,18 @@ details[open].menu-opening .menu-drawer__utility-links {
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  background: rgba(139, 92, 246, 0.12);
-  border: 1px solid rgba(139, 92, 246, 0.3);
+  background: rgba(75, 124, 255, 0.12);
+  border: 1px solid rgba(75, 124, 255, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--b-purple3);
+  color: var(--b-accent-light);
 }
 
 .bould-contact__success-title {
   font-size: 2.6rem;
   font-weight: 700;
-  color: var(--b-white);
+  color: var(--b-ink);
   letter-spacing: -0.02em;
   margin: 0;
 }
@@ -2865,7 +2855,7 @@ details[open].menu-opening .menu-drawer__utility-links {
 .bould-cs-hero-img__media {
   width: 100%;
   height: auto;
-  border-radius: 16px;
+  border-radius: 8px;
   display: block;
 }
 
@@ -2882,7 +2872,7 @@ details[open].menu-opening .menu-drawer__utility-links {
   font-family: var(--b-font);
   font-size: clamp(2rem, 3vw, 2.8rem);
   font-weight: 700;
-  color: var(--b-white);
+  color: var(--b-ink);
   margin: 0 0 1.6rem;
   letter-spacing: -0.02em;
 }
@@ -2904,18 +2894,18 @@ details[open].menu-opening .menu-drawer__utility-links {
   align-items: center;
   text-align: center;
   padding: 4rem 2rem;
-  background: var(--b-card);
+  background: var(--b-surface);
   border: 1px solid var(--b-border);
-  border-radius: 16px;
+  border-radius: 8px;
 }
 
 .bould-stat__number {
   font-family: var(--b-font);
   font-size: clamp(4rem, 8vw, 7rem);
   font-weight: 700;
-  color: var(--b-purple);
+  color: var(--b-accent);
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .bould-stat__label {
@@ -2932,8 +2922,8 @@ details[open].menu-opening .menu-drawer__utility-links {
   border: none;
   margin: 0;
   padding: 4rem 3rem;
-  background: var(--b-card);
-  border-left: 3px solid var(--b-purple);
+  background: var(--b-surface);
+  border-left: 3px solid var(--b-accent);
   border-radius: 0 16px 16px 0;
 }
 
@@ -2943,7 +2933,7 @@ details[open].menu-opening .menu-drawer__utility-links {
   font-weight: 400;
   font-style: italic;
   line-height: 1.55;
-  color: var(--b-white);
+  color: var(--b-ink);
   margin: 0 0 1.6rem;
 }
 
@@ -2956,7 +2946,7 @@ details[open].menu-opening .menu-drawer__utility-links {
 }
 
 .bould-cs-block--image {
-  border-radius: 16px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -2964,7 +2954,7 @@ details[open].menu-opening .menu-drawer__utility-links {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 16px;
+  border-radius: 8px;
 }
 
 .bould-cs-block__caption {
@@ -2979,7 +2969,7 @@ details[open].menu-opening .menu-drawer__utility-links {
    SCHEDULER
 ══════════════════════════════════════ */
 .bould-scheduler {
-  background: var(--b-black);
+  background: var(--b-bg);
   padding: 8rem 0;
 }
 
@@ -2995,7 +2985,7 @@ details[open].menu-opening .menu-drawer__utility-links {
 }
 
 .bould-scheduler__header .bould-section-title {
-  color: var(--b-white);
+  color: var(--b-ink);
 }
 
 .bould-scheduler__embed {
@@ -3035,7 +3025,7 @@ details[open].menu-opening .menu-drawer__utility-links {
   font-family: var(--b-font);
   font-size: 1.3rem;
   letter-spacing: 0.05em;
-  color: var(--b-purple);
+  color: var(--b-accent);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.25s ease, opacity 0.25s ease;
@@ -3157,19 +3147,10 @@ details[open].menu-opening .menu-drawer__utility-links {
    has not loaded within a couple of seconds, so a slow or failed chunk resolves
    to visible rather than blank.
 ══════════════════════════════════════ */
-.bould-anim-ready .bould-reveal {
-  opacity: 0;
-  transform: translateY(40px);
-}
-.bould-anim-ready .bould-reveal-left {
-  opacity: 0;
-  transform: translateX(-40px);
-}
-.bould-anim-ready .bould-reveal-right {
-  opacity: 0;
-  transform: translateX(40px);
-}
+.bould-anim-ready .bould-reveal,
+.bould-anim-ready .bould-reveal-left,
+.bould-anim-ready .bould-reveal-right,
 .bould-anim-ready .bould-reveal-scale {
   opacity: 0;
-  transform: scale(0.94);
+  transform: translateY(12px);
 }

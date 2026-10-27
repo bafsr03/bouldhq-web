@@ -137,7 +137,6 @@ export default function UtahCountyPage() {
       />
 
       <PageHero
-        ghost="Utah"
         eyebrow="Wasatch Front"
         title="Web design for Utah County & Salt Lake businesses."
         sub="Based in Utah. The clients below are along the Wasatch Front, and you can drive to any of the work."

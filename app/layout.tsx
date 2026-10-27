@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Space_Grotesk } from 'next/font/google'
+import { Archivo } from 'next/font/google'
 import { GoogleAnalytics } from '@next/third-parties/google'
 
 import './bould.css'
@@ -27,11 +27,10 @@ import {
  * (which is what the Shopify stylesheet did on every page), no layout shift, and
  * no third-party connection on the critical path.
  */
-const spaceGrotesk = Space_Grotesk({
+const archivo = Archivo({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
-  variable: '--font-space-grotesk',
+  variable: '--font-archivo',
 })
 
 export const metadata: Metadata = {
@@ -97,8 +96,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#080808',
-  colorScheme: 'dark',
+  themeColor: '#080F22',
+  colorScheme: 'light',
 }
 
 export default function RootLayout({
@@ -107,7 +106,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en-US" className={spaceGrotesk.variable}>
+    <html lang="en-US" className={archivo.variable}>
       <head>
         {/* Which build is this? See BUILD_STAMP in next.config.ts. */}
         <meta name="build-stamp" content={process.env.NEXT_PUBLIC_BUILD_STAMP} />

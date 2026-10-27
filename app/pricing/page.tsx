@@ -41,7 +41,6 @@ export default function PricingPage() {
       />
 
       <PageHero
-        ghost="Pricing"
         eyebrow="Plans"
         title="What it costs, before you have to ask."
         sub="Most local agencies will not put a number on a page. We would rather you knew now than after a sales call."

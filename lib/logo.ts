@@ -48,7 +48,7 @@ export const MARK_PATH = subpaths.slice(0, 2).join('')
 export const MARK_VIEWBOX = '0 0 211 230'
 
 /** An inlineable data URI for one of the two paths above. */
-export function logoDataUri(d: string, viewBox: string, fill = '#F0EDE8') {
+export function logoDataUri(d: string, viewBox: string, fill = '#F7F8FC') {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}"><path fill="${fill}" fill-rule="evenodd" d="${d}"/></svg>`
   return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`
 }

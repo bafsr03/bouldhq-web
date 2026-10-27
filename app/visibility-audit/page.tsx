@@ -45,7 +45,6 @@ export default function RankingCheckPage() {
       />
 
       <PageHero
-        ghost="Top 3"
         eyebrow="Free ranking check"
         title="See how you stack up against the top 3 businesses near you."
         sub="We'll check where you rank on Google Maps, compare you to the top 3, and call you with the one thing holding you back. Free."

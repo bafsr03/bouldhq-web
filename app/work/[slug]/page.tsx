@@ -52,9 +52,6 @@ export default async function CaseStudyPage({ params }: Props) {
       />
 
       <header className="bould-page-hero">
-        <span className="bould-page-hero__ghost" aria-hidden="true">
-          {cs.client.split(' ')[0]}
-        </span>
         <div className="bould-page-hero__inner">
           <p className="bould-section-label">
             Case study &middot; {cs.category} &middot; {cs.year}

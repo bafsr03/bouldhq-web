@@ -43,7 +43,6 @@ export default function ContactPage() {
       />
 
       <PageHero
-        ghost="Talk"
         eyebrow="Contact"
         title="Tell us what is not working."
         sub="The more you tell us up front, the more useful the first conversation is. We reply within one business day."

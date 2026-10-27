@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import PageHero from '@/components/PageHero'
 import PageCta from '@/components/PageCta'
+import Team from '@/components/Team'
 import JsonLd from '@/components/JsonLd'
 import { breadcrumbSchema, graph, webPageSchema } from '@/lib/schema'
 import { CLIENT_STATES, LEGAL_NAME } from '@/lib/site'
@@ -39,7 +40,6 @@ export default function AboutPage() {
       />
 
       <PageHero
-        ghost="About"
         eyebrow="About"
         title="Two people. Every site."
         sub={`${LEGAL_NAME} is Jake Knudsen and Brian Sanchez. We design it, we build it, we run it, and we are the ones who answer when you call.`}
@@ -47,6 +47,7 @@ export default function AboutPage() {
 
       <section className="bould-section" aria-labelledby="story-heading">
         <div className="bould-section__inner bould-section__inner--narrow">
+          <Team heading="The two of us" />
           <h2 className="bould-section-title" id="story-heading">
             How we got here
           </h2>

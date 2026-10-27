@@ -74,8 +74,8 @@ export function initAnimations() {
     gsap.to(el, {
       opacity: 1,
       y: 0,
-      duration: 0.9,
-      ease: 'power3.out',
+      duration: 0.6,
+      ease: 'power2.out',
       scrollTrigger: {
         trigger: el,
         start: 'top 85%',
@@ -86,21 +86,21 @@ export function initAnimations() {
 
   gsap.utils.toArray('.bould-reveal-left').forEach((el) => {
     gsap.to(el, {
-      opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
+      opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
       scrollTrigger: { trigger: el, start: 'top 85%', once: true },
     });
   });
 
   gsap.utils.toArray('.bould-reveal-right').forEach((el) => {
     gsap.to(el, {
-      opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
+      opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
       scrollTrigger: { trigger: el, start: 'top 85%', once: true },
     });
   });
 
   gsap.utils.toArray('.bould-reveal-scale').forEach((el) => {
     gsap.to(el, {
-      opacity: 1, scale: 1, duration: 1, ease: 'power3.out',
+      opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
       scrollTrigger: { trigger: el, start: 'top 88%', once: true },
     });
   });
@@ -158,10 +158,10 @@ export function initAnimations() {
   /* ── Work cards stagger ── */
   gsap.utils.toArray('.bould-work-card').forEach((card, i) => {
     gsap.fromTo(card,
-      { opacity: 0, y: 60, scale: 0.95 },
+      { opacity: 0, y: 12 },
       {
-        opacity: 1, y: 0, scale: 1,
-        duration: 0.8, ease: 'power3.out',
+        opacity: 1, y: 0,
+        duration: 0.6, ease: 'power2.out',
         delay: (i % 3) * 0.12,
         scrollTrigger: { trigger: card, start: 'top 90%', once: true },
       }

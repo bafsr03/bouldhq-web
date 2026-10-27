@@ -36,12 +36,12 @@ const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
 
 /* ─── Per-shape colour palettes ───────────────────────────────────────────── */
 // Additive blending: dense clusters auto-brighten toward white.
-// Main = small particles, Accent = medium purple, Glow = wide halo.
+// Main = small particles, Accent = medium blue, Glow = wide halo.
 const PALETTES = [
   {
-    main:   new THREE.Color(0xd8e0ff),  // cool white-blue
-    accent: new THREE.Color(0x8B5CF6),  // purple
-    glow:   new THREE.Color(0x3311bb),  // deep indigo
+    main:   new THREE.Color(0xdce6ff),  // ice white
+    accent: new THREE.Color(0x4B7CFF),  // cobalt
+    glow:   new THREE.Color(0x1f3f9e),  // deep navy-blue
   },
   {
     main:   new THREE.Color(0xffe8f8),  // warm pink-white
@@ -380,7 +380,7 @@ class BouldScene {
       blending: THREE.AdditiveBlending,
     }));
 
-    /* ── Accent layer — larger, purple ─── */
+    /* ── Accent layer — larger, blue ─── */
     const gA = new THREE.BufferGeometry();
     gA.setAttribute('position', new THREE.BufferAttribute(this._curB, 3));
     this._pointsAccent = new THREE.Points(gA, new THREE.PointsMaterial({
@@ -673,7 +673,7 @@ class BouldScene {
     this._syncAccent();
   }
 
-  /* Sync the accent (purple) layer to current positions */
+  /* Sync the accent (blue) layer to current positions */
   _syncAccent() {
     const cur  = this._cur, curB = this._curB, aIdx = this._accentIdx;
     for (let i = 0; i < this._accentN; i++) {
@@ -704,8 +704,8 @@ class BouldScene {
       }));
     };
     this.stars1 = mkL(mob?900:2800,  30,18, -9,-2,   0.009, 0xffffff, 0.28);
-    this.stars2 = mkL(mob?280:800,   28,16, -8,-1.5, 0.018, 0x8B5CF6, 0.18);
-    this.stars3 = mkL(mob?60:160,    26,14, -8,-2,   0.044, 0xC4B5FD, 0.09);
+    this.stars2 = mkL(mob?280:800,   28,16, -8,-1.5, 0.018, 0x4B7CFF, 0.18);
+    this.stars3 = mkL(mob?60:160,    26,14, -8,-2,   0.044, 0xDCE6FF, 0.09);
     this.scene.add(this.stars1, this.stars2, this.stars3);
   }
 

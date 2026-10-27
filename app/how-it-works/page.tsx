@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 import PageHero from '@/components/PageHero'
 import PageCta from '@/components/PageCta'
-import FormulaChart from '@/components/FormulaChart'
+import FormulaCheck from '@/components/FormulaCheck'
 import JsonLd from '@/components/JsonLd'
 import { breadcrumbSchema, graph, webPageSchema } from '@/lib/schema'
 import { RUBIO_REVIEWS_LABEL } from '@/lib/content/work'
@@ -74,7 +74,6 @@ export default function HowItWorksPage() {
       />
 
       <PageHero
-        ghost="Method"
         eyebrow="How it works"
         title={
           <>
@@ -109,7 +108,7 @@ export default function HowItWorksPage() {
               Visibility has to be worked at.
             </p>
           </div>
-          <FormulaChart />
+          <FormulaCheck />
         </div>
       </section>
 

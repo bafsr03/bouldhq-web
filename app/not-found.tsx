@@ -25,7 +25,6 @@ export default function NotFound() {
   return (
     <div className="bould-page-wrap">
       <PageHero
-        ghost="404"
         eyebrow="Not found"
         title="That page does not exist any more."
         sub="We rebuilt this site around what Bould actually does now. The page you wanted may have moved, or may have been one of the old store pages we removed."

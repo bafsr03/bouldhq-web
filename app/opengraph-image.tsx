@@ -39,11 +39,11 @@ export default function Image() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: '#080808',
+          background: '#080F22',
           backgroundImage:
-            'radial-gradient(900px 500px at 78% 12%, rgba(139,92,246,0.30), transparent 62%)',
+            'radial-gradient(900px 500px at 78% 12%, rgba(75, 124, 255,0.30), transparent 62%)',
           padding: '72px 80px',
-          color: '#F0EDE8',
+          color: '#F7F8FC',
           fontFamily: 'sans-serif',
         }}
       >
@@ -65,9 +65,9 @@ export default function Image() {
             }}
           >
             <span>Your website should</span>
-            <span style={{ color: '#A78BFA' }}>bring you customers.</span>
+            <span style={{ color: '#91ADFF' }}>bring you customers.</span>
           </div>
-          <div style={{ fontSize: 30, color: '#888888', maxWidth: 900 }}>
+          <div style={{ fontSize: 30, color: '#9DA9C1', maxWidth: 900 }}>
             Websites for local service businesses and growing brands.
           </div>
         </div>
@@ -77,14 +77,14 @@ export default function Image() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            borderTop: '1px solid #1E1E1E',
+            borderTop: '1px solid #17233F',
             paddingTop: 28,
             fontSize: 24,
-            color: '#888888',
+            color: '#9DA9C1',
           }}
         >
           <span>{LOCATION_LINE}</span>
-          <span style={{ color: '#F0EDE8' }}>bouldhq.com</span>
+          <span style={{ color: '#F7F8FC' }}>bouldhq.com</span>
         </div>
       </div>
     ),

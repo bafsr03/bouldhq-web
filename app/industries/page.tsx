@@ -50,7 +50,6 @@ export default function IndustriesPage() {
       />
 
       <PageHero
-        ghost="Who"
         eyebrow="Industries"
         title="Who we build for."
         sub="Different trades, one problem: the people already looking for you are not calling. Here is how that looks in each."

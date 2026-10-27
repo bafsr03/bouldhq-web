@@ -78,7 +78,6 @@ export default function ContractorsPage() {
       />
 
       <PageHero
-        ghost="Trades"
         eyebrow="Industries"
         title="Websites for contractors."
         sub="Built around how people actually hire a contractor: on a phone, in a hurry, comparing three of you at once."

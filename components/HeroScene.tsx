@@ -37,6 +37,9 @@ const START_EVENTS = ['pointermove', 'pointerdown', 'keydown', 'wheel', 'scroll'
 
 function sceneAllowed(): boolean {
   if (window.matchMedia(PHONE_LAYOUT).matches) return false
+  // Tablets and landscape phones are wider than the phone layout but have the
+  // same CPU: 20,000 particles simulated on the main thread made them stutter.
+  if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return false
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
   const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
   if (connection?.saveData) return false
@@ -132,7 +135,7 @@ export default function HeroScene({ models }: { models: (string | null)[] }) {
 export function HeroStill() {
   return (
     <picture className="bould-hero__still" aria-hidden="true">
-      <source media={PHONE_LAYOUT} srcSet="/hero-still-mobile.webp" width={780} height={438} />
+      <source media={PHONE_LAYOUT} srcSet="/hero-still-mobile.webp" width={780} height={540} />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/hero-still.webp" alt="" width={1440} height={900} fetchPriority="high" decoding="async" />
     </picture>

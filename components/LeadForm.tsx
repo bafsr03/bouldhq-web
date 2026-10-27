@@ -80,7 +80,7 @@ export default function LeadForm({
     const el = turnstileRef.current
     loadTurnstile().then((t) => {
       if (cancelled || !t) return
-      widgetId.current = t.render(el, { sitekey: TURNSTILE_SITE_KEY, theme: 'dark', size: 'flexible' })
+      widgetId.current = t.render(el, { sitekey: TURNSTILE_SITE_KEY, theme: 'light', size: 'flexible' })
     })
     return () => {
       cancelled = true
