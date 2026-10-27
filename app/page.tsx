@@ -82,10 +82,9 @@ export default function HomePage() {
           </h1>
 
           <p className="bould-hero__body">
-            Most local websites look fine and never ring the phone. We&rsquo;re
-            Jake and Brian. We build sites that turn the people already searching
-            for you into calls and quote requests, and we stay on after launch to
-            keep them working.
+            Most local websites look fine and never ring the phone. We build sites
+            that turn the people already searching for you into calls and quote
+            requests, and we stay on after launch to keep them working.
           </p>
 
           <div className="bould-hero__actions">
@@ -181,7 +180,7 @@ export default function HomePage() {
             <div>
               <h3 className="bould-mini-card__title">Bould (us)</h3>
               <ul className="bould-check-list">
-                <li>You work with Jake and Brian, the two people who design and build your site. Same two people from the first call through launch, and after.</li>
+                <li>You deal directly with the people who design and build your site, from the first call through launch and after. Nobody in between.</li>
                 <li>Before we talk price, we look up where you rank on Google Maps and show you the top 3 near you, with their names and review counts.</li>
                 <li>You hear back within the day. Changes are made by the person who built the page.</li>
                 <li>If you&rsquo;re in Utah, we meet you in person. On the job, at the shop, wherever&rsquo;s easy.</li>

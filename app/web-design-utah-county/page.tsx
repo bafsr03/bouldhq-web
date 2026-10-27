@@ -106,7 +106,7 @@ const UTAH_FAQS: Faq[] = [
   },
   {
     q: 'Can I just talk to someone?',
-    a: `Yes. Call ${PHONE_DISPLAY} and you will get Jake or Brian, not a call centre. If it is easier to meet, we will come to you anywhere along ${IN_PERSON_AREA}.`,
+    a: `Yes. Call ${PHONE_DISPLAY} and you will reach one of us directly, not a call centre. If it is easier to meet, we will come to you anywhere along ${IN_PERSON_AREA}.`,
   },
 ]
 

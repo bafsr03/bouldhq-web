@@ -19,7 +19,7 @@ import {
 
 /** Brief, site map — Contact, including the "How did you hear about us?" field. */
 const TITLE = `Contact ${LEGAL_NAME} | Web Design Based in Utah`
-const DESCRIPTION = `Talk to Jake and Brian about your website. Based in Utah, with clients in ${CLIENT_STATES}. We reply within one business day.`
+const DESCRIPTION = `Talk to us about your website. Based in Utah, with clients in ${CLIENT_STATES}. We reply within one business day.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,

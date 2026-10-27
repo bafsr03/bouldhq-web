@@ -17,7 +17,7 @@ import { CLIENT_STATES, LEGAL_NAME } from '@/lib/site'
  * it through the "%s | Bould Inc" template would print the name twice.
  */
 const TITLE = `About ${LEGAL_NAME} | Jake Knudsen & Brian Sanchez`
-const DESCRIPTION = `${LEGAL_NAME} is Jake Knudsen and Brian Sanchez. Two people who build and manage every site themselves. No account managers, no offshore team, no handoff.`
+const DESCRIPTION = `${LEGAL_NAME} designs, builds and manages every site itself. No account managers, no offshore team, no handoff.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -41,13 +41,13 @@ export default function AboutPage() {
 
       <PageHero
         eyebrow="About"
-        title="Two people. Every site."
-        sub={`${LEGAL_NAME} is Jake Knudsen and Brian Sanchez. We design it, we build it, we run it, and we are the ones who answer when you call.`}
+        title="We build it. We answer the phone."
+        sub="We design your site, build it and run it, and we are the ones who pick up when you call. Nobody in between."
       />
 
       <section className="bould-section" aria-labelledby="story-heading">
         <div className="bould-section__inner bould-section__inner--narrow">
-          <Team heading="The two of us" />
+          <Team />
           <h2 className="bould-section-title" id="story-heading">
             How we got here
           </h2>
@@ -74,7 +74,7 @@ export default function AboutPage() {
             remotely.
           </p>
 
-          <h2 className="bould-section-title">What you get from a two-person shop</h2>
+          <h2 className="bould-section-title">What you get from working with us directly</h2>
           <ul className="bould-check-list">
             <li>The person who built your site is the person who answers the phone.</li>
             <li>No account manager relaying your question to someone else.</li>

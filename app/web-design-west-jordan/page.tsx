@@ -108,7 +108,7 @@ const WEST_JORDAN_FAQS: Faq[] = [
   },
   {
     q: 'Can we meet first?',
-    a: `Yes. Call ${PHONE_DISPLAY} and you will get Jake or Brian. We will come to your shop or a job site anywhere in the southwest valley.`,
+    a: `Yes. Call ${PHONE_DISPLAY} and you will reach one of us directly. We will come to your shop or a job site anywhere in the southwest valley.`,
   },
 ]
 
