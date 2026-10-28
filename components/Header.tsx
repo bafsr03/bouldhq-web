@@ -40,7 +40,7 @@ export default function Header() {
       </a>
       <div className="bould-header">
         <Link href="/" className="bould-header__logo" aria-label={`Bould Inc — home`}>
-          <Image src="/bould.svg" alt="Bould" width={104} height={28} priority />
+          <Image src="/bould.svg" alt="Bould" width={127} height={36} priority />
         </Link>
 
         <nav className="bould-header__nav" aria-label="Main">

@@ -1834,7 +1834,7 @@ body:has(.bould-policy-wrap) .footer-section * {
 
 .bould-footer__logo-img {
   display: block;
-  height: 28px;
+  height: 40px;
   width: auto;
   margin-bottom: 1.6rem;
   filter: brightness(0) invert(1);

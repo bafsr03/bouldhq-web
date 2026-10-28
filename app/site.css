@@ -76,8 +76,13 @@
   flex: 0 0 auto;
 }
 .bould-header__logo img {
-  height: 2.8rem;
+  height: 3.6rem;
   width: auto;
+}
+@media (max-width: 768px) {
+  .bould-header__logo img {
+    height: 3.2rem;
+  }
 }
 
 .bould-header__nav {

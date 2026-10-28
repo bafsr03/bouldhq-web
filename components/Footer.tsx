@@ -70,8 +70,8 @@ export default function Footer() {
             src="/bould.svg"
             alt={LEGAL_NAME}
             className="bould-footer__logo-img"
-            width={120}
-            height={32}
+            width={141}
+            height={40}
           />
           <p className="bould-footer__tagline">
             Websites for local service businesses and growing brands.
