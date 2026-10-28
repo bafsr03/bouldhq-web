@@ -107,6 +107,12 @@ vercel env add NEXT_PUBLIC_SITE_URL production        # https://bouldhq.com
 vercel env add RESEND_API_KEY production
 vercel env add LEAD_TO_EMAIL production
 vercel env add NEXT_PUBLIC_GA4_ID production
+vercel env add NEXT_PUBLIC_GOOGLE_ADS_ID production         # AW-…
+vercel env add NEXT_PUBLIC_GOOGLE_ADS_PHONE_LABEL production
+vercel env add NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL production
+vercel env add TWILIO_ACCOUNT_SID production
+vercel env add TWILIO_AUTH_TOKEN production
+vercel env add TWILIO_FROM_NUMBER production                # +1…, A2P 10DLC registered
 vercel env add NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION production
 vercel env add NEXT_PUBLIC_GBP_URL production
 vercel env add NEXT_PUBLIC_META_PIXEL_ID production

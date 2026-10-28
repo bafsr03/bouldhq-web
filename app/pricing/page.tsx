@@ -6,7 +6,8 @@ import PageHero from '@/components/PageHero'
 import PageCta from '@/components/PageCta'
 import JsonLd from '@/components/JsonLd'
 import { breadcrumbSchema, faqSchema, graph, webPageSchema } from '@/lib/schema'
-import { PLANS, PRICING_FAQS } from '@/lib/content/pricing'
+import PlanCards from '@/components/PlanCards'
+import { PRICING_FAQS } from '@/lib/content/pricing'
 
 /**
  * Brief, site map — Pricing.
@@ -18,7 +19,7 @@ import { PLANS, PRICING_FAQS } from '@/lib/content/pricing'
  */
 const TITLE = 'Website Plans & Pricing'
 const DESCRIPTION =
-  'Website Build at $250/month, Golden Formula at $450/month with Google Business Profile and review management. You own the site.'
+  'Starter at $250/month ($750 setup), Growth at $450/month ($1,250 setup), plus the Golden Formula add-on at $200/month. No contracts. You own the site.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -51,51 +52,17 @@ export default function PricingPage() {
           <h2 className="bould-sr-only" id="plans-heading">
             Plans
           </h2>
-          <div className="bould-plans">
-            {PLANS.map((plan) => (
-              <article
-                key={plan.id}
-                className={`bould-plan${plan.featured ? ' bould-plan--featured' : ''} bould-reveal`}
-              >
-                {plan.featured && <span className="bould-plan__flag">Most businesses</span>}
-                <h3 className="bould-plan__name">{plan.name}</h3>
-                <p className="bould-plan__price">
-                  {plan.price}
-                  {plan.cadence && (
-                    <span className="bould-plan__cadence"> {plan.cadence}</span>
-                  )}
-                </p>
-                <p className="bould-plan__setup">{plan.setup}</p>
-                <p className="bould-plan__tagline">{plan.tagline}</p>
-                <ul className="bould-check-list">
-                  {plan.includes.map((i) => (
-                    <li key={i}>{i}</li>
-                  ))}
-                </ul>
-                <p className="bould-plan__best">
-                  <span className="bould-plan__best-label">Best for</span>
-                  {plan.best}
-                </p>
-                <Link href={plan.cta.href} className="bould-btn bould-btn--primary">
-                  {plan.cta.label}
-                </Link>
-              </article>
-            ))}
-          </div>
+          <PlanCards />
 
           <p className="bould-section-body bould-section-body--narrow">
-            <strong>Which one?</strong> The free ranking check compares you to the
-            top 3 businesses near you on Google Maps. Already in the top 3 means
-            people find you and the website is what is losing them &mdash; Website
-            Build. Close but behind them means a new site on its own would
-            multiply a small number, so the work that closes the gap comes with
-            it &mdash; Golden Formula.
+            <strong>Which one?</strong> Pick the website plan by your size:
+            Starter for one main service, Growth for several services or crews.
+            If the free ranking check shows you&rsquo;re behind the top 3 near
+            you, add the Golden Formula.
           </p>
           <p className="bould-section-body bould-section-body--narrow">
-            Setup is quoted per project on both plans.
-            You own your website. What moves a setup quote is scope: how many
-            services you offer, whether you are migrating an existing store, and
-            how much of the visibility work is already done.
+            Setup is $750 on Starter and $1,250 on Growth. Ecommerce builds are
+            quoted per project. You own your website.
           </p>
           <p className="bould-section-body bould-section-body--narrow">
             Selling products online instead?{' '}

@@ -37,7 +37,7 @@ export default function Footer() {
           </h2>
           <p className="bould-footer__hero-body bould-reveal">
             Where you rank on Google Maps, how you compare to the top 3 near you,
-            and the one thing holding you back. We run it and call you.
+            and what&rsquo;s holding you back. We run it and call you.
           </p>
           <Link
             href="/visibility-audit"

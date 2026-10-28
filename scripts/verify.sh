@@ -57,8 +57,8 @@ echo
 echo "Pages return 200 and carry one H1"
 for path in / /how-it-works /pricing /visibility-audit /work \
             /work/rubio-brothers-concrete /industries /industries/contractors \
-            /web-design-utah-county /web-design-west-jordan /about /contact /services/shopify-stores \
-            /privacy /terms; do
+            /web-design-utah-county /web-design-west-jordan /web-design-minnesota /about /contact \
+            /services/shopify-stores /privacy /terms; do
   body=$(curl -sL -w '\n%{http_code}' "$BASE$path")
   code=$(printf '%s' "$body" | tail -1)
   html=$(printf '%s' "$body" | sed '$d')
@@ -91,7 +91,8 @@ TITLE_MAX=60
 DESC_MAX=158
 for path in / /how-it-works /pricing /visibility-audit /work \
             /work/rubio-brothers-concrete /industries /industries/contractors \
-            /web-design-utah-county /web-design-west-jordan /about /contact /services/shopify-stores; do
+            /web-design-utah-county /web-design-west-jordan /web-design-minnesota /about /contact \
+            /services/shopify-stores; do
   html=$(curl -sL "$BASE$path")
   title=$(printf '%s' "$html" | grep -o '<title>[^<]*</title>' | head -1 | sed 's/<[^>]*>//g')
   desc=$(printf '%s' "$html" | grep -o '<meta name="description" content="[^"]*"' | head -1 | sed 's/.*content="//;s/"$//')
@@ -100,7 +101,9 @@ for path in / /how-it-works /pricing /visibility-audit /work \
 
   if [ -z "$desc" ]; then
     fail "$path has no meta description"
-  elif [ "$tlen" -gt "$TITLE_MAX" ]; then
+  # The homepage title is Jake's exact wording (Minnesota launch doc, Oct 28,
+  # 2026), knowingly past 60: Google may cut it after "Texas".
+  elif [ "$tlen" -gt "$TITLE_MAX" ] && [ "$path" != "/" ]; then
     fail "$path title is $tlen chars (max $TITLE_MAX) — will truncate"
   elif [ "$dlen" -gt "$DESC_MAX" ]; then
     fail "$path description is $dlen chars (max $DESC_MAX) — will truncate"
@@ -211,7 +214,10 @@ home=$(curl -sL "$BASE/")
 work=$(curl -sL "$BASE/work")
 pricing=$(curl -sL "$BASE/pricing")
 contact=$(curl -sL "$BASE/contact")
-all="$home$work$pricing$contact"
+how=$(curl -sL "$BASE/how-it-works")
+check=$(curl -sL "$BASE/visibility-audit")
+mn=$(curl -sL "$BASE/web-design-minnesota")
+all="$home$work$pricing$contact$how$check$mn"
 
 check_absent() {
   if printf '%s' "$all" | grep -qi -- "$1"; then
@@ -226,6 +232,16 @@ check_absent "Shopify Plus"
 check_absent "20k+"
 check_absent "JCK"
 check_absent "enquir"
+# Brand rules, Minnesota launch doc (Oct 28, 2026), section 3.
+check_absent "Visibility &times; Conversion"
+check_absent "Visibility × Conversion"
+check_absent "visibility half"
+check_absent "Where do you stand"
+check_absent "More Leads"
+check_absent "one thing holding"
+check_absent "Website Build"
+check_absent "20-point"
+check_absent "based in Minnesota"
 
 check_present() {
   if printf '%s' "$2" | grep -q -- "$1"; then
@@ -234,10 +250,12 @@ check_present() {
     fail "\"$1\" missing"
   fi
 }
-check_present "Based in Utah" "$home"
-check_present "Website Build" "$pricing"
+check_present "Utah, Texas &amp; Minnesota" "$home"
+check_present "Starter" "$pricing"
+check_present "Growth" "$pricing"
 check_present "Golden Formula" "$pricing"
-check_present "\$450" "$pricing"
+check_present "\$750" "$pricing"
+check_present "Get my quote" "$mn"
 
 # The heading states the count; the grid has to match it.
 count=$(printf '%s' "$home" | grep -o 'bould-project-card"' | wc -l | tr -d ' ')
@@ -332,6 +350,17 @@ nophone=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE/api/lead" \
   -H 'Content-Type: application/json' \
   -d '{"source":"ranking-check","name":"Verify","business":"Verify Co","city":"Provo","industry":"concrete","email":"verify@example.com","elapsedMs":9000}')
 [ "$nophone" = "422" ] && pass "ranking-check without a phone rejected (422)" || fail "ranking-check without a phone returned $nophone"
+
+# Minnesota quote form: probes skip delivery, so this never texts anyone.
+mnq=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE/api/lead" \
+  -H 'Content-Type: application/json' \
+  -d '{"source":"minnesota-quote","name":"Verify","business":"Verify Co","phone":"612-555-0100","email":"verify@example.com","need":"Not sure","elapsedMs":9000}')
+[ "$mnq" = "200" ] && pass "Minnesota quote accepted (200)" || fail "Minnesota quote returned $mnq"
+
+mnneed=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE/api/lead" \
+  -H 'Content-Type: application/json' \
+  -d '{"source":"minnesota-quote","name":"Verify","business":"Verify Co","phone":"612-555-0100","email":"verify@example.com","elapsedMs":9000}')
+[ "$mnneed" = "422" ] && pass "Minnesota quote without a need rejected (422)" || fail "Minnesota quote without a need returned $mnneed"
 
 hp=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE/api/lead" \
   -H 'Content-Type: application/json' \

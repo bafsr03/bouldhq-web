@@ -25,7 +25,7 @@ const LOGO = logoDataUri(WORDMARK_PATH, WORDMARK_VIEWBOX)
 const LOGO_W = 286
 const LOGO_H = Math.round((LOGO_W * 230) / 809)
 
-export const alt = `${LEGAL_NAME} — websites that bring local businesses leads`
+export const alt = `${LEGAL_NAME} — websites built with your competition in mind`
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -64,8 +64,8 @@ export default function Image() {
               flexDirection: 'column',
             }}
           >
-            <span>Your website should</span>
-            <span style={{ color: '#91ADFF' }}>bring you customers.</span>
+            <span>Built with your</span>
+            <span style={{ color: '#91ADFF' }}>competition in mind.</span>
           </div>
           <div style={{ fontSize: 30, color: '#9DA9C1', maxWidth: 900 }}>
             Websites for local service businesses and growing brands.

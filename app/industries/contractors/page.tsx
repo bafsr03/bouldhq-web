@@ -117,7 +117,8 @@ export default function ContractorsPage() {
             Six leads and $20,000 in new work within three months.
           </p>
           <p className="bould-proof__source">
-            Source: Rubio Brothers Concrete.{' '}
+            Source: Rubio Brothers Concrete. Every business is different; this
+            is what happened for them.{' '}
             <Link href="/work/rubio-brothers-concrete" className="bould-inline-link bould-inline-link--tap">
               Read the full case study
             </Link>
@@ -127,7 +128,7 @@ export default function ContractorsPage() {
       </section>
 
       <PageCta
-        label="Find out whether your problem is the site or the visibility"
+        label="See where you stand against the top 3 near you"
         cta="Get a free ranking check"
       />
     </div>

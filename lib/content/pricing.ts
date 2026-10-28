@@ -1,20 +1,12 @@
 /**
- * Plans and FAQs for /pricing.
+ * Plans and FAQs for /pricing, the homepage and /web-design-minnesota.
  *
- * Two monthly plans, named by Jake (Sep 2026): **Website Build** at $250 and
- * **Golden Formula** at $450. The split follows the formula the whole site
- * sells — Leads = Visibility x Conversion. Website Build fixes conversion for a
- * business people already find. Golden Formula adds the visibility half for a
- * business they do not.
- *
- * That is also why the free ranking check recommends between them rather than
- * the budget: it measures visibility, so it is the correct input. Close to the
- * top 3 with one clear gap → Golden Formula. Already in the top 3 but losing
- * the calls on a weak site → Website Build. (Competitor Check spec v2, §3.4.)
- *
- * The setup fee is deliberately "quoted per project" rather than invented — it
- * is a real number that does not exist yet, and printing a guess is worse than
- * printing nothing.
+ * Website Fixes + Minnesota Google Ads Launch (Oct 28, 2026), section 4: two
+ * website plans picked by the size of the business, the same price
+ * everywhere, and the Golden Formula as a $200/month add-on to either one.
+ * The ranking check decides the add-on, not the plan: it measures where a
+ * business stands against the top 3 near it, which says nothing about how many
+ * services it sells.
  */
 
 /** The button every local plan card ends on. */
@@ -26,51 +18,69 @@ export type Plan = {
   price: string
   cadence: string
   setup: string
-  tagline: string
+  /** Only the ecommerce card has one; the local plans lead with who they are for. */
+  tagline?: string
   includes: string[]
   best: string
-  featured?: boolean
+  /** Golden Formula: added to a plan, never bought on its own. */
+  addon?: boolean
+  /** A line under the price, e.g. what the add-on comes to with each plan. */
+  note?: string
   /** Where the card's button goes, and what it says. */
   cta: { href: string; label: string }
 }
 
 export const PLANS: Plan[] = [
   {
-    id: 'website-build',
-    name: 'Website Build',
+    id: 'starter',
+    name: 'Starter',
     price: '$250',
     cadence: 'per month',
-    setup: 'Setup quoted per project',
-    tagline:
-      'For businesses people already find. A site built to turn those visits into calls, and kept working after launch.',
+    setup: '$750 setup',
     includes: [
-      'Custom website built for your business',
-      'A page for every service',
+      'Custom website, up to 5 pages',
       'Click-to-call and quote forms that work on a phone',
-      'Hosting, security, and updates',
+      'Hosting, security and updates (up to 1 hour of changes a month)',
       'Call and form tracking',
-      'Monthly report: calls, forms, and where they came from',
+      'Monthly report: calls, form requests, and where they came from',
     ],
-    best: 'Local service businesses already in the top 3 on Google Maps, losing the calls on their website.',
+    best: 'Smaller shops with one main service.',
+    cta: { href: '/visibility-audit', label: CTA },
+  },
+  {
+    id: 'growth',
+    name: 'Growth',
+    price: '$450',
+    cadence: 'per month',
+    setup: '$1,250 setup',
+    includes: [
+      'Everything in Starter',
+      'Up to 15 pages: a page for each service and the main towns you serve',
+      'Up to 3 hours of changes a month',
+      'One new page or site improvement every month',
+      'Same-day response on changes',
+      'A 20-minute call every quarter',
+      'Instant Google Search Submission & Indexing',
+    ],
+    best: 'Established businesses with several services or crews.',
     cta: { href: '/visibility-audit', label: CTA },
   },
   {
     id: 'golden-formula',
     name: 'Golden Formula',
-    price: '$450',
+    price: '+$200',
     cadence: 'per month',
-    setup: 'Setup quoted per project',
-    tagline:
-      'For businesses that need to be found. Everything in Website Build, plus the visibility half of the formula.',
+    setup: 'No setup fee',
+    note: 'Starter + Golden Formula = $450 a month. Growth + Golden Formula = $650 a month.',
     includes: [
-      'Everything in Website Build',
-      'Google Business Profile setup and ongoing management',
-      'Profile updates and review responses',
-      'Review kit: link, text template, and QR card',
-      'Directory listings kept consistent',
+      'Monthly ranking check: where you rank against the top 3 for your 2–3 main searches',
+      'Review system: review link, text template and QR card, a monthly review goal, and reminders to you',
+      'Replies to every Google review within 48 hours',
+      'Google profile kept accurate: categories, services, service areas, hours and photos',
+      'Rankings and reviews added to your monthly report',
     ],
-    best: 'Local service businesses close to the top 3 on Google Maps, with a gap to close.',
-    featured: true,
+    best: 'Businesses behind the top 3 near them on Google Maps.',
+    addon: true,
     cta: { href: '/visibility-audit', label: CTA },
   },
   {
@@ -110,7 +120,7 @@ export const PRICING_FAQS: Faq[] = [
   },
   {
     q: 'Which plan do I need?',
-    a: 'The free ranking check answers it. If you are already in the top 3 on Google Maps near you, people are finding you, so the website is what is losing them: Website Build. If you are close but behind the top 3, a new site on its own would multiply a small number, so the work that closes the gap has to come with it: Golden Formula.',
+    a: "Starter fits smaller shops with one main service. Growth fits established businesses with several services or crews, who need more pages and more done each month. If the free ranking check shows you're behind the top 3 near you, add the Golden Formula.",
   },
   {
     q: 'Shopify or custom — which one do I need?',
@@ -122,11 +132,11 @@ export const PRICING_FAQS: Faq[] = [
   },
   {
     q: 'Why is there a monthly fee at all? Can I just buy a website?',
-    a: 'You can, and some people should. But a site on its own is only half the formula. The monthly plan is what keeps the site running and the reporting honest, and on Golden Formula it is what keeps the Google profile active and the reviews coming — the half that decides how many people ever see the site. A one-time build with nothing behind it is how most small-business websites end up producing nothing, which is the exact situation we were hired to fix at Rubio Brothers Concrete.',
+    a: "You can buy a site and walk away, and some people should. The monthly plan keeps your site fast, secure and up to date, makes changes when your business changes, and sends you a report every month so you can see what it's doing.",
   },
   {
     q: 'How long does it take?',
-    a: 'A typical local service site is live in three to four weeks from the go-ahead, then a 60-day plan runs after launch: profile, listings, reviews, and reporting.',
+    a: 'A typical local service site is live three to four weeks after the go-ahead.',
   },
   {
     q: 'Do you work outside Utah?',

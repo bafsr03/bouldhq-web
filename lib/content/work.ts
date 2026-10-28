@@ -47,7 +47,7 @@ export const PROJECTS: Project[] = [
     liveUrl: 'https://kilowashutah.com',
     logo: '/logos/kilowash.png',
     blurb:
-      'Exterior cleaning and lighting. A site that converts, now working through the visibility half.',
+      'Exterior cleaning and lighting. A rebuilt site, now working on where they show up on Google.',
   },
   {
     slug: 'joon-distribution',
@@ -152,7 +152,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     year: '2026',
     segment: 'local',
     liveUrl: 'https://rubiobrothersconcrete.com/',
-    title: 'Rubio Brothers Concrete: From 0 to 6 Leads',
+    title: 'Rubio Brothers Concrete Case Study',
     description:
       `Rubio Brothers Concrete had ${RUBIO_REVIEWS_LABEL} and a year of zero leads. Their Bould site brought $20,000 in new work in three months.`,
     h1: 'A year of zero leads, then the first one in two weeks',
@@ -161,7 +161,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       body: [
         'Rubio Brothers Concrete was not hard to find. Forty-plus Google reviews at 4.8 stars, six directory listings, years of history online — by the scorecard, strong visibility. Their Google Business Profile pointed at their website, and people clicked it.',
         'In a year, that website produced zero leads. Every bit of demand their reviews and listings had built arrived at a page that gave visitors nothing to do, and left.',
-        'This is the half of the formula a redesign actually fixes. The traffic already existed. The site was where it died.',
+        'That’s the part a rebuild can fix. The traffic already existed. The site was where it died.',
       ],
     },
     build: {
@@ -189,7 +189,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       attribution: 'Cesar Rubio, Rubio Brothers Concrete — on the agency before us',
     },
     pending:
-      'Every number above comes directly from Rubio Brothers Concrete.',
+      'Every number above comes directly from Rubio Brothers Concrete. Every business is different; this is what happened for them.',
   },
 ]
 

@@ -182,6 +182,7 @@ export const FOOTER_NAV = [
     links: [
       { href: '/web-design-west-jordan', label: 'West Jordan (home base)' },
       { href: '/web-design-utah-county', label: 'Utah County' },
+      { href: '/web-design-minnesota', label: 'Minnesota' },
     ],
   },
   {
@@ -206,9 +207,12 @@ export const TITLE_TEMPLATE = `%s | ${LEGAL_NAME}`
 /**
  * The homepage title, and the default for any route without its own. One
  * constant because the layout, its Open Graph and Twitter cards, and the
- * homepage all print it, and four copies had already drifted into carrying the
- * same grammar slip ("Businesses Leads", corrected by Brian, Oct 2026).
+ * homepage all print it, and four copies had already drifted apart.
+ *
+ * Wording from Website Fixes + Minnesota Google Ads Launch (Oct 28, 2026),
+ * verbatim. It runs past 60 characters, so Google may cut it after "Texas";
+ * scripts/verify.sh exempts it from the length check for that reason.
  */
-export const HOME_TITLE = `Websites That Bring Local Businesses More Leads | ${LEGAL_NAME}`
+export const HOME_TITLE = `${LEGAL_NAME} | Websites for Local Businesses in Utah, Texas & Minnesota`
 
-export const DEFAULT_DESCRIPTION = `${LEGAL_NAME} builds and manages websites for local service businesses and growing brands. Based in Utah, with clients in ${CLIENT_STATES}. Sites built to turn visitors into calls and quote requests. Free ranking check.`
+export const DEFAULT_DESCRIPTION = `${LEGAL_NAME} builds websites that fix what's holding local businesses back and keep working long after launch. ${CLIENT_STATES}. Free ranking check.`

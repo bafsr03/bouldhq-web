@@ -104,7 +104,7 @@ const WEST_JORDAN_FAQS: Faq[] = [
   },
   {
     q: 'What does it cost?',
-    a: `Monthly plans start at ${PLANS[0].price} a month for ${PLANS[0].name} and ${PLANS[1].price} for ${PLANS[1].name}, with the setup quoted per project. The free ranking check is what decides which one fits.`,
+    a: `${PLANS[0].name} is ${PLANS[0].price} a month with a ${PLANS[0].setup}, and ${PLANS[1].name} is ${PLANS[1].price} a month with a ${PLANS[1].setup}. If the free ranking check shows you're behind the top 3 near you, the ${PLANS[2].name} adds ${PLANS[2].price.replace('+', '')} a month.`,
   },
   {
     q: 'Can we meet first?',

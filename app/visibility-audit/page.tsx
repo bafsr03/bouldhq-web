@@ -15,11 +15,11 @@ import { PHONE, PHONE_DISPLAY } from '@/lib/site'
  * This URL used to hold a 12-question self-scored quiz. It stays at
  * /visibility-audit so every "Free audit" link already out there still works,
  * but it is now a request form: we run the top-3 check in BouldLeads and call
- * the owner with the one thing between them and the top 3.
+ * the owner with what's holding them back from the top 3.
  */
 const TITLE = 'Free Google Ranking Check for Local Businesses'
 const DESCRIPTION =
-  'See where you rank on Google Maps against the top 3 businesses near you. We run the check and call you with the one thing holding you back. Free.'
+  "See where you rank on Google Maps against the top 3 businesses near you. We run the check and call you with what's holding you back. Free."
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -47,7 +47,7 @@ export default function RankingCheckPage() {
       <PageHero
         eyebrow="Free ranking check"
         title="See how you stack up against the top 3 businesses near you."
-        sub="We'll check where you rank on Google Maps, compare you to the top 3, and call you with the one thing holding you back. Free."
+        sub="We'll check where you rank on Google Maps, compare you to the top 3, and call you with what's holding you back. Free."
       />
 
       <section className="bould-section" aria-labelledby="check-form-heading">
@@ -85,7 +85,7 @@ export default function RankingCheckPage() {
               We ran it on ourselves first. For &ldquo;web design west jordan ut&rdquo;
               Bould showed up around <strong>#4</strong> on Google Maps. The top 3 had{' '}
               <strong>21 to 31 reviews</strong>. We had <strong>5</strong>. Right category,
-              right area: the gap is reviews, and that is the one thing to fix.
+              right area: the gap is reviews. That&rsquo;s what&rsquo;s holding us back.
             </p>
             <p className="bould-section-body bould-section-body--muted">
               Rankings move with who is searching and from where, so we say

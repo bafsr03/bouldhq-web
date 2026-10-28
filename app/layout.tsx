@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import { Archivo } from 'next/font/google'
-import { GoogleAnalytics } from '@next/third-parties/google'
 
 import './bould.css'
 import './site.css'
@@ -11,6 +10,7 @@ import MobileCtaBar from '@/components/MobileCtaBar'
 import SiteAnimations from '@/components/SiteAnimations'
 import JsonLd from '@/components/JsonLd'
 import MetaPixel from '@/components/MetaPixel'
+import GoogleTag from '@/components/GoogleTag'
 import UtmCapture from '@/components/UtmCapture'
 import { graph, organizationSchema, websiteSchema } from '@/lib/schema'
 import {
@@ -142,9 +142,11 @@ export default function RootLayout({
         <MobileCtaBar />
         <SiteAnimations />
         <UtmCapture />
-        {process.env.NEXT_PUBLIC_GA4_ID && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA4_ID} />
-        )}
+        <GoogleTag
+          ids={[process.env.NEXT_PUBLIC_GA4_ID, process.env.NEXT_PUBLIC_GOOGLE_ADS_ID].filter(
+            (id): id is string => Boolean(id)
+          )}
+        />
         {process.env.NEXT_PUBLIC_META_PIXEL_ID && (
           <MetaPixel pixelId={process.env.NEXT_PUBLIC_META_PIXEL_ID} />
         )}

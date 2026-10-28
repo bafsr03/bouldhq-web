@@ -12,10 +12,11 @@ const PEOPLE = [
   { name: 'Brian Sanchez', role: 'Design & build', photo: '/team/brian.webp' },
 ]
 
-export default function Team({ heading = 'Who you’ll work with' }: { heading?: string }) {
+/** `heading={null}` when the section around it already says who these people are. */
+export default function Team({ heading = 'Who you’ll work with' }: { heading?: string | null }) {
   return (
     <div className="bould-team">
-      <h3 className="bould-team__heading">{heading}</h3>
+      {heading && <h3 className="bould-team__heading">{heading}</h3>}
       <ul className="bould-team__list">
         {PEOPLE.map((p) => (
           <li key={p.name} className="bould-team__person">

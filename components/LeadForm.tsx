@@ -45,6 +45,10 @@ function loadTurnstile(): Promise<Turnstile | undefined> {
  * `extra` carries anything the page knows that the visitor should not have to
  * type — on a results page, which check they were looking at.
  *
+ * `formId` keeps input ids unique when one page shows the same form twice
+ * (the Minnesota page has one at the top and one at the bottom). It defaults
+ * to the source.
+ *
  * When NEXT_PUBLIC_TURNSTILE_SITE_KEY is set, a Cloudflare Turnstile widget is
  * rendered above the button. It adds its token to the form as
  * `cf-turnstile-response`, which the API route verifies.
@@ -57,6 +61,7 @@ export default function LeadForm({
   successTitle = 'Got it.',
   successBody = 'We will be in touch within one business day.',
   note,
+  formId,
 }: {
   source: LeadSource
   fields: Field[]
@@ -65,7 +70,9 @@ export default function LeadForm({
   successTitle?: string
   successBody?: React.ReactNode
   note?: React.ReactNode
+  formId?: string
 }) {
+  const idPrefix = formId ?? source
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [formError, setFormError] = useState('')
@@ -183,9 +190,9 @@ export default function LeadForm({
         automated. Validated server-side in lib/leads.ts.
       */}
       <div className="bould-hp" aria-hidden="true">
-        <label htmlFor={`hp-${source}`}>Do not fill this in</label>
+        <label htmlFor={`hp-${idPrefix}`}>Do not fill this in</label>
         <input
-          id={`hp-${source}`}
+          id={`hp-${idPrefix}`}
           type="text"
           name="company_website_confirm"
           tabIndex={-1}
@@ -195,7 +202,7 @@ export default function LeadForm({
 
       <div className="bould-lead-form__grid">
         {fields.map((f) => {
-          const id = `${source}-${f.name}`
+          const id = `${idPrefix}-${f.name}`
           const err = errors[f.name]
           return (
             <div
@@ -225,6 +232,7 @@ export default function LeadForm({
                   name={f.name}
                   className="bould-contact__select"
                   defaultValue=""
+                  required={f.required}
                   aria-invalid={err ? true : undefined}
                   aria-describedby={err ? `${id}-error` : undefined}
                 >

@@ -34,21 +34,32 @@ async function call(path: string, init: RequestInit = {}, timeoutMs = TIMEOUT_MS
 
 export type IntakeResult = { ok: true; id?: number; case?: string | null } | { ok: false; error: string }
 
-/** Save a site lead in BouldLeads, tagged "Site request" (or a callback on an existing check). */
+/**
+ * BouldLeads tags a lead by its kind: "Site request", "Google ads MN" for the
+ * Minnesota ad landing page, or a callback on an existing check.
+ */
+function intakeKind(source: LeadPayload['source']) {
+  if (source === 'check-callback') return 'callback'
+  if (source === 'minnesota-quote') return 'google-ads-mn'
+  return 'site'
+}
+
+/** Save a site lead in BouldLeads. */
 export async function sendToBouldLeads(lead: LeadPayload): Promise<IntakeResult> {
   try {
     const res = await call('/api/public/intake', {
       method: 'POST',
       body: JSON.stringify({
-        kind: lead.source === 'check-callback' ? 'callback' : 'site',
+        kind: intakeKind(lead.source),
         business: lead.business,
-        city: lead.city,
+        // The quote form doesn't ask for a city; the state still narrows the profile lookup.
+        city: lead.city ?? (lead.source === 'minnesota-quote' ? 'Minnesota' : undefined),
         service: lead.industry,
         name: lead.name,
         phone: lead.phone,
         email: lead.email,
         website: lead.website,
-        message: lead.message,
+        message: lead.need ? `What they need: ${lead.need}` : lead.message,
         slug: lead.checkSlug,
         utm: lead.utm,
         formSource: lead.source,

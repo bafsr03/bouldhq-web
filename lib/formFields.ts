@@ -111,6 +111,25 @@ export const RANKING_CHECK_FIELDS: Field[] = [
   { name: 'email', label: 'Email', type: 'email', required: true, autoComplete: 'email' },
 ]
 
+/**
+ * The quote form on /web-design-minnesota (Website Fixes + Minnesota Google Ads
+ * Launch, Oct 28, 2026, section 6). Every field required: Jake calls each one
+ * back within a business day, so a lead without a number is no use.
+ */
+export const MINNESOTA_QUOTE_FIELDS: Field[] = [
+  { name: 'name', label: 'Name', required: true, autoComplete: 'name' },
+  { name: 'business', label: 'Business name', required: true, autoComplete: 'organization' },
+  { name: 'phone', label: 'Phone', type: 'tel', required: true, inputMode: 'tel', autoComplete: 'tel' },
+  { name: 'email', label: 'Email', type: 'email', required: true, autoComplete: 'email' },
+  {
+    name: 'need',
+    label: 'What do you need?',
+    type: 'select',
+    required: true,
+    options: ['New website', 'Redo my website', 'Not sure'],
+  },
+]
+
 /** "Call me back" on a results page (/check/[slug]): the check already says who they are. */
 export const CALLBACK_FIELDS: Field[] = [
   { name: 'name', label: 'Your name', required: true, autoComplete: 'name' },

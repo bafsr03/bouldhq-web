@@ -101,7 +101,7 @@ export default function IndustriesPage() {
       </section>
 
       <PageCta
-        label="Find out whether your problem is the site or the visibility"
+        label="See where you stand against the top 3 near you"
         cta="Get a free ranking check"
       />
     </div>

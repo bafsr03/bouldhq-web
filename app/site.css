@@ -430,163 +430,6 @@ a.bould-mini-card:hover {
   margin: 0;
 }
 
-/* ── Formula check ─────────────────────────────────────────── */
-.bould-formula {
-  font-family: var(--b-font);
-  background: var(--b-surface);
-  border: 1px solid var(--b-border);
-  border-radius: 8px;
-  padding: clamp(2.4rem, 3vw, 3.2rem);
-}
-.bould-formula__heading {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--b-ink);
-  margin: 0 0 2rem;
-}
-.bould-formula__question {
-  border: 0;
-  margin: 0 0 2rem;
-  padding: 0;
-}
-.bould-formula__question legend {
-  padding: 0;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  line-height: 1.45;
-  color: var(--b-muted2);
-}
-.bould-formula__options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.8rem;
-}
-.bould-formula__option {
-  position: relative;
-  cursor: pointer;
-}
-.bould-formula__option input {
-  position: absolute;
-  opacity: 0;
-  inset: 0;
-  margin: 0;
-  cursor: pointer;
-}
-.bould-formula__option span {
-  display: block;
-  padding: 1rem 1.4rem;
-  border: 1px solid var(--b-border2);
-  border-radius: 6px;
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: var(--b-ink);
-  text-align: center;
-  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
-}
-.bould-formula__option:hover span {
-  border-color: var(--b-accent);
-}
-.bould-formula__option input:checked + span {
-  background: var(--b-accent);
-  border-color: var(--b-accent);
-  color: #fff;
-}
-.bould-formula__option input:focus-visible + span {
-  outline: 2px solid var(--b-accent);
-  outline-offset: 2px;
-}
-
-.bould-formula__grid-wrap {
-  position: relative;
-  margin-top: 2.8rem;
-  padding: 0 0 2.4rem 2.4rem;
-}
-.bould-formula__grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.6rem;
-}
-.bould-formula__cell {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  padding: 1.4rem 1.6rem;
-  border: 1px solid var(--b-border);
-  border-radius: 6px;
-  background: var(--b-bg);
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-.bould-formula__cell strong {
-  font-size: 1.5rem;
-  line-height: 1.25;
-  font-weight: 600;
-  color: var(--b-ink);
-}
-.bould-formula__cell span {
-  font-size: 1.3rem;
-  line-height: 1.45;
-  color: var(--b-muted);
-}
-.bould-formula__cell.is-active {
-  border-color: var(--b-accent);
-  background: rgba(58, 102, 224, 0.08);
-}
-.bould-formula__cell.is-active strong {
-  color: var(--b-accent);
-}
-.bould-formula__axis {
-  position: absolute;
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--b-muted);
-}
-.bould-formula__axis::after {
-  content: ' \2192';
-}
-.bould-formula__axis--x {
-  bottom: 0;
-  left: 2.4rem;
-}
-.bould-formula__axis--y {
-  left: 0;
-  bottom: 2.4rem;
-  transform: rotate(-90deg);
-  transform-origin: left bottom;
-  translate: 1.4rem 0;
-}
-
-.bould-formula__result {
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--b-border);
-  min-height: 9rem;
-}
-.bould-formula__result-label {
-  margin: 0 0 0.6rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--b-accent);
-}
-.bould-formula__result-body {
-  margin: 0 0 1rem;
-  font-size: 1.5rem;
-  line-height: 1.5;
-  color: var(--b-ink);
-}
-.bould-formula__result-hint {
-  margin: 0;
-  font-size: 1.4rem;
-  color: var(--b-muted);
-}
-
 /* ── Steps ─────────────────────────────────────────────────── */
 .bould-steps {
   list-style: none;
@@ -685,8 +528,9 @@ a.bould-mini-card:hover {
   border: 1px solid var(--b-border);
   border-radius: 6px;
 }
-.bould-plan--featured {
+.bould-plan--addon {
   border-color: var(--b-accent);
+  border-style: dashed;
 }
 .bould-plan__flag {
   position: absolute;
@@ -727,6 +571,13 @@ a.bould-mini-card:hover {
   font-size: 1.35rem;
   color: var(--b-muted);
   margin: 0 0 2rem;
+}
+.bould-plan__note {
+  font-family: var(--b-font);
+  font-size: 1.35rem;
+  line-height: 1.5;
+  color: var(--b-muted2);
+  margin: -1.2rem 0 2rem;
 }
 .bould-plan__tagline {
   font-family: var(--b-font);
@@ -1592,19 +1443,81 @@ body:has(.header-wrapper.is-open) .bould-mobile-cta {
   color: var(--b-muted);
 }
 
-@media (max-width: 600px) {
-  .bould-formula__cell {
-    padding: 1.2rem;
-  }
-  .bould-formula__cell strong {
-    font-size: 1.4rem;
-  }
-}
-
 /* First thing in its section (About): no divider above it. */
 .bould-team:first-child {
   margin-top: 0;
   padding-top: 0;
   border-top: 0;
   margin-bottom: clamp(4rem, 6vw, 6rem);
+}
+
+/* ── Minnesota landing page (/web-design-minnesota) ───────────
+   Ad traffic, mostly on phones: the call button and the top of the quote
+   form must be on screen without scrolling, so the hero is a tight stack on
+   small screens and two columns (copy, form) from 900px up. */
+.bould-mn-hero__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 48rem);
+  gap: clamp(4rem, 6vw, 8rem);
+  align-items: start;
+  max-width: 140rem;
+}
+.bould-mn-hero__title {
+  font-size: clamp(3.6rem, 4.6vw, 5.6rem);
+}
+.bould-mn-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 3.2rem;
+}
+#quote {
+  scroll-margin-top: 10rem;
+}
+.bould-mn-form__note {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--b-muted);
+}
+.bould-mn-close {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 48rem);
+  gap: clamp(4rem, 6vw, 8rem);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .bould-mn-hero {
+    padding-top: 3.2rem;
+    padding-bottom: 4rem;
+  }
+  .bould-mn-hero__grid,
+  .bould-mn-close {
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+  }
+  .bould-mn-hero__title {
+    font-size: clamp(2.8rem, 8vw, 3.6rem);
+    margin: 1.2rem 0 1.4rem;
+  }
+  .bould-mn-hero .bould-page-hero__sub {
+    font-size: 1.5rem;
+    line-height: 1.5;
+  }
+  .bould-mn-hero__actions {
+    margin-top: 1.8rem;
+  }
+  .bould-mn-hero__actions .bould-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+/* The main line (Oct 28, 2026) is three times the length of the old headline;
+   at the old size it ran to eight lines and pushed the buttons off screen.
+   Five short lines of at most 18 characters, so none of them wraps. */
+.bould-hero__headline--long {
+  font-size: clamp(3.4rem, 5vw, 6.4rem);
+  line-height: 1.02;
 }

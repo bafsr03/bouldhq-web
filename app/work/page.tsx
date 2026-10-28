@@ -10,7 +10,7 @@ import { breadcrumbSchema, graph, webPageSchema } from '@/lib/schema'
 import { CASE_STUDIES, PROJECTS, PROJECT_COUNT } from '@/lib/content/work'
 
 /** Brief, site map — Work: "Case studies first; then the portfolio." */
-const TITLE = 'Our Work: Websites That Get Leads'
+const TITLE = 'Our Work'
 const DESCRIPTION = `${PROJECT_COUNT} websites for contractors, home services, and Shopify brands, including how Rubio Brothers Concrete went from zero leads to $20,000 in new work.`
 
 export const metadata: Metadata = pageMetadata({

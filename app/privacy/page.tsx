@@ -65,6 +65,13 @@ export default function PrivacyPage() {
             are protected from spam by Cloudflare Turnstile, which checks your
             browser without a puzzle in most cases.
           </p>
+          <p>
+            We use Google Analytics to count visits, and Google Ads conversion
+            tracking to see which of our ads led to a call or a quote request.
+            Google processes that data under its own privacy policy. If you ask
+            for a quote, we send one text message to the number you gave us to
+            confirm we got your request.
+          </p>
 
           <h2>How long we keep it</h2>
           <p>

@@ -37,9 +37,16 @@ export default function MobileCtaBar() {
           Call {PHONE_DISPLAY}
         </a>
       )}
-      <Link href="/visibility-audit" className="bould-mobile-cta__audit">
-        Free ranking check
-      </Link>
+      {/* On the Minnesota ad page the quote form is the goal; don't send ad clicks elsewhere. */}
+      {pathname === '/web-design-minnesota' ? (
+        <a href="#quote" className="bould-mobile-cta__audit">
+          Get a quote
+        </a>
+      ) : (
+        <Link href="/visibility-audit" className="bould-mobile-cta__audit">
+          Free ranking check
+        </Link>
+      )}
     </div>
   )
 }

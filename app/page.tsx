@@ -4,32 +4,29 @@ import Link from 'next/link'
 
 import HeroScene, { HeroStill } from '@/components/HeroScene'
 import ProofStrip from '@/components/ProofStrip'
-import FormulaCheck from '@/components/FormulaCheck'
+import PlanCards from '@/components/PlanCards'
 import Team from '@/components/Team'
 import WorkGrid from '@/components/WorkGrid'
+import TrackedContact from '@/components/TrackedContact'
 import PageCta from '@/components/PageCta'
 import JsonLd from '@/components/JsonLd'
 import { graph, serviceSchema, webPageSchema } from '@/lib/schema'
 import { PROJECTS, PROJECT_COUNT } from '@/lib/content/work'
-import { PLANS } from '@/lib/content/pricing'
 import { INDUSTRIES } from '@/lib/content/industries'
 import { PUBLISHED_REVIEWS } from '@/lib/content/reviews'
 import {
-  CLIENT_STATES,
   HOME_TITLE,
   LEGAL_NAME,
-  LOCATION_SHORT,
   PHONE,
   PHONE_DISPLAY,
 } from '@/lib/site'
 
 /**
- * Brief, site map — Home: the H1 is specified verbatim. The title follows the
- * brief's wording with Brian's correction (Oct 2026): "Local Businesses Leads"
- * read as a typo, so it says "More Leads".
+ * Website Fixes + Minnesota Google Ads Launch (Oct 28, 2026), 5.1: the title,
+ * hero, proof, comparison, steps and plans copy are specified verbatim.
  */
 const TITLE = HOME_TITLE
-const DESCRIPTION = `${LEGAL_NAME} builds websites that turn local searches into phone calls for contractors, auto shops, and home services. Based in Utah. Free ranking check.`
+const DESCRIPTION = `${LEGAL_NAME} builds websites for local businesses in Utah, Texas, and Minnesota. We look at who you're up against on Google, then build around it.`
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -40,9 +37,26 @@ export const metadata: Metadata = pageMetadata({
 
 const HERO_MODELS = ['/models/b.glb', '/models/dna.glb', '/models/world.glb']
 
-export default function HomePage() {
-  const monthly = PLANS.filter((p) => p.id !== 'ecommerce')
+const HOME_STEPS = [
+  {
+    name: 'Free ranking check.',
+    body: 'We look at where you rank on Google Maps and who’s ahead of you.',
+  },
+  {
+    name: 'Build.',
+    body: 'A custom site with a page for each service, one-tap calling, and quick estimate forms. Three to four weeks.',
+  },
+  {
+    name: 'Launch.',
+    body: 'We connect your domain, Google profile and tracking, and record your starting numbers.',
+  },
+  {
+    name: 'Keep it working.',
+    body: 'Updates every month, plus a report showing calls, form requests, and where they came from.',
+  },
+]
 
+export default function HomePage() {
   return (
     <div className="bould-page-wrap">
       <JsonLd
@@ -65,26 +79,32 @@ export default function HomePage() {
 
         <div className="bould-hero__content">
           <span className="bould-hero__eyebrow">
-            Websites for local businesses &middot; {LOCATION_SHORT}
+            Websites for local businesses &middot; Utah, Texas &amp; Minnesota
           </span>
 
-          {/* Brief, site map — Home H1, verbatim. */}
-          <h1 className="bould-hero__headline">
+          {/* The main line (brand rules, section 3), verbatim. */}
+          <h1 className="bould-hero__headline bould-hero__headline--long">
             <span className="line">
-              <span className="line-inner">Your website</span>
+              <span className="line-inner">We build websites</span>
             </span>{' '}
             <span className="line">
-              <span className="line-inner">should bring you</span>
+              <span className="line-inner">that fix what&rsquo;s</span>
+            </span>{' '}
+            <span className="line">
+              <span className="line-inner">holding you back</span>
             </span>{' '}
             <span className="line line--accent">
-              <span className="line-inner">customers.</span>
+              <span className="line-inner">and keep working</span>
+            </span>{' '}
+            <span className="line line--accent">
+              <span className="line-inner">long after launch.</span>
             </span>
           </h1>
 
           <p className="bould-hero__body">
-            Most local websites look fine and never ring the phone. We build sites
-            that turn the people already searching for you into calls and quote
-            requests, and we stay on after launch to keep them working.
+            Before we build, we look at who you&rsquo;re up against on Google.
+            Then we build around it, and we stay on after launch to keep your
+            site working.
           </p>
 
           <div className="bould-hero__actions">
@@ -92,9 +112,13 @@ export default function HomePage() {
               Get a free ranking check
             </Link>
             {PHONE ? (
-              <a href={`tel:${PHONE}`} className="bould-btn bould-btn--ghost">
-                {PHONE_DISPLAY}
-              </a>
+              <TrackedContact
+                method="phone"
+                location="home-hero"
+                value={PHONE}
+                display={PHONE_DISPLAY}
+                className="bould-btn bould-btn--ghost"
+              />
             ) : (
               <Link href="/work" className="bould-btn bould-btn--ghost">
                 See the work
@@ -172,9 +196,8 @@ export default function HomePage() {
       */}
       <section className="bould-section bould-section--alt" aria-labelledby="different-heading">
         <div className="bould-section__inner bould-section__inner--narrow">
-          <p className="bould-section-label">How we&rsquo;re different</p>
           <h2 className="bould-section-title" id="different-heading">
-            Cesar&rsquo;s story is common. Here&rsquo;s what we do about it.
+            How we&rsquo;re different.
           </h2>
           <div className="bould-two-col">
             <div>
@@ -183,7 +206,7 @@ export default function HomePage() {
                 <li>You deal directly with the people who design and build your site, from the first call through launch and after. Nobody in between.</li>
                 <li>Before we talk price, we look up where you rank on Google Maps and show you the top 3 near you, with their names and review counts.</li>
                 <li>You hear back within the day. Changes are made by the person who built the page.</li>
-                <li>If you&rsquo;re in Utah, we meet you in person. On the job, at the shop, wherever&rsquo;s easy.</li>
+                <li>In Utah, we meet you in person. Everywhere else, you still talk directly to the people building your site.</li>
                 <li>Your site and your domain are yours. If you ever leave, you take them with you.</li>
                 <li>We won&rsquo;t promise you a ranking or a number of leads. We&rsquo;ll show you the gap, and what we&rsquo;re doing about it.</li>
               </ul>
@@ -194,7 +217,7 @@ export default function HomePage() {
                 <li>A salesperson closes the deal. Then you&rsquo;re handed to an account manager who passes your notes to people you never meet.</li>
                 <li>The pitch starts with a package and a price, before anyone has looked at how you show up today.</li>
                 <li>A simple change becomes a support ticket, and the ticket sits.</li>
-                <li>Every meeting is a video call with someone in another state.</li>
+                <li>You never talk to the person actually building your site.</li>
                 <li>The domain is in their name. Leaving means starting over.</li>
                 <li>You&rsquo;re promised page one. A few months in, you&rsquo;re told SEO takes a year.</li>
               </ul>
@@ -204,70 +227,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── The formula ───────────────────────────────────────────────────── */}
-      <section className="bould-section" aria-labelledby="formula-heading">
-        <div className="bould-section__inner bould-section__inner--split">
-          <div>
-            <p className="bould-section-label">How this works</p>
-            <h2 className="bould-section-title" id="formula-heading">
-              Leads = Visibility &times; Conversion
-            </h2>
-            <p className="bould-section-body">
-              You need both halves. If nobody can find you, even a great website
-              brings in nothing. If people find you and the site gives them no
-              reason to call, you get what Rubio Brothers got for a year: no leads
-              at all.
-            </p>
-            <p className="bould-section-body">
-              The website takes care of the second half. The monthly work on your
-              Google profile, reviews and listings takes care of the first. A lot
-              of agencies only sell you one of them.
-            </p>
-            <Link href="/how-it-works" className="bould-inline-link bould-inline-link--tap">
-              See the whole process &rarr;
-            </Link>
-          </div>
-          <FormulaCheck />
+      {/* ── How it works ──────────────────────────────────────────────────── */}
+      <section className="bould-section" aria-labelledby="steps-heading">
+        <div className="bould-section__inner bould-section__inner--narrow">
+          <p className="bould-section-label">How it works</p>
+          <h2 className="bould-section-title" id="steps-heading">
+            Four steps, every time.
+          </h2>
+          <ol className="bould-steps">
+            {HOME_STEPS.map((step, i) => (
+              <li key={step.name} className="bould-steps__item bould-reveal">
+                <span className="bould-steps__num">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3 className="bould-steps__name">{step.name}</h3>
+                  <p className="bould-steps__body">{step.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <Link href="/how-it-works" className="bould-inline-link bould-inline-link--tap">
+            See the whole process &rarr;
+          </Link>
         </div>
       </section>
 
-      {/* ── The two plans ─────────────────────────────────────────────────── */}
+      {/* ── The plans ─────────────────────────────────────────────────────── */}
       <section className="bould-section bould-section--alt" aria-labelledby="plan-heading">
         <div className="bould-section__inner">
-          <p className="bould-section-label">The monthly plans</p>
+          <p className="bould-section-label">The plans</p>
           <h2 className="bould-section-title" id="plan-heading">
-            Two plans, and the free ranking check tells you which one you need.
+            Pick the plan that fits your size.
           </h2>
           <p className="bould-section-body">
-            If people already find you, Website Build is enough. If they
-            don&rsquo;t, a new site on its own won&rsquo;t fix that, so Golden
-            Formula adds the work that gets you found.
+            Add the Golden Formula if you&rsquo;re behind the top 3 near you on
+            Google.
           </p>
 
-          <div className="bould-plans bould-plans--compact">
-            {monthly.map((p) => (
-              <article
-                key={p.id}
-                className={`bould-plan${p.featured ? ' bould-plan--featured' : ''} bould-reveal`}
-              >
-                <h3 className="bould-plan__name">{p.name}</h3>
-                <p className="bould-plan__price">
-                  {p.price}
-                  <span className="bould-plan__cadence"> {p.cadence}</span>
-                </p>
-                <p className="bould-plan__tagline">{p.tagline}</p>
-                <ul className="bould-check-list">
-                  {p.includes.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
+          <PlanCards compact />
 
           <p className="bould-section-body">
-            Setup is quoted per project. You own your website and your domain
-            from day one.
+            No long-term contracts. You own your website and domain from day one.
           </p>
           <Link href="/pricing" className="bould-inline-link bould-inline-link--tap">
             Full plans and pricing &rarr;
@@ -321,7 +320,7 @@ export default function HomePage() {
       </section>
 
       <PageCta
-        label="Not sure whether you need a new site or more visibility?"
+        label="See where you stand against the top 3 near you."
         cta="Get a free ranking check"
       />
     </div>

@@ -9,6 +9,8 @@ export type LeadSource =
   | 'contact'
   | 'industry'
   | 'pricing'
+  /** The quote form on /web-design-minnesota, where every Minnesota ad click lands. */
+  | 'minnesota-quote'
 
 /** First-touch campaign parameters, captured by components/UtmCapture.tsx. */
 export type LeadUtm = Partial<
@@ -31,6 +33,8 @@ export type LeadPayload = {
   /** Brief, contact page: "How did you hear about us?" — the attribution question. */
   heardVia?: string
   message?: string
+  /** Minnesota quote form: "What do you need?" (New website / Redo my website / Not sure). */
+  need?: string
   /** Callbacks from a results page: which check the owner was looking at. */
   checkSlug?: string
   utm?: LeadUtm
@@ -55,6 +59,7 @@ export function validateLead(input: Partial<LeadPayload>): {
   const fields: Record<string, string> = {}
   const callback = input.source === 'check-callback'
   const check = input.source === 'ranking-check'
+  const quote = input.source === 'minnesota-quote'
 
   if (!input.name?.trim()) fields.name = 'Please tell us your name.'
 
@@ -73,8 +78,10 @@ export function validateLead(input: Partial<LeadPayload>): {
     if (!input.city?.trim()) fields.city = 'Which city are your customers in?'
     if (!input.industry?.trim()) fields.industry = 'Tell us what you do, like "concrete contractor".'
   }
-  if (check || callback) {
-    if (!input.phone?.trim()) fields.phone = 'We need a number to call you with the results.'
+  // An ad lead gets a call back within a business day, so it needs a number and an answer.
+  if (quote && !input.need?.trim()) fields.need = 'Tell us what you need.'
+  if (check || callback || quote) {
+    if (!input.phone?.trim()) fields.phone = 'We need a number to call you back.'
     else if (!PHONE_RE.test(input.phone)) fields.phone = 'That phone number does not look right.'
   }
 

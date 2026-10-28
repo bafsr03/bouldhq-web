@@ -62,14 +62,13 @@ export default function AboutPage() {
             coming to us with the same problem in different clothes: a site that
             looked fine and produced nothing, or a site that worked fine and
             nobody could find. One contractor had 40+ Google reviews at 4.8
-            stars and a year of zero leads. Once you have seen that a few times you stop
-            selling websites and start selling the thing the website is supposed
-            to do.
+            stars and a year of zero leads. After seeing that a few times, we
+            stopped treating the website as the finished product.
           </p>
           <p className="bould-section-body">
-            So that is what Bould does now: websites for local service businesses
-            and growing brands, plus the visibility work that decides how many
-            people ever see them. Based in Utah. We meet clients along the
+            So that&rsquo;s what Bould does now: websites for local service
+            businesses and growing brands, plus the ongoing work that helps more
+            people find them. Based in Utah. We meet clients along the
             Wasatch Front in person and work with clients in Texas and Minnesota
             remotely.
           </p>

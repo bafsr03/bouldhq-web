@@ -4,20 +4,19 @@ import Link from 'next/link'
 
 import PageHero from '@/components/PageHero'
 import PageCta from '@/components/PageCta'
-import FormulaCheck from '@/components/FormulaCheck'
 import JsonLd from '@/components/JsonLd'
 import { breadcrumbSchema, graph, webPageSchema } from '@/lib/schema'
-import { RUBIO_REVIEWS_LABEL } from '@/lib/content/work'
 
 /**
- * Brief: "This page is the sales formula. Anyone selling can walk a prospect
- * through it top to bottom." It is written to be read aloud on a call as much as
+ * Brief: "Anyone selling can walk a prospect through it top to bottom." Copy
+ * from Website Fixes + Minnesota Google Ads Launch (Oct 28, 2026), 5.2. It is
+ * written to be read aloud on a call as much as
  * to be read on screen, which is also why the steps are numbered and the
  * client-vs-Bould split is a real table rather than prose.
  */
-const TITLE = 'How We Get Local Businesses More Leads'
+const TITLE = 'How It Works'
 const DESCRIPTION =
-  'Visibility times conversion: the free ranking check, the build, the 60-day launch plan, and the monthly report. Exactly how Bould works, start to finish.'
+  'The free ranking check, the build, the launch, and the monthly report. Exactly how Bould works, start to finish, and what we need from you.'
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
@@ -29,8 +28,8 @@ const STEPS = [
   {
     n: '01',
     name: 'The free ranking check',
-    body: 'We look up where you rank on Google Maps for what you do in your city, compare you to the top 3 businesses near you, and call you with the one thing between you and them: reviews, rating, category, or your website. It is free whether or not you ever hire us.',
-    out: 'A score, a verdict, and a list of gaps in priority order.',
+    body: "We look up where you rank on Google Maps for what you do in your city, compare you to the top 3 businesses near you, and call you with what's holding you back: reviews, rating, category, or your website. It's free whether or not you ever hire us.",
+    out: "Where you stand, who's ahead of you, and what's in the way.",
   },
   {
     n: '02',
@@ -40,22 +39,21 @@ const STEPS = [
   },
   {
     n: '03',
-    name: 'The 60-day launch plan',
-    body: 'Launch is the start. We finish the Google profile, create the listings with identical details everywhere, set up the review kit, and keep the profile current. This is the visibility half, and it is the half that decides how many people ever see what we built.',
-    out: 'A verified profile, consistent listings, and reviews starting to come in.',
+    name: 'Launch',
+    body: 'We connect your domain, Google profile, and call and form tracking, and record your starting numbers so every report has something to compare against. With the Golden Formula, we also set up your review system and get your Google profile accurate and complete.',
+    out: 'A live site, tracking in place, and your starting numbers.',
   },
   {
     n: '04',
     name: 'Monthly reporting',
-    body: 'Every month: calls, form submissions, and where they came from, against the baseline we recorded before launch. The same report on both plans. If a month is bad we tell you it was bad, and what we are changing.',
+    body: "Every month: calls, form requests, and where they came from, compared to your starting numbers. With the Golden Formula, the report also shows where you rank against your top 3 and your reviews against theirs. If a month is bad, we tell you, and what we're changing.",
     out: 'A number you can check us against.',
   },
 ]
 
 const SPLIT = [
   { bould: 'Design, build, hosting, and updates', you: 'Tell us what you actually do, and for whom' },
-  { bould: 'Google profile setup, updates, and review responses', you: 'Send job photos when you have them' },
-  { bould: 'Listings created with identical details', you: 'Confirm the phone number and service area' },
+  { bould: 'Google profile kept accurate and review replies (Golden Formula)', you: 'Send job photos when you have them' },
   { bould: 'Review link, template, and QR card', you: 'Ask happy customers — only real ones' },
   { bould: 'Monthly report against the baseline', you: 'Tell us when a lead turns into a job' },
 ]
@@ -75,40 +73,20 @@ export default function HowItWorksPage() {
 
       <PageHero
         eyebrow="How it works"
-        title={
-          <>
-            Visibility &times; Conversion: <br />
-            how Bould works
-          </>
-        }
-        sub="Two halves, multiplied. Most agencies sell one of them. Here is the whole thing, including the parts we do not do."
+        title="How Bould works"
+        sub="Four steps, in this order, every time. Here's what we do and what we need from you."
       />
 
-      <section className="bould-section" aria-labelledby="formula-heading">
-        <div className="bould-section__inner bould-section__inner--split">
-          <div>
-            <h2 className="bould-section-title" id="formula-heading">
-              Why a website alone is not enough
-            </h2>
-            <p className="bould-section-body">
-              Leads are visibility multiplied by conversion. Visibility is how
-              many people find you. Conversion is how many of them do something
-              about it. Multiply, do not add: if either one is near zero, the
-              answer is near zero, no matter how good the other one is.
-            </p>
-            <p className="bould-section-body">
-              Rubio Brothers Concrete had strong visibility — {RUBIO_REVIEWS_LABEL},
-              six listings, years online — and a website that converted nothing.
-              A year, zero leads. Kilowash is the mirror image: a site that
-              converts well, and almost nobody finding it. Same formula, opposite
-              halves missing.
-            </p>
-            <p className="bould-section-body">
-              That is why the monthly plan exists. The build fixes conversion once.
-              Visibility has to be worked at.
-            </p>
-          </div>
-          <FormulaCheck />
+      <section className="bould-section" aria-labelledby="why-heading">
+        <div className="bould-section__inner bould-section__inner--narrow">
+          <h2 className="bould-section-title" id="why-heading">
+            Why we start with your competition
+          </h2>
+          <p className="bould-section-body">
+            Your website has two jobs: helping people find you, and giving them a
+            reason to call. The free ranking check shows which one is holding you
+            back, so we fix the right thing first.
+          </p>
         </div>
       </section>
 

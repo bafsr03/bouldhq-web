@@ -121,7 +121,7 @@ export type Verdict = {
   summary: string
   detail: string
   /** The plan this score points to. Matches PLANS[].id in ./pricing. */
-  plan: 'website-build' | 'golden-formula'
+  plan: 'starter' | 'golden-formula'
 }
 
 /**
@@ -136,7 +136,7 @@ export const VERDICTS: Verdict[] = [
     min: 14,
     label: 'You’re ready for a new site',
     summary: 'People are already finding you. The website is what is losing them.',
-    plan: 'website-build',
+    plan: 'starter',
     detail:
       'You have the harder half solved. A site that turns those visits into calls is the fastest change you can make — this is exactly the position Rubio Brothers Concrete was in before their rebuild.',
   },

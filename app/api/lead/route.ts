@@ -6,12 +6,14 @@ import {
 } from '@/lib/leads'
 import { leadForSheet, leadSheetConfigured, postToLeadSheet } from '@/lib/leadSheet'
 import { bouldLeadsConfigured, sendToBouldLeads } from '@/lib/bouldleads'
+import { sendText, smsConfigured, QUOTE_TEXT } from '@/lib/sms'
 import { verifyTurnstile } from '@/lib/turnstile'
 import { utmLine } from '@/lib/utm'
 import { LEGAL_NAME } from '@/lib/site'
 
 /**
- * Lead intake for the ranking check, contact, and results-page callback forms.
+ * Lead intake for the ranking check, contact, results-page callback, and
+ * Minnesota quote forms.
  *
  * Node runtime (the default): this talks to an outbound email API and has no
  * latency requirement that would justify the Edge runtime's constraints.
@@ -37,6 +39,7 @@ function renderLead(lead: LeadPayload): string {
   if (lead.website) lines.push(`Website:   ${lead.website}`)
   if (lead.industry) lines.push(`${lead.source === 'ranking-check' ? 'Does:     ' : 'Industry: '} ${lead.industry}`)
   if (lead.city) lines.push(`City:      ${lead.city}`)
+  if (lead.need) lines.push(`Needs:     ${lead.need}`)
   if (lead.heardVia) lines.push(`Heard via: ${lead.heardVia}`)
   if (lead.checkSlug) lines.push(`Results:   /check/${lead.checkSlug}`)
   const utm = utmLine(lead.utm)
@@ -52,12 +55,17 @@ function renderLead(lead: LeadPayload): string {
     )
   }
 
+  if (lead.source === 'minnesota-quote') {
+    lines.push('', 'From the Minnesota Google Ads page. Call within 15 minutes.')
+  }
+
   return lines.join('\n')
 }
 
 function subjectFor(lead: LeadPayload): string {
   if (lead.source === 'ranking-check') return `Ranking check request: ${lead.business} (${lead.city})`
   if (lead.source === 'check-callback') return `Call me back: ${lead.name}, from a results link`
+  if (lead.source === 'minnesota-quote') return `Google Ads MN quote — ${lead.business}`
   return `New inquiry — ${lead.business}`
 }
 
@@ -77,6 +85,7 @@ export async function GET() {
     sheet: leadSheetConfigured(),
     bouldleads: bouldLeadsConfigured(),
     turnstile: Boolean(process.env.TURNSTILE_SECRET_KEY),
+    sms: smsConfigured(),
   })
 }
 
@@ -161,7 +170,8 @@ export async function POST(request: Request) {
     results link the owner was on.
   */
   const leads =
-    bouldLeadsConfigured() && (lead.source === 'ranking-check' || lead.source === 'check-callback')
+    bouldLeadsConfigured() &&
+    (lead.source === 'ranking-check' || lead.source === 'check-callback' || lead.source === 'minnesota-quote')
       ? sendToBouldLeads(lead).then((r) => {
           if (!r.ok) console.error('[lead] BouldLeads intake failed:', r.error)
         })
@@ -200,7 +210,19 @@ export async function POST(request: Request) {
     console.info(text)
   }
 
-  await Promise.all([sheet, leads])
+  /*
+    Minnesota ad leads get Jake's "got your request" text straight away
+    (launch doc, section 7). Probes never reach this point, so verify.sh can't
+    text anyone.
+  */
+  const sms =
+    lead.source === 'minnesota-quote' && lead.phone && smsConfigured()
+      ? sendText(lead.phone, QUOTE_TEXT).then((r) => {
+          if (!r.ok) console.error('[lead] auto-text failed:', r.error)
+        })
+      : Promise.resolve()
+
+  await Promise.all([sheet, leads, sms])
 
   return NextResponse.json({ ok: true })
 }

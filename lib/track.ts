@@ -23,6 +23,19 @@ declare global {
   }
 }
 
+/**
+ * Google Ads conversions (Minnesota launch, Oct 28, 2026, section 7). The tag
+ * itself loads in components/GoogleTag.tsx; each conversion is an
+ * "AW-…/label" pair from the Ads account, and stays silent until both are set.
+ */
+const ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID
+const ADS_PHONE_LABEL = process.env.NEXT_PUBLIC_GOOGLE_ADS_PHONE_LABEL
+const ADS_LEAD_LABEL = process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL
+
+function adsConversion(label: string | undefined) {
+  if (ADS_ID && label) emit('conversion', { send_to: `${ADS_ID}/${label}` })
+}
+
 function emit(event: string, params: Record<string, unknown>) {
   if (typeof window === 'undefined') return
   try {
@@ -37,6 +50,7 @@ export function trackContactClick(method: 'phone' | 'email', location: string) {
     method,
     link_location: location,
   })
+  if (method === 'phone') adsConversion(ADS_PHONE_LABEL)
 }
 
 /**
@@ -45,6 +59,8 @@ export function trackContactClick(method: 'phone' | 'email', location: string) {
  */
 export function trackLeadSubmit(source: string, extra: Record<string, unknown> = {}) {
   emit('generate_lead', { lead_source: source, ...extra })
+  // Only the Minnesota landing page's form counts as an ad conversion.
+  if (source === 'minnesota-quote') adsConversion(ADS_LEAD_LABEL)
   try {
     window.fbq?.('track', 'Lead', { content_name: source })
   } catch {

@@ -62,6 +62,7 @@ export async function postToLeadSheet(payload: SheetAction): Promise<SheetResult
 /** The lead as the sheet should see it: no anti-spam fields. */
 export function leadForSheet(lead: LeadPayload) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { company_website_confirm, elapsedMs, ...rest } = lead
-  return rest
+  const { company_website_confirm, elapsedMs, need, ...rest } = lead
+  // The sheet has no "need" column; the Minnesota form's answer reads fine as the message.
+  return need ? { ...rest, message: `What they need: ${need}` } : rest
 }

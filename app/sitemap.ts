@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/industries/contractors', priority: 0.8, freq: 'monthly' },
     { path: '/web-design-utah-county', priority: 0.8, freq: 'monthly' },
     { path: '/web-design-west-jordan', priority: 0.8, freq: 'monthly' },
+    { path: '/web-design-minnesota', priority: 0.8, freq: 'monthly' },
     { path: '/services/shopify-stores', priority: 0.7, freq: 'monthly' },
     { path: '/about', priority: 0.6, freq: 'yearly' },
     { path: '/contact', priority: 0.7, freq: 'yearly' },
