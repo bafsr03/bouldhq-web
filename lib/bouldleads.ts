@@ -8,7 +8,7 @@
  *   - open: "the owner opened their link", shown on the lead card.
  *
  * BOULDLEADS_URL is the app's origin; BOULDLEADS_SECRET must equal its
- * PUBLIC_API_SECRET. Like the sheet and the email, this degrades rather than
+ * SITE_API_SECRET. Like the sheet and the email, this degrades rather than
  * throws: a lead is never lost because BouldLeads was slow or unconfigured.
  */
 
