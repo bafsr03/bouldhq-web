@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
 import { pageMetadata } from '@/lib/seo'
 
 import LeadForm from '@/components/LeadForm'
@@ -15,13 +17,14 @@ import {
 } from '@/lib/schema'
 import { MINNESOTA_QUOTE_FIELDS } from '@/lib/formFields'
 import type { Faq } from '@/lib/content/pricing'
-import { PUBLISHED_REVIEWS } from '@/lib/content/reviews'
-import { PHONE, PHONE_DISPLAY } from '@/lib/site'
+import { GOOGLE_RATING, MINNESOTA_REVIEWS, PUBLISHED_REVIEWS } from '@/lib/content/reviews'
+import { BRAND, GOOGLE_REVIEWS_URL, MINNESOTA_PATH, PHONE, PHONE_DISPLAY } from '@/lib/site'
 
 /**
  * Where every Minnesota Google Ads click lands (Website Fixes + Minnesota
  * Google Ads Launch, Oct 28, 2026, section 6). The copy is from that doc,
- * verbatim.
+ * verbatim, apart from the title, the quote buttons, Recent work and the Google
+ * reviews (founder's changes, Nov 2026).
  *
  * Built for a phone first: the call button and the top of the quote form have
  * to be on screen without scrolling, so the top section is a short stack with
@@ -29,15 +32,17 @@ import { PHONE, PHONE_DISPLAY } from '@/lib/site'
  * say we're based in Minnesota or give an address there, and we promise no
  * leads, rankings or customers.
  */
-const TITLE = 'Web Design for Minnesota Businesses'
+// The founder's wording: "Bould", not the usual "Bould Inc", so it skips the title template.
+const TITLE = `Website Design in Minnesota | ${BRAND}`
 const DESCRIPTION =
   "Custom websites for Minnesota businesses from $750. No long-term contracts, you own your site, and we build around who you're up against on Google."
-const PATH = '/web-design-minnesota'
+const PATH = MINNESOTA_PATH
 
 export const metadata: Metadata = pageMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
+  absoluteTitle: true,
 })
 
 const INCLUDES = [
@@ -62,11 +67,57 @@ const MINNESOTA_FAQS: Faq[] = [
   { q: 'I already have a site. Can you redo it?', a: 'Yes. Most of our builds are rebuilds.' },
 ]
 
+/** Screenshots are 800x500 WebP under 150KB; below the fold, so they lazy-load. */
+const RECENT_WORK = [
+  {
+    name: 'Avio Supply Co.',
+    detail: 'Supply shop, Minnesota',
+    url: 'https://aviosupply.co/',
+    image: '/work/avio-supply-co.webp',
+  },
+  {
+    name: 'Rubio Brothers Concrete',
+    detail: 'Concrete, Pleasant Grove, UT',
+    url: 'https://rubiobrothersconcrete.com/',
+    image: '/work/rubio-brothers-concrete.webp',
+  },
+  {
+    name: 'Kilowash',
+    detail: 'Permanent lighting, Utah',
+    url: 'https://kilowashutah.com',
+    image: '/work/kilowash.webp',
+  },
+  {
+    name: 'Adophies',
+    detail: 'Boutique, Abilene, TX',
+    url: 'https://adophies.com/',
+    image: '/work/adophies.webp',
+  },
+]
+
 const cesar = PUBLISHED_REVIEWS.find((r) => r.author === 'Cesar Rubio')
 
-function QuoteForm({ formId }: { formId: string }) {
+/** Plain text, not a Google widget: widgets slow the page. */
+function GoogleRating() {
   return (
-    <div className="bould-contact__form-wrap bould-mn-form">
+    <a
+      href={GOOGLE_REVIEWS_URL}
+      className="bould-mn-rating"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span className="bould-mn-rating__stars" aria-hidden="true">
+        ★★★★★
+      </span>
+      {GOOGLE_RATING} on Google
+      <span className="bould-sr-only"> (opens in a new tab)</span>
+    </a>
+  )
+}
+
+function QuoteForm({ formId, id }: { formId: string; id?: string }) {
+  return (
+    <div id={id} className="bould-contact__form-wrap bould-mn-form">
       <LeadForm
         source="minnesota-quote"
         formId={formId}
@@ -124,9 +175,10 @@ export default function MinnesotaPage() {
                 />
               )}
               <a href="#quote" className="bould-btn bould-btn--ghost">
-                Get a quote
+                Get my quote
               </a>
             </div>
+            <GoogleRating />
           </div>
           <div id="quote" className="bould-mn-hero__form">
             <QuoteForm formId="mn-quote-top" />
@@ -157,6 +209,87 @@ export default function MinnesotaPage() {
           <p className="bould-section-body">
             No long-term contracts. You own your website and domain from day one.
           </p>
+        </div>
+      </section>
+
+      <section className="bould-section" aria-labelledby="mn-work-heading">
+        <div className="bould-section__inner">
+          <h2 className="bould-section-title" id="mn-work-heading">
+            Recent work
+          </h2>
+          <ul className="bould-mn-work">
+            {RECENT_WORK.map((work) => (
+              <li key={work.name} className="bould-reveal">
+                <a
+                  href={work.url}
+                  className="bould-mn-work__card"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Image
+                    src={work.image}
+                    alt={`Screenshot of the ${work.name} website`}
+                    width={800}
+                    height={500}
+                    sizes="(max-width: 600px) 90vw, (max-width: 1100px) 45vw, 25vw"
+                    className="bould-mn-work__shot"
+                  />
+                  <span className="bould-mn-work__body">
+                    <span className="bould-mn-work__name">{work.name}</span>
+                    <span className="bould-mn-work__detail">{work.detail}</span>
+                    <span className="bould-mn-work__visit">
+                      Visit the site
+                      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path
+                          d="M1 7H13M13 7L7 1M13 7L7 13"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span className="bould-sr-only"> (opens in a new tab)</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          {/* A new tab keeps the ad click's page, and its quote form, open. */}
+          <Link
+            href="/work"
+            prefetch={false}
+            className="bould-inline-link bould-mn-work__more"
+            target="_blank"
+            rel="noopener"
+          >
+            See more work →<span className="bould-sr-only"> (opens in a new tab)</span>
+          </Link>
+        </div>
+      </section>
+
+      <section className="bould-section bould-section--alt" aria-labelledby="mn-reviews-heading">
+        <div className="bould-section__inner">
+          <p className="bould-section-label">From our Google profile</p>
+          <h2 className="bould-section-title" id="mn-reviews-heading">
+            In their words, not ours.
+          </h2>
+          <ul className="bould-reviews bould-mn-reviews">
+            {MINNESOTA_REVIEWS.map((review) => (
+              <li key={review.author} className="bould-review bould-reveal">
+                <blockquote className="bould-review__quote">
+                  <p>&ldquo;{review.text}&rdquo;</p>
+                </blockquote>
+                <p className="bould-review__attr">
+                  {review.author}
+                  {review.business && (
+                    <span className="bould-review__business">, {review.business}</span>
+                  )}
+                </p>
+              </li>
+            ))}
+          </ul>
+          {/* No AggregateRating markup, for the reason given on the homepage. */}
         </div>
       </section>
 
@@ -261,8 +394,10 @@ export default function MinnesotaPage() {
                 , or send the form and we&rsquo;ll call you.
               </p>
             )}
+            <GoogleRating />
           </div>
-          <QuoteForm formId="mn-quote-bottom" />
+          {/* The footer's "Get my quote" button lands here (components/Footer.tsx). */}
+          <QuoteForm id="quote-bottom" formId="mn-quote-bottom" />
         </div>
       </section>
     </div>

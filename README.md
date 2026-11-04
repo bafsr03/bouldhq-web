@@ -213,11 +213,13 @@ These come from the brief and are worth keeping when adding pages.
   "Bould Websites" DBA, change it there and update the profile and every listing
   in the same week — a half-finished rename is worse than either name.
 - **Titles carry the service, never the bare brand.** `pageMetadata()` enforces
-  the `[topic] | Bould Inc` pattern.
+  the `[topic] | Bould Inc` pattern. The Minnesota ad page uses `| Bould`, the
+  founder's wording.
 - **AI crawlers stay allowed.** `app/robots.ts` deliberately has no GPTBot /
   ClaudeBot / PerplexityBot block. For a business that wants to be recommended by
   an assistant, blocking them is self-harm.
 - **Every page ends on the free ranking check**, not "book a demo". Buttons say "Get a free ranking check"; "20-point", "12 questions" and "free audit" stay off the site.
+  The exception is `/web-design-minnesota`: ad clicks stay on its quote form, the only form that counts as an Ads conversion, so its header, footer and sticky bar say "Get my quote" and it has no ranking-check link. `scripts/verify.sh` checks this.
 
 ## Still open
 

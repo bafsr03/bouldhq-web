@@ -20,6 +20,8 @@ export type Plan = {
   setup: string
   /** Only the ecommerce card has one; the local plans lead with who they are for. */
   tagline?: string
+  /** A bold line under the price: what the plan is, ahead of who it is for. */
+  lead?: string
   includes: string[]
   best: string
   /** Golden Formula: added to a plan, never bought on its own. */
@@ -60,7 +62,7 @@ export const PLANS: Plan[] = [
       'One new page or site improvement every month',
       'Same-day response on changes',
       'A 20-minute call every quarter',
-      'Instant Google Search Submission & Indexing',
+      'Google Search submission and indexing requests',
     ],
     best: 'Established businesses with several services or crews.',
     cta: { href: '/visibility-audit', label: CTA },
@@ -72,11 +74,12 @@ export const PLANS: Plan[] = [
     cadence: 'per month',
     setup: 'No setup fee',
     note: 'Starter + Golden Formula = $450 a month. Growth + Golden Formula = $650 a month.',
+    lead: 'The work that closes the gap the ranking check finds.',
     includes: [
       'Monthly ranking check: where you rank against the top 3 for your 2–3 main searches',
+      'Google profile kept accurate: categories, services, service areas, hours and photos',
       'Review system: review link, text template and QR card, a monthly review goal, and reminders to you',
       'Replies to every Google review within 48 hours',
-      'Google profile kept accurate: categories, services, service areas, hours and photos',
       'Rankings and reviews added to your monthly report',
     ],
     best: 'Businesses behind the top 3 near them on Google Maps.',

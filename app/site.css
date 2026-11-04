@@ -579,6 +579,18 @@ a.bould-mini-card:hover {
   color: var(--b-muted2);
   margin: -1.2rem 0 2rem;
 }
+.bould-plan__lead {
+  font-family: var(--b-font);
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--b-ink);
+  margin: 0 0 2.6rem;
+}
+/* On the compact cards a tagline follows, and the two read as one block. */
+.bould-plan__lead + .bould-plan__tagline {
+  margin-top: -1.6rem;
+}
 .bould-plan__tagline {
   font-family: var(--b-font);
   font-size: 1.6rem;
@@ -1473,7 +1485,8 @@ body:has(.header-wrapper.is-open) .bould-mobile-cta {
   gap: 1.2rem;
   margin-top: 3.2rem;
 }
-#quote {
+#quote,
+#quote-bottom {
   scroll-margin-top: 10rem;
 }
 .bould-mn-form__note {
@@ -1487,7 +1500,123 @@ body:has(.header-wrapper.is-open) .bould-mobile-cta {
   gap: clamp(4rem, 6vw, 8rem);
   align-items: start;
 }
+
+/* The Google rating, under the hero buttons and beside the closing form. */
+.bould-mn-rating {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem 0.8rem;
+  margin-top: 1.6rem;
+  font-family: var(--b-font);
+  font-size: 1.4rem;
+  color: var(--b-muted2);
+  text-decoration: none;
+}
+.bould-mn-rating:hover {
+  color: var(--b-ink);
+  text-decoration: underline;
+}
+.bould-mn-rating__stars {
+  color: #d99100;
+  letter-spacing: 0.08em;
+}
+
+/* Recent work: four across, two by two when that gets cramped, stacked on phones. */
+.bould-mn-work {
+  list-style: none;
+  margin: 3.2rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2.4rem;
+}
+.bould-mn-work__card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--b-surface);
+  border: 1px solid var(--b-border);
+  border-radius: 6px;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.25s var(--b-ease), box-shadow 0.25s var(--b-ease), border-color 0.25s ease;
+}
+.bould-mn-work__card:hover {
+  transform: translateY(-2px);
+  border-color: var(--b-border2);
+  box-shadow: var(--b-lift);
+}
+.bould-mn-work__shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid var(--b-border);
+}
+.bould-mn-work__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 2rem 2.2rem 2.2rem;
+  font-family: var(--b-font);
+}
+.bould-mn-work__name {
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--b-ink);
+}
+.bould-mn-work__detail {
+  font-size: 1.45rem;
+  color: var(--b-muted);
+}
+.bould-mn-work__visit {
+  margin-top: auto;
+  padding-top: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--b-accent-light);
+}
+.bould-mn-work__more {
+  display: inline-block;
+  margin-top: 2.8rem;
+  font-family: var(--b-font);
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+/* The three Google quotes side by side, with the names lined up along the bottom. */
+.bould-mn-reviews {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.bould-mn-reviews .bould-review {
+  display: flex;
+  flex-direction: column;
+}
+.bould-mn-reviews .bould-review__attr {
+  margin-top: auto;
+  padding-top: 1.6rem;
+}
+
+@media (max-width: 1100px) {
+  .bould-mn-work {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .bould-mn-work {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 @media (max-width: 900px) {
+  .bould-mn-reviews {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .bould-mn-hero {
     padding-top: 3.2rem;
     padding-bottom: 4rem;
