@@ -4,13 +4,18 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { NAV, PHONE, PHONE_DISPLAY } from '@/lib/site'
+import { MINNESOTA_PATH, NAV, PHONE, PHONE_DISPLAY } from '@/lib/site'
 import { trackContactClick } from '@/lib/track'
 
 export default function Header() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+
+  // On the Minnesota ad page only the quote form counts as an Ads conversion
+  // (lib/track.ts), so the header points there and drops the ranking check.
+  const isMinnesota = pathname === MINNESOTA_PATH
+  const nav = isMinnesota ? NAV.filter((item) => item.href !== '/visibility-audit') : NAV
 
   // The theme faded the header in on scroll via a class toggle. Same behaviour,
   // but the initial call matters: a deep link that restores scroll position
@@ -44,7 +49,7 @@ export default function Header() {
         </Link>
 
         <nav className="bould-header__nav" aria-label="Main">
-          {NAV.map((item) => {
+          {nav.map((item) => {
             // Every NAV entry is a section root, so a prefix match also marks
             // the parent active on nested pages (/work/rubio… highlights Work).
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`)
@@ -88,9 +93,15 @@ export default function Header() {
               <span className="bould-sr-only">Call {PHONE_DISPLAY}</span>
             </a>
           )}
-          <Link href="/visibility-audit" className="bould-btn bould-btn--primary bould-header__cta">
-            Get a free ranking check
-          </Link>
+          {isMinnesota ? (
+            <a href="#quote" className="bould-btn bould-btn--primary bould-header__cta">
+              Get my quote
+            </a>
+          ) : (
+            <Link href="/visibility-audit" className="bould-btn bould-btn--primary bould-header__cta">
+              Get a free ranking check
+            </Link>
+          )}
           <button
             type="button"
             className="bould-header__burger"
@@ -111,18 +122,29 @@ export default function Header() {
         hidden={!open}
       >
         <nav aria-label="Mobile">
-          {NAV.map((item) => (
+          {nav.map((item) => (
             <Link key={item.href} href={item.href} className="bould-mobile-nav__link">
               {item.label}
             </Link>
           ))}
         </nav>
-        <Link
-          href="/visibility-audit"
-          className="bould-btn bould-btn--primary bould-mobile-nav__cta"
-        >
-          Get a free ranking check
-        </Link>
+        {isMinnesota ? (
+          // Same page, so the path doesn't change and the drawer has to close itself.
+          <a
+            href="#quote"
+            className="bould-btn bould-btn--primary bould-mobile-nav__cta"
+            onClick={() => setOpen(false)}
+          >
+            Get my quote
+          </a>
+        ) : (
+          <Link
+            href="/visibility-audit"
+            className="bould-btn bould-btn--primary bould-mobile-nav__cta"
+          >
+            Get a free ranking check
+          </Link>
+        )}
         {PHONE && (
           <a
             href={`tel:${PHONE}`}

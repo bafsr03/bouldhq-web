@@ -83,6 +83,10 @@ export const IN_PERSON_AREA = 'the Wasatch Front'
 
 export const GBP_URL = process.env.NEXT_PUBLIC_GBP_URL ?? ''
 
+/** Opens Bould Inc's listing on Google Maps with the Reviews tab showing. */
+export const GOOGLE_REVIEWS_URL =
+  'https://www.google.com/maps/place/Bould+Inc/@40.5479741,-111.9499725,10z/data=!4m8!3m7!1s0x87528fe527d633ad:0x744a2c83d265f064!8m2!3d40.547974!4d-111.9499726!9m1!1b1!16s%2Fg%2F11zdvqvmjq'
+
 /**
  * Whether this deployment may be indexed. Opt-IN, and deliberately so.
  *
@@ -147,6 +151,13 @@ export const SAME_AS: string[] = [
   SOCIAL.crunchbase,
   SOCIAL.instagram,
 ].filter(Boolean)
+
+/**
+ * The Minnesota Google Ads landing page. Its quote form is the only form that
+ * counts as an ad conversion (lib/track.ts), so on this page the header, footer
+ * and sticky bar point at that form instead of the ranking check.
+ */
+export const MINNESOTA_PATH = '/web-design-minnesota'
 
 /** Brief, site map: "Nav: How it works, Pricing, Work, Industries, Free audit, Contact." The audit became the free ranking check (Oct 2026). */
 export const NAV = [

@@ -46,3 +46,34 @@ export const REVIEWS: Review[] = [
 ]
 
 export const PUBLISHED_REVIEWS = REVIEWS.filter((r) => r.text.trim() !== '')
+
+/**
+ * The rating line on the Minnesota page. Copied by hand from the Google profile,
+ * so update it if the rating changes. No review count on purpose: it would go out
+ * of date with every new review.
+ */
+export const GOOGLE_RATING = '5.0'
+
+/**
+ * The three quotes on the Minnesota page, from the same Google profile. Each is
+ * a short excerpt, word for word; a leading "…" marks a sentence picked up
+ * partway. Kept apart from REVIEWS because the homepage prints that list in full
+ * and tells the reader it is unedited.
+ */
+export const MINNESOTA_REVIEWS: Review[] = [
+  {
+    author: 'Avio Supply Co.',
+    text: 'The website designs they create are phenomenal and they are quick to make your requested updates. I have used them for two websites and it was seamless.',
+  },
+  {
+    author: 'Cesar Rubio',
+    business: 'Rubio Brothers Concrete',
+    text: '…have made a total of $20,000 because of them. I highly recommend these guys.',
+  },
+  {
+    author: 'Devon',
+    business: 'Kilowash',
+    // The first sentence of the entry in REVIEWS above. The second carries the "qaulity" typo.
+    text: 'These guys help us get a more updated and unique website rolling that fit our business perfectly and super responsive on any questions or updates.',
+  },
+]

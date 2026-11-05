@@ -8,7 +8,59 @@ import {
   PHONE_DISPLAY,
   LOCATION_LINE,
 } from '@/lib/site'
+import MinnesotaSwitch from './MinnesotaSwitch'
 import TrackedContact from './TrackedContact'
+
+const CTA_CLASS = 'bould-btn bould-btn--primary bould-footer__cta bould-reveal'
+
+const CTA_ARROW = (
+  <svg
+    className="bould-btn__arrow"
+    width="14"
+    height="14"
+    viewBox="0 0 14 14"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M1 7H13M13 7L7 1M13 7L7 13"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+function FooterPitch({
+  eyebrow,
+  line,
+  accent,
+  body,
+  cta,
+}: {
+  eyebrow: string
+  line: string
+  accent: string
+  body: React.ReactNode
+  cta: React.ReactNode
+}) {
+  return (
+    <>
+      <p className="bould-footer__eyebrow bould-reveal">{eyebrow}</p>
+      <h2 className="bould-footer__headline">
+        <span className="bould-line-reveal">
+          <span className="bould-line-reveal-inner">{line}</span>
+        </span>
+        <span className="bould-line-reveal">
+          <span className="bould-line-reveal-inner bould-footer__headline-accent">{accent}</span>
+        </span>
+      </h2>
+      <p className="bould-footer__hero-body bould-reveal">{body}</p>
+      {cta}
+    </>
+  )
+}
 
 /**
  * Brief: "Footer: name, phone, email, and service area on every page, identical
@@ -18,49 +70,50 @@ import TrackedContact from './TrackedContact'
  *
  * The NAP block below is also marked up in JSON-LD from the same constants, so
  * the two can never drift apart.
+ *
+ * On the Minnesota ad page the pitch asks for a quote and the ranking-check link
+ * is left out: only the quote form counts as an Ads conversion (lib/track.ts).
  */
 export default function Footer() {
   return (
     <footer className="bould-footer" aria-label="Site footer">
       <div className="bould-footer__hero">
         <div className="bould-footer__hero-inner">
-          <p className="bould-footer__eyebrow bould-reveal">See how you stack up</p>
-          <h2 className="bould-footer__headline">
-            <span className="bould-line-reveal">
-              <span className="bould-line-reveal-inner">Get a free</span>
-            </span>
-            <span className="bould-line-reveal">
-              <span className="bould-line-reveal-inner bould-footer__headline-accent">
-                ranking check.
-              </span>
-            </span>
-          </h2>
-          <p className="bould-footer__hero-body bould-reveal">
-            Where you rank on Google Maps, how you compare to the top 3 near you,
-            and what&rsquo;s holding you back. We run it and call you.
-          </p>
-          <Link
-            href="/visibility-audit"
-            className="bould-btn bould-btn--primary bould-footer__cta bould-reveal"
-          >
-            Get a free ranking check
-            <svg
-              className="bould-btn__arrow"
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M1 7H13M13 7L7 1M13 7L7 13"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+          <MinnesotaSwitch
+            minnesota={
+              <FooterPitch
+                eyebrow="Custom websites from $750"
+                line="Get my"
+                accent="quote."
+                body={<>Tell us about your business and we&rsquo;ll call you within one&nbsp;business&nbsp;day.</>}
+                cta={
+                  <a href="#quote-bottom" className={CTA_CLASS}>
+                    Get my quote
+                    {CTA_ARROW}
+                  </a>
+                }
               />
-            </svg>
-          </Link>
+            }
+            otherwise={
+              <FooterPitch
+                eyebrow="See how you stack up"
+                line="Get a free"
+                accent="ranking check."
+                body={
+                  <>
+                    Where you rank on Google Maps, how you compare to the top 3 near you,
+                    and what&rsquo;s holding you back. We run it and call you.
+                  </>
+                }
+                cta={
+                  <Link href="/visibility-audit" className={CTA_CLASS}>
+                    Get a free ranking check
+                    {CTA_ARROW}
+                  </Link>
+                }
+              />
+            }
+          />
         </div>
       </div>
 
@@ -104,13 +157,20 @@ export default function Footer() {
           <nav key={col.heading} className="bould-footer__nav-col" aria-label={col.heading}>
             <p className="bould-footer__nav-heading">{col.heading}</p>
             <ul className="bould-footer__nav-list">
-              {col.links.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="bould-footer__nav-link">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
+              {col.links.map((l) => {
+                const item = (
+                  <li key={l.href}>
+                    <Link href={l.href} className="bould-footer__nav-link">
+                      {l.label}
+                    </Link>
+                  </li>
+                )
+                return l.href === '/visibility-audit' ? (
+                  <MinnesotaSwitch key={l.href} otherwise={item} />
+                ) : (
+                  item
+                )
+              })}
             </ul>
           </nav>
         ))}

@@ -27,6 +27,7 @@ export default function PlanCards({ compact = false }: { compact?: boolean }) {
           </p>
           <p className="bould-plan__setup">{plan.setup}</p>
           {plan.note && <p className="bould-plan__note">{plan.note}</p>}
+          {plan.lead && <p className="bould-plan__lead">{plan.lead}</p>}
           {compact ? (
             <p className="bould-plan__tagline">{plan.best}</p>
           ) : (

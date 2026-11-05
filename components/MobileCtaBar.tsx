@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { PHONE, PHONE_DISPLAY } from '@/lib/site'
+import { MINNESOTA_PATH, PHONE, PHONE_DISPLAY } from '@/lib/site'
 import { trackContactClick } from '@/lib/track'
 
 /**
@@ -38,9 +38,9 @@ export default function MobileCtaBar() {
         </a>
       )}
       {/* On the Minnesota ad page the quote form is the goal; don't send ad clicks elsewhere. */}
-      {pathname === '/web-design-minnesota' ? (
+      {pathname === MINNESOTA_PATH ? (
         <a href="#quote" className="bould-mobile-cta__audit">
-          Get a quote
+          Get my quote
         </a>
       ) : (
         <Link href="/visibility-audit" className="bould-mobile-cta__audit">

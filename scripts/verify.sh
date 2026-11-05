@@ -256,6 +256,15 @@ check_present "Growth" "$pricing"
 check_present "Golden Formula" "$pricing"
 check_present "\$750" "$pricing"
 check_present "Get my quote" "$mn"
+check_present "Recent work" "$mn"
+check_present "on Google" "$mn"
+
+# Ad clicks stay on the quote form, the only form that counts as an Ads conversion.
+if printf '%s' "$mn" | grep -q 'href="/visibility-audit"'; then
+  fail "/web-design-minnesota still links to the ranking check"
+else
+  pass "/web-design-minnesota has no ranking-check link"
+fi
 
 # The heading states the count; the grid has to match it.
 count=$(printf '%s' "$home" | grep -o 'bould-project-card"' | wc -l | tr -d ' ')
